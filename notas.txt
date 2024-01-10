@@ -1,0 +1,522 @@
+https://docs.google.com/spreadsheets/d/1I6hcZlYZqGIQEsnKMoXMVsccITrSsbFdnLyJyAk55-Q/edit?pli=1#gid=119576526
+
+https://github.com/joanby/tensorflow2
+
+Machine Learning de la A a la Z (LIBRO)
+https://joanby.github.io/bookdown-mlaz/clasificaci%C3%B3n.html#regresi%C3%B3n-log%C3%ADstica
+
+Machine Learning A-Z: Download Codes and Datasets
+https://www.superdatascience.com/pages/machine-learning
+
+Repositorio del Curso Machine Learning de A a la Z: R y Python para Data Science
+https://github.com/joanby/machinelearning-az
+
+https://discord.com/invite/Gq5NX6a	
+
+Bienvenido a la Parte 2: Regresión
+Los modelos de regresión (tanto lineal como no lineal) se utilizan muchísimo para predecir valores numéricos como por ejemplo el sueldo. Si nuestra variable independiente es tiempo entonces podemos hacer predicciones de valores futuros, sin embargo nuestro modelo puede predecir también valores desconocidos del presente.  Las técnicas de Regresión son muy variadas, desde la regresión lineal hasta la SVR o la Regresión con Bosques Aleatorios.
+
+En esta parte, vamos a entender e implementar los siguientes modelos de Regresión dentro del Machine Learning:
+
+Simple Linear Regression
+
+Multiple Linear Regression
+
+Polynomial Regression
+
+Support Vector for Regression (SVR)
+
+Decision Tree Classification
+
+Random Forest Classification
+
+
+Modelos de regresion lineal
+
+Modelos de regresion lineal tienen una series de restricciones que se deben comprobar antes de aplicar el modelo de regresion:
+	-linealidad
+	-homocedasticidad
+	-Normalidad multivariable
+	-Independencia de errores
+	-ausencia de multicolinealidad
+	
+Si no se da alguna de las restricciones anteriores el modelo de regresion lineal no tiene sentido.
+
+-	Simple Linear Regression (SLR)
+
+	y = b0 + b1 * x1
+		b0 constante (ordenada all origen)
+		b1 coficiente
+		x1 variable independiente
+		y variable dependiente (a predecir)
+		
+		Para identificar la recta se usa el "metodo de los minimos cuadrados"
+						  ^   2
+			min	SUM (yi - yi)
+				   i
+		(SLR) no requiere scalado
+		
+		La recta de regresion es la misma para los datos entrenados como los datos de test. Se deja el conjunto de entrenamiento.
+		
+
+- Multiple Linear Regression	
+
+		(MLR) no requiere scalado
+		
+		y = b0 + b1 * x1 + b2 * x2 + ... + bn *xn
+			b0 constante (ordenada all origen)
+			bi coficientes
+			xi variables independientes
+			y variable dependiente (a predecir)
+			
+			notar:
+				bi coficientes positivos(+) aportan valor a la y 
+				bi coficientes negativos(-) restan valor a la y 
+			
+			Dummy: propiedad  categorica (no ordinal). Ejemplo: Ciudades. 
+				
+			Es contra producente agregar todas las columnas dummy. Se deben añadir todas las columnas dummy salvo una. Evita el efecto de multicolinealidad.
+			
+			y = b0 + b1 * x1 + b2 * x2 +  b4 * d1
+				d: variable dummy
+			
+			Trampa de variables dummy:
+			
+				Al incluir todas las variables dummy obtenemos una multicolinealidad. Esto debe evitarse. El modelo es incapaz de determinar los efectos de todas las variables dummy
+					y = b0 + b1 * x1 + b2 * x2 +  b4 * d1 + b5 * d2
+							El modelo no puede determinar los efectos o impacto de d1 y de d2.
+							d2 = 1 - d1
+				
+				SIEMPRE DEBEMOS OMITIR UNA VARIABLE Dummy. Esto evita el efecto de multicolinealidad.
+				
+				Si tuvieramos dos variable dummy, deberia quitar un valor para cada variable dummy. Por ejemplo, pais y sector. Quito un valor (de todos los valores posibles) para pais y uno (de todos los valores posibles) para sector.	
+				
+				https://www.wikihow.com/Calculate-P-Value
+				https://www.mathbootcamps.com/what-is-a-p-value/
+				
+				Entre varios modelos con variables independientes, preferimos el que tenga la menos cantidad de variables independientes que ayuden a predecir la variable dependiente.
+				 Porque?
+					1- Puede ser que añadir mas variables no aporte a predecir la variable dependiente.
+					2- Mayor variables independientes hace que complejo el modelo. (dificulta la explicacion del modelo)
+					
+					SOLO MANTENER LAS VARIABLES INDEPENDIENTES IMPORTANTES CON CAPACIDADES DE PREDECIR EL VALOR DE LA VARIABLE DEPENDIENTE. SE debe seleccionar las variables importantes capaces de predecir algo:
+						5 Modelos de seleccion:
+						https://www.youtube.com/watch?v=tCXc2zl3dew
+							1- Exhaustivo (all-in).
+							2- Eliminacion hacia atras.   -------------
+							3- Seleccion hacia adelante.			   --------	Regresion paso a paso los incluye 
+							4- Eliminacion bidireccional.  ------------
+							5- Comparacion de scores.
+												
+							1- Exhaustivo (all-in)
+				
+								La usamos por:
+								
+								1. Metemos todas la variables y vemos que sucede, ya que conocemos (por el conocimiento del negocio o por necesidad) que todas son predictoras.
+								
+								o
+								
+								2. Preparacion previa a la Eliminacion hacia atras. 	
+									
+			
+							2- Eliminacion hacia atras. (Backward)
+								Elimina cualquier variable independiente que no sea significativa.
+									Paso 1. 
+									Elegimos un nivel de significacion para que una variable permanezca en el modelo. (Standard 0.05)
+									
+									Paso 2.
+										Se calcula el modelo usando todas las variables como predictoras.
+										
+									Paso 3.
+										Se considera la variable predictora con el p-valor mas grande. Si p-valor > Standard vamos al paso 4 sino a fin.
+										
+									Paso 4.
+										Se elimina la variable con p-valor > Standard
+									
+									Paso 5.
+										Se ajusta el modelo sin la variable con p-valor > Standard
+									
+									FIN - El modelo esta listo!
+									
+									Repetimos del paso 3 al paso 5 hasta no tener variables con p-valor > Standard. Nos quedamos con ese modelo.
+							
+									WARNING: Para aplicar esta seleccion en Python, se agrega una columna de todos unos a las columnas de variables independientes. Esta representa la ordenada al origen. PAra analizar si tiene significado la ordenada al origen en la funcion a calcular.
+							
+							3- Seleccion hacia adelante. (Forward)						
+									Paso 1. 
+									Elegimos un nivel de significacion para que una variable pueda entrar en el modelo. (Standard 0.05)
+									
+									Paso 2.
+										Ajustamos todos los modelos de regresion lineal simple y ~ Xn (hacemos todos los modelos de regresion linial simple para cada variable independiente con la dependiente). Elegimos el que tiene menor p-valor.
+									
+									Paso 3.
+										Se conserva esta variable, y ajustamos todos los posibles modelos con una variable extra añadida a la(s) que ya tenga(s) el modelo hasta el momento.
+										
+									Paso 4.
+										Se considera la variable predictora con el menor p-valor. Si p-valor < Standard vamos al paso 3 sino a fin.
+										
+									FIN	- Conservar  el modelo anterior.
+									
+									Repetimos el paso 3 hasta  que la variable añadida supere el p-valor.  Nos quedamos con el modelo anterior.
+									
+							4- Eliminacion bidireccional (stepwise)
+							https://www.youtube.com/watch?v=6wpTEwaFbY0
+									Combina: Seleccion hacia adelante y Eliminacion hacia atras.
+									
+									Paso 1. 
+										- Elegimos un nivel de significacion para que una variable pueda entrar en el modelo. (Standard 0.05) SLENTER
+										- Elegimos un nivel de significacion para que una variable permanezca en el modelo. (Standard 0.05) SLSTAY
+										
+									Paso 2.
+										Inicia como forward.
+										Llevar a cabo el Paso de selccion hacia adelante (con las nuevas variables con p < SLENTER para entrar)
+										
+									Paso 3. 
+										Se lleva adelante la eliminacion hacia atras (variables antiguas con p-valor < SLSTAY para quedarse)
+										
+										Repetir de paso 2 hasta 3 que no queden variables para añadir.
+										
+									El mejor de los tres modelos.
+									
+									FIN- Modelo esta listo.
+									
+							5- Fuerza bruta: (Comparacion de scores.)
+							
+									Genera todos los modelos de regresion posibles. Todos los de una variable, Todos los de dos variables, Todos los de test variables, etc.
+									
+									Paso 1.
+									Seleccionar un criterio de bondad de ajuste. Ej: Vallesiano, Akaike,etc.
+									
+									Paso 2.
+									Construir todos los modelos de regresion posibles. (2 elevado a la N) - 1. N numero de variables. Por ejemplo: Con 10 variables -> (2 elevado a 10) - 1 = 1023 modelos.
+									
+									Paso 3.
+									Seleccionamos el modelo basado el criterio elegido. El mejor modelo.
+									
+									FIN- Modelo esta listo.
+									
+									
+							Conclusion:
+									No hay un modelo mejor que otro. Hay que conocer todos los metodos.
+									
+									Si cualquiera de los coeficientes es cercano a cero no es necesario agregarlo a la formula de regresion.
+									 OLS-> ordinary list square (minimo de cuadrados ordinarios)
+								
+									Cuanto mas cercano es el R-Cuadrado Ajustado al 1 (uno) mejor se explica el modelo de la regresion lineal (Es el mejor modelo)
+									R-Cuadrado Ajustado > 0.7 se suele aceptar qu el modelo es lineal.
+
+									WARNING: No Dividir el conjunto de datos entre entrenamiento y testing cuando son pocos casos o datos.
+									
+Regresión Lineal Múltiple en Python - Eliminación hacia atrás automática
+
+Si estás interesado en implementaciones automáticas de la Eliminación hacia atrás en Python, aquí te presentamos dos de ellas. Se ha adaptado el código para que utilice la transformación .tolist() sobre el ndarray y así se adapte a Python 3.7.
+
+Eliminación hacia atrás utilizando solamente p-valores:
+
+import statsmodels.formula.api as sm
+def backwardElimination(x, sl):    
+    numVars = len(x[0])    
+    for i in range(0, numVars):        
+        regressor_OLS = sm.OLS(y, x.tolist()).fit()        
+        maxVar = max(regressor_OLS.pvalues).astype(float)        
+        if maxVar > sl:            
+            for j in range(0, numVars - i):                
+                if (regressor_OLS.pvalues[j].astype(float) == maxVar):                    
+                    x = np.delete(x, j, 1)    
+    regressor_OLS.summary()    
+    return x 
+ 
+SL = 0.05
+X_opt = X[:, [0, 1, 2, 3, 4, 5]]
+X_Modeled = backwardElimination(X_opt, SL)
+
+Eliminación hacia atrás utilizando  p-valores y el valor de  R Cuadrado Ajustado:
+
+import statsmodels.formula.api as sm
+def backwardElimination(x, SL):    
+    numVars = len(x[0])    
+    temp = np.zeros((50,6)).astype(int)    
+    for i in range(0, numVars):        
+        regressor_OLS = sm.OLS(y, x.tolist()).fit()        
+        maxVar = max(regressor_OLS.pvalues).astype(float)        
+        adjR_before = regressor_OLS.rsquared_adj.astype(float)        
+        if maxVar > SL:            
+            for j in range(0, numVars - i):                
+                if (regressor_OLS.pvalues[j].astype(float) == maxVar):                    
+                    temp[:,j] = x[:, j]                    
+                    x = np.delete(x, j, 1)                    
+                    tmp_regressor = sm.OLS(y, x.tolist()).fit()                    
+                    adjR_after = tmp_regressor.rsquared_adj.astype(float)                    
+                    if (adjR_before >= adjR_after):                        
+                        x_rollback = np.hstack((x, temp[:,[0,j]]))                        
+                        x_rollback = np.delete(x_rollback, j, 1)     
+                        print (regressor_OLS.summary())                        
+                        return x_rollback                    
+                    else:                        
+                        continue    
+    regressor_OLS.summary()    
+    return x 
+ 
+SL = 0.05
+X_opt = X[:, [0, 1, 2, 3, 4, 5]]
+X_Modeled = backwardElimination(X_opt, SL)
+
+
+Instalar la nueva versión de ElemStatsLearn en R
+Los que tengáis problemas al instalar ElemStatLearn desde R probad con esta línea de código
+
+install.packages("https://cran.r-project.org/src/contrib/Archive/ElemStatLearn/ElemStatLearn_2015.6.26.2.tar.gz",repos=NULL, type="source")
+									
+						
+Regresión Lineal Múltiple en R - Eliminación hacia atrás automática
+Si quieres tener una implementación automática de la eliminación hacia atrás en R, aquí te la dejo:
+
+backwardElimination <- function(x, sl) {
+  numVars = length(x)
+  for (i in c(1:numVars)){
+    regressor = lm(formula = Profit ~ ., data = x)
+    maxVar = max(coef(summary(regressor))[c(2:numVars), "Pr(>|t|)"])
+    if (maxVar > sl){
+      j = which(coef(summary(regressor))[c(2:numVars), "Pr(>|t|)"] == maxVar)
+      x = x[, -j]
+    }
+    numVars = numVars - 1
+  }
+  return(summary(regressor))
+}
+ 
+SL = 0.05
+dataset = dataset[, c(1,2,3,4,5)]
+backwardElimination(training_set, SL)
+
+
+- Regresion Polinomica (RP)
+
+	Esta regresion tiene una unica variable independiente.-
+
+	Regresion lineal -> 	y = b0 + b1X1
+	Regresion multiple -> 	y = b0 + b1X1 + b2X2 + ... + bnXn
+	Regresion polinomica -> y = b0 + b1X1 + b2X1^2 + ... + bnX1^n (tenes una misma variable (x1) con potencias sucesivas) 
+	
+	Cuando usar:
+	
+	Cuando los datos relevados siguen una parabola o una curva (no una recta).
+	
+	Regresion polinomica de grado 2 -> y = b0 + b1X1 + b2X1^2
+	
+	En la RP debemos elegir hasta que grado queremos. Grado 2 o Grado 3 o ... o Grado n. El grado tiene que ver con el exponente o potencia.
+	
+	¿Porque se llama Regresion lineal Polinomica?
+		Es lineal por los coeficientes. Los coeficientes tienen una relacion lineal con las variables. 
+		En la regresion lineal las incognitas son los coeficientes.
+		La variable y se predise como combinacion lineal de esos coeficientes con las variables.
+		
+
+	WARNING: No se escalan los datos porque la relacion no lineal podria perderse.
+	
+	poly_reg = PolynomialFeatures(degree = 4) - degree representa grado del polinomio . Hasta que grado deseo tener las caracteristicas polimonialies de mi matriz original. Se elige el deseado.
+	
+	# Training the Linear Regression model on the whole dataset
+	from sklearn.linear_model import LinearRegression
+	lin_reg = LinearRegression()
+	lin_reg.fit(X, y)
+
+	# Training the Polynomial Regression model on the whole dataset
+	from sklearn.preprocessing import PolynomialFeatures
+	poly_reg = PolynomialFeatures(degree = 2)
+	X_poly = poly_reg.fit_transform(X) 
+	lin_reg_2 = LinearRegression()
+	lin_reg_2.fit(X_poly, y)    
+	
+	El codigo anterior genera una matriz llamada X_poly con tres columnas. La primera el termino independiente (ordenada al origen - todos unos), la segunda columna el valor de la variable independiente y la tercer columna el cuadrado de la variable independiente.
+	
+	WARNING: En un modelo polinomial nunca se representa una recta.- Es una Parabola o curva. 
+	
+	
+-	Regresion con Maquinas de Soporte Vectorial (SVR)
+
+	Estos métodos están propiamente relacionados con problemas de clasificación y regresión. 
+
+	Sirven para Regresiones lineales como no lineales. Dependen de un nucleo (Kernel). El Kernel determina el tipo de regresion que lleva a cabo la maquina de soporte vectorial.
+		
+	Para regresion hay que ajustar el mayor corredor (o calle) posible entre dos clases. Intentando que en el interior de ese pasillo o clase queden la mayoria de los puntos. Hay que limitar la anchura (margen maximo). 
+	Imaginemos una recta o calle entorno a la misma dos pasillos (uno por arriba y otro por debajo) donde queden la mayoria de los puntos. 
+	
+	En el caso de clasificacion se intenta que la anchura del pasillo separe las dos clases lo mas posible. En la Regresion encontrar la anchura que incluya la mayoria de los puntos. 
+
+	Como controlamos la anchura del pasillo. Se establece un parametro llamado epsilon. A mayor valor de epsilon mayor anchura.	
+	
+	epsilon: Distancia entre las lineas de soporte vectorial y la linea de hiperplano. 
+	
+	La calle se llama hiperplano. Hay que obtener la ecuacion del hiperplano. Los puntos que hacen cero a la ecuacion estan en el hiperplano. Si el son distintos de cero partenecen a una clase o a otra. Para que funcione hay que encontrar la ecuacion que represente al mejor hiperplano (aquel que permite que no haya sesgo entre una u otra categoria). Es decir que permita realizar la mejor separacion. Las maquinas de soporte vectorial ayudan a encontrar el mejor hiperplano.
+	
+	El algoritmo detecta los puntos mas cercanos entre una clase y otra. Luego, encuentra la linea que los conecta. Finalmente, traza una perpendicular que divide esta linea en dos. Esta linea es el hiperplano optimo. Se busca maximizar el margen. 
+	
+	Vocabularion:
+	
+		Hiperplano = recta de regresion.
+		
+		Los vectores de soporte: los puntos mas cercanos entre una clase y otra. 
+		Margen: distancia entre los vectores de soporte.
+		Hiperplano optimo: frontera de separacion que consige la mayor separacion entre una clase y otra. 
+		
+		Problema:
+			Si aparece un dato excepcional o valor a tipico (outlier) que lleva a reducir el margen y por lo tanto a producir un overfitting (clasificacion incorrecta de un dato nuevo por el algoritmo). Para solucionar este problema al alogritmo tradicional (Hard margin) se le agrega un parametro C (Soft margin) para flexibilizar el margen. Este valor de C es elegido por el diseñador en el entrenamiento. A menor C  mayor margen o a mayor C menor margen. El valor se escoge de manera emperica analizando el error obtenido en la clasificacion comparado con diferentes valores de C. Se escoge el menor error posible. Es decir, menor C.
+			
+	La idea de las Maquinas de Soporte Vectorial es obtener el mayor margen posible entre una clase y otra.
+	
+	Problema: 
+		Maquinas de Soporte Vectorial (SVR) permiten obtener fronteras de clasificacion o hiperplanos lineales. A veces es necesario en aplicacion reales obtener hiperplanos o fronteras no lineales. Como solucion una alternativa es agregar mas dimensiones a cada dato para separar las dos categorias. Es decir, usamos Maquinas de Soporte Vectorial para obtener hiperplanos en mas dimensiones. Como agregamos mas dimensiones a los datos para poder clasificarlos: Kernel.
+		
+		Podemos pensar que cada punto de datos de entrenamiento representara su propia dimension. 
+		
+		Kernel: Toma el dataset de datos original y lo mapea a un espacio de mayor dimensiones usando una funcion no lineal. Con esta tranformacion el dataset es linealmente separable. Luego, se aplica Maquinas de Soporte Vectorial (SVR) para obtener el hiperplano optimo. Luego, obtenido el hiperplano optimo se vuelve al espacio original y finalmente, se realiza la clasificacion. Se puede representar la funcion en el espacio original.
+		
+		Kernel: Mapea y realiza el calculo del hiperplano. Para el mapeo usa funciones polinomiales o de gaussianas.
+		
+		Las Maquinas de Soporte Vectorial sirven para aumentar la dimensionalidad del problema y calcular la regresion en ese espacio de dimension superior. Luego ese funcion se puede volver al espacio de dimension original y proyectar la linea. 
+		
+		Objetivo de las Maquinas de Soporte Vectorial es encontrar una funcion de regresion a partir de los puntos de entrenamientos y que los errores no superen el umbral establecido (el epsilon)
+		
+	Algoritmo SVR:
+	
+		Analizar si se escalan los datos de X (independientes) y Y (dependiente)
+	
+		1. Elegir el conjunto de entrenamiento. (variables independiente y dependiente)
+		2. Elegir la funcion de nucleo y sus parametros. Tambien, analizar si hay que realizar una regulacion adiconal que elimine el ruido en el conjunto de entrenamiento. 
+		3. Crear la matriz de correlaciones (K).  
+		4. Entrenamos el modelo en forma exacta o aproximada para obtener los coeficientes de contraccion para cada uno de los datos.
+		5. Con los coeficientes de contraccion creamos un estimador.	
+		
+		Se debe elegir el nucleo:
+				- Lineal
+				- No lineal - (Gaussiano - Es el defecto)
+				
+		Regulacion para eliminar el ruido de los datos.
+		
+		IMPORTANTE: Considerar escalas ya que el algoritmo se basa en distancias euclideas.
+			
+- Regresion con Arboles de desicion
+
+		Los saltos en los arboles son discretos. Hay saltos en el diagrama del arbol.
+		
+		Puede tener varias variables independientes.
+		
+		En los arboles de desicon no suele ser necesario ningun tipo de escalado.
+		
+		Escalar si el algoritmo usa distancias euclideas. EL ARbol de desicion no utiliza distancias euclideas.
+		
+		
+		CART
+			Classification & Regression Trees
+				Hay dos Tipos:
+					---> Arboles de Clasificacion
+					---> Arboles de regresion para predecir valor.
+					
+		Arboles de Regresion:
+				 Dos variables independientes x1 y x2. Objetivo predecir una tercer variable dependiente Y.
+				 
+				 Predice no necesariamente de forma lineal. 
+				 
+				 El algoritmo divide los puntos (nuestros datos) en un conjunto de secciones. 	
+				 El algoritmo mira la entropia. Como de juntos o dispersos estan los puntos (similitudes entre los puntos)-
+				 Agrupa los puntos en comunes basado la entropia. Hay que establecer los puntos que se quedan en un nodo hoja (Ejemplo 5% de datos).
+				 Se puede usar otra regla para definir los puntos que quedan en la hoja.
+				 El algoritmo encuentra las divisiones optimas del conjunto de datos.
+					
+				 Alg ejemplo:
+				 
+					1. desicion X1 < 20
+							Si -> X2 < 200
+									Si -> 
+									No -> 
+							No -> X2 < 170
+									Si -> X1 < 40 
+											Si -> La proyeccion o prediccion es el promedio de los puntos que conforman la hoja o seccion de division. Para un mismo nodo hoja retorna la misma prediccion.
+											No -> 
+									No -> 
+		Python:
+				Objeto en python para representar un arbol de desicion es DecisionTreeRegressor.
+				Cuando se crea se establece el criterios de division de los datos. Se suele utilizar la medida del "error cuadrado medio" como forma de minimizar la diferencia entre la prediccion y el resultado. Este criterio busca cual de las formas de cortar minimiza los cuadrados de los errores. Este es el criterio por defecto.
+				
+				regressor = DecisionTreeRegressor(random_state = 0)
+				
+				Enfoques mas avanzados suelen definir enfoques que corten por mas de un rasgo a la vez. En el constructor del objeto DecisionTreeRegressor se definen las caracteristicas o parametros del arbol de desicion. Tambien se puede definir el numero maximo de nodos hojas, numeros maximos de elementos que forman el nodo hoja, etc. Elige que parametros pasar al objeto.
+				
+				
+	WARNING: hay que escalar o no? Por defecto no escalar y ver que buena es la prediccion y luego, ver como es la prediccion con los datos escalados. Escalar si el algoritmo usa distancias euclideas. No se usa en Arboles de desicion. 
+	
+	Cuando tenes una linea horizontal (en grafico) que abarca todo el conjunto de datos podria pasar que los datos estan mal interpretados. Puede ser que el arbol tuviera unas restricciones a la hora de dividir una rama en nodos hojas. Es decir, que una rama no se divide en nodos hojas si no hay suficientes datos para formar parte del nodo hoja. Tambien, puede ocurrir que no se dividen las ramas a menos que se establezcan ciertas condiciones o las condiciones de division estan mal establecidas. Por lo tanto, se agrupan muchos datos en una sola hoja y se otorga el promedio de todos los datos de la hoja a las proyecciones que caen en ese nodo hoja. Con parametros se puede cambier los criterios de division de ramas. En R npar.control(minsplit=1) Establece que una rama puede tener un dato para en su hoja. 
+
+	 		
+- Regresion con Bosques aleatorios
+
+	Se usan para regresion y para clasificacion.
+	
+	los saltos en los arboles son discretos.
+	
+	Los arboles cuando hacen la prediccion lo hacen sobre un conjunto discreto de datos.
+
+	Este algoritmo entra en Aprendizaje en Conjunto. Basicamente, toma un algoritmo y lo replica n veces o toma varios algoritmos diferentes y los junta para obtener un mejor algotimo.  Aprendizaje en Conjunto permite tener algoritmos mas estables.
+	
+	Muchos arboles de desicion conforman un bosque aleatorio.
+	
+	En este caso toma un algorimto de arboles de desicion y los replica n veces.
+	
+	Pasos:
+	
+	Paso 1. Se elige un numero K (numero aleatorio). Representa un subconjunto de los datos del conjunto de datos de entrenamiento. En lugar de dividir los datos en conjunto de entrenamiento y conjunto de test. Elegimos un subconjunto de datos de los datos de entrenamiento.
+	
+	Paso 2. Construir un arbol de desicion para los K puntos de datos. Lo que hace que el arbol tenga una vision parcial de los datos.
+	
+	Paso 3. Se define el numero de arboles de desicion y se repite el paso 1 y 2. Cada nuevo arbol tiene un subconjunto de detos del total de datos de entrenamiento.
+	
+	Paso 4. Cuando llegamos a construir el numero de arboles deseados. Se puede usar todo el bosque para hacer la prediccion. A cada arbol se le indica que realice la prediccion de Y. Finalmente, la prediccion final es el promedio de las predicciones Y dadas por los arboles construidos.
+	
+	Este algoritmo mejor la prediccion de un solo arbol de desicion. 
+	
+	Cuando hay valores outlier (valores extremos) podemos tomar la mediana en lugar de la media en cada arbol. Tambien se puede usar la media recortada.
+		
+	Python:
+		RandomForestRegressor(n_estimators = 10, random_state = 0)	
+			Parametros de ForestRegressor
+					n_estimators -> cantidad de arboles del bosque.
+					criterion -> criterio para dividir una rama en dos subramas o nodos hojas.
+								Criterio de division: MSE (error cuadrado medio) diferencia entre la prediccion y el valor real al cuadrado. Se intenta minimizar. Se divide la rama en dos subramas intentando que el MSE de cada rama sea menor al MSE de la rama que se divide. Tambien, hay otros criterios de division.
+					max_features -> caracteristicas tenidas en cuenta a la hora de generar las divisiones.
+					random_state -> reproductivilidad para obtener el mismo bosque.
+					
+			
+	
+	 IMPORTANTE: Cuando se conbinan diferentes modelos o algoritmo (Aprendizaje en Conjunto) en varias maquinas sale a relucir mejores predicciones.
+	 
+	 
+	 R Cuadrado:
+	 
+		Buscamos el modelo que predise el menor error posible con respecto a los datos dados.
+		
+		R 2 = 1- SSR/SST 
+		
+		SSE es la suma de cuadrados de error
+		SST es la suma de cuadrados total
+		
+		Cuanto mejor sea mi modelo mas cerca estara R Cuadrado del numero uno. Mide que tan bueno es el modelo que elijo con respecto a una prediccion de media para todos los valores del conjunto de datos.
+		
+		Si el R Cuadrado es negativo el resultado es un pesimo modelo de prediccion.
+		
+		Los algoritmos o tecnicas de regresion se enfocan en mejorar el R Cuadrado para indicar lo bueno que es mi modelo para predecir los datos.
+		
+	
+	R Cuadrado Ajustado:
+	
+		Regresion Lineal multiple: El R Cuadrado se sesga y no sirve para medir o evaluar modelos con numero de variables diferentes. Es decir, si agregar una variable mas al modelo lo mejora y en consecuencia, mejora la prediccion. (R2 nunca decrece, se incrementa). En ese caso hay que usar el R Cuadrado Ajustado para evaluar si agregar una variable mejora nuestro modelo.
+		
+		Adj R 2  = 1 - (1 - R2) * (n - 1) / (n - p - 1)
+		
+		R2 es el R cuadrado
+		n tamaño de la muestra.
+		p numero de variables independientes (o variables regresoras) en nuestro modelo.
+		
+		Al agregar mas variables independientes hace que el R 2 decrezca, ya que penaliza el cociente.	
+		
+		Adj R 2 Evalua si gana mas el valor del (1 - R2) o el cociente ((n - 1) / (n - p - 1)) por agregar esa nueva variable.
