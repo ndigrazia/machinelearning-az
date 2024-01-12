@@ -30,6 +30,9 @@ Decision Tree Classification
 
 Random Forest Classification
 
+-----------
+Regression
+-----------
 
 Modelos de regresion lineal
 
@@ -43,6 +46,8 @@ Modelos de regresion lineal tienen una series de restricciones que se deben comp
 Si no se da alguna de las restricciones anteriores el modelo de regresion lineal no tiene sentido.
 
 -	Simple Linear Regression (SLR)
+
+	En el grafico las variables independientes van en el eje de las x y la dependiente en el eje de las Y.
 
 	y = b0 + b1 * x1
 		b0 constante (ordenada all origen)
@@ -337,7 +342,7 @@ backwardElimination(training_set, SL)
 
 	Estos métodos están propiamente relacionados con problemas de clasificación y regresión. 
 
-	Sirven para Regresiones lineales como no lineales. Dependen de un nucleo (Kernel). El Kernel determina el tipo de regresion que lleva a cabo la maquina de soporte vectorial.
+	Sirven para Regresiones lineales (Kernel lineal )como no lineales (rbf, etc...). Dependen de un nucleo (Kernel). El Kernel determina el tipo de regresion que lleva a cabo la maquina de soporte vectorial.
 		
 	Para regresion hay que ajustar el mayor corredor (o calle) posible entre dos clases. Intentando que en el interior de ese pasillo o clase queden la mayoria de los puntos. Hay que limitar la anchura (margen maximo). 
 	Imaginemos una recta o calle entorno a la misma dos pasillos (uno por arriba y otro por debajo) donde queden la mayoria de los puntos. 
@@ -383,18 +388,18 @@ backwardElimination(training_set, SL)
 		Analizar si se escalan los datos de X (independientes) y Y (dependiente)
 	
 		1. Elegir el conjunto de entrenamiento. (variables independiente y dependiente)
-		2. Elegir la funcion de nucleo y sus parametros. Tambien, analizar si hay que realizar una regulacion adiconal que elimine el ruido en el conjunto de entrenamiento. 
+		2. Elegir la funcion de nucleo y sus parametros. Tambien, analizar si hay que realizar una regulacion adicional que elimine el ruido en el conjunto de entrenamiento. 
 		3. Crear la matriz de correlaciones (K).  
 		4. Entrenamos el modelo en forma exacta o aproximada para obtener los coeficientes de contraccion para cada uno de los datos.
 		5. Con los coeficientes de contraccion creamos un estimador.	
 		
 		Se debe elegir el nucleo:
 				- Lineal
-				- No lineal - (Gaussiano - Es el defecto)
+				- No lineal - (Gaussiano - Es el defecto) Es el la constante rbf en python.
 				
 		Regulacion para eliminar el ruido de los datos.
 		
-		IMPORTANTE: Considerar escalas ya que el algoritmo se basa en distancias euclideas.
+		IMPORTANTE: Considerar escalar ya que el algoritmo se basa en distancias euclideas.
 			
 - Regresion con Arboles de desicion
 
@@ -490,7 +495,9 @@ backwardElimination(training_set, SL)
 	
 	 IMPORTANTE: Cuando se conbinan diferentes modelos o algoritmo (Aprendizaje en Conjunto) en varias maquinas sale a relucir mejores predicciones.
 	 
-	 
+
+Generalidades:
+
 	 R Cuadrado:
 	 
 		Buscamos el modelo que predise el menor error posible con respecto a los datos dados.
@@ -506,8 +513,13 @@ backwardElimination(training_set, SL)
 		
 		Los algoritmos o tecnicas de regresion se enfocan en mejorar el R Cuadrado para indicar lo bueno que es mi modelo para predecir los datos.
 		
+		En R se llama "multiple R-squared"
+		
+		El valor mas grande que puede tomar es uno. 
+		
+		R cuadrado no es un estimador muy exacto de la bondad de ajuste para algoritmos de variables multiples. Siempre sera mejor o mayor cuanta mas variables agreguemos. Necesitamos usar un valor u otro indicador que no este sesgado. Usamos R Cuadrado Ajustado. (regresion lineal multiple)
 	
-	R Cuadrado Ajustado:
+	 R Cuadrado Ajustado:
 	
 		Regresion Lineal multiple: El R Cuadrado se sesga y no sirve para medir o evaluar modelos con numero de variables diferentes. Es decir, si agregar una variable mas al modelo lo mejora y en consecuencia, mejora la prediccion. (R2 nunca decrece, se incrementa). En ese caso hay que usar el R Cuadrado Ajustado para evaluar si agregar una variable mejora nuestro modelo.
 		
@@ -520,3 +532,146 @@ backwardElimination(training_set, SL)
 		Al agregar mas variables independientes hace que el R 2 decrezca, ya que penaliza el cociente.	
 		
 		Adj R 2 Evalua si gana mas el valor del (1 - R2) o el cociente ((n - 1) / (n - p - 1)) por agregar esa nueva variable.
+		
+		
+		A veces el umbral de rechazo de una variable para pertenecer al modelo (regresion multiple), el p valor, es muy cercano al nivel que tomemos como umbral. Si no señimos al algoritmo deberiamos rechazar la varible pero como su valor es muy cercano podriamos tener presente otros valores. Dar una segunda opinion si eliminamos o no ese variable.  
+		
+		Nos quedamos con el modelo de mayor R Cuadrado Ajustado cuando comparamos varios modelos en regresion multiple para determinar si agregar o eliminar una variable aporta al modelos. Cuando comenzas a sacar variables del modelo y cae el R Cuadrado Ajustado debemos para de eliminar variables (metodo de reduccion hacia atras).
+		
+     
+	 Interpretar Coeficientes de Regresion Lineal
+	 
+		1. Signo del coeficiente. (Negativo) aporta negativamente a la prediccion.  (Positivo) aporta positivamente a la prediccion.  
+		2. La magnitud del coeficiente. (Ojo con las unidades de los coeficientes) Analizar si son diferentes sus escalas. SIEWMPRE Analizar las unidades de los coeficientes. Hacer transformaciones para que todo cobre sentido.
+		
+		Interpretar el coeficiente como el incremento o decremento "por unidad de" ... (Dolar, Empleado, distancia, etc.). La unidad de la variable independiente que aporta positivamente o negativamente al modelo.
+
+Fin de la Parte 2 - Regresión
+
+¿Cómo sé qué modelo debo elegir para resolver mi problema?
+
+Paso 1.
+
+Averiguar si el problema es una prediccion (regresion), clasificacion o agrupamiento (clustering). Para ello analizamos la variable dependiente.
+
+Si no existe la variable dependiente es un agrupamiento.
+Si tiene la variable dependiente y la variable es continua o discreta es una regresion. Finalmente, si la variable dependiente es categorica es una clasificación.
+
+Paso 2. Preguntarse si tu problema es o no es lineal. Se puede responder con la tecnica Grid Search.
+
+Una vez lo sepas, Si tu problema es lineal, deberás intentar crear un modelo de Regresión Lineal Simple si solo tienes una variable independiente o un modelo de Regresión Lineal Múltiple en el caso de tener varias.
+
+Si tu problema no es lineal, entonces tenemos varias técnicas donde elegir, como la Regresión Polinómica, SVR, Árboles de Decisión y Bosques Aleatorios. ¿Cuál te funcionará mejor? El método en este caso consiste en utilizar una técnica muy útil para evaluar modelos llamada k-Fold Cross Validation, y elegir el modelo que demuestre mejores resultados. 
+ 
+¿Cómo puedo mejorar cada uno de estos modelos?
+
+Existen dos tipos de parámetros en nuestros modelos:
+
+- los parámetros que el modelo aprende, como los coeficientes de la Regresión Lineal,
+
+- los hiper parámetros del algoritmo. En este último caso, los hiper parámetros son parámetros que el algoritmo no aprende, si no que son fijos y forman parte de las ecuaciones de los modelos. Por ejemplo, el parámetro lambda de regularización o el factor de penalización C son hiper parámetros.
+
+---------------------
+Seleccion de modelos.
+---------------------
+
+- - - 
+K-Fold Cross Validation
+
+Se utiliza para proporcionar una evaluacion relevante de la eficacia de nuestro modelo. 
+Permite comparar diferentes algoritmos (Logistica, vectorial, KNN)y obtener una idea de cuan bien trabajaran.
+
+Incrementa el rendimiento del modelo.
+
+En la practica es comun dividir los datos en 10 bloques (Fold) - Python (cross_val_score (cv = nro. bloques)
+
+Se muestrea varias veces nuestro dataset de partida. Incrementa el rendimiento del modelo porque todos los datos se usan para entrenar y evaluar.
+
+Juzgar el rendimiento de nuestro modelo con un solo conjunto de datos de prueba no es el mejor enfoque (problema de varianza de los datos). No es la mejor forma de evaluar el rendimiento de un modelo.  K-Fold Cross Validation soluciona el problema de las varianzas entre un conjunto de datos de prueba.
+
+Compensar el sesgo de la varianza
+
+	Sesgo Bajo: diferencia baja entre la prediccion y el valor real observado. 
+	Sesgo Alta: diferencia alat entre la prediccion y el valor real observado. 
+		
+	Varianza baja: Ejecutamos varias veces el modelo y la prediccion no varia demasiado.
+	Varianza alta: Ejecutamos varias veces el modelo y la prediccion varia demasiado.
+	
+	En Python el resultado de aplicar este modelo es un array con la presicion de cada una de las corridas. Resultado final es la media de los resultados obtenidos y el desvio estandard.
+	
+- - - 
+Grid search
+
+Optimiza los hiperparametros. 
+
+Nos permite identificar si es mejor elegir un modelo lineal o no lineal.
+
+Trata de encontar los valores optimos de los hiperparametros. Hiperparametros son los que elige el usuario.
+
+Realizamos primero la evaluacion deñ renmdimiento del algoritmo (K-Fold Cross Validation) y luego, ajustamos los hiperparametros para optimizarlos.
+
+La optimizacion depende de los parametros del algoritmo utilizado. DEbe elegir los parametros que quiero optimizar y para ello debo conocerlos desde el algoritmo que voy a emplear. WARNING : No exagerar con la cantidad de parametros.
+
+
+-------------
+Clasificacion
+-------------
+
+A diferencia de la regresión donde se predice un valor continuo, se utiliza la clasificación para predecir una categoría. Existen una gran amalgama de aplicaciones del proceso de clasificación desde medicina hasta marketing. Los modelos de clasificación incluyen desde modelos lineales como la Regresión Logística, SVM, así como otros no lineales como K-NN, Kernel SVM y Bosques Aleatorios.
+
+Clasificar y catalogar.
+
+- Regresion Logistica
+
+	En el grafico las variables independientes van en el eje de las x y la dependiente en el eje de las Y.
+	
+	Se usa para clasificacion. 
+	
+	Se  predice una accion. Por ejemplo, compra o no compra. Abre o no abre.
+	
+	Accion: Comprar o no comprar un producto.
+			Abrir o no abrir un correo electronico. 
+			
+			Es decir llevar a cabo una accion.
+			
+			Ejemplo, 
+				Compra en funcion de la edad
+				Abre el correo en funcion de la edad
+				
+			En lugar dee predecir lo que vaa suceder podriamos predecir quue tan probable es un cliente acepte la oferta.
+			Probabilidad entre cero y uno. Todo lo que esta por debajo de cero o cero sera no compra, todo lo que sea uno o supere a uno sera compra. Lo intermedio sera un probabilidad de que compre o no. La idea es encontrar esas franjas de edades y cuantificar la probabilidad que compre o no. 
+			
+			No se puede usar la regresion lineal porque los datos no siguen esa funcion. Si en lugar se le aplica una funcion sigmoide (por ejemplo para predecir la venta dada la edad) para despejar el valor de la variable Y, obtendriamos:
+
+				funcion lineal 
+			     		y = b0 + b1 * x
+				
+				funcion sigmoide 
+							p = 1 /(1 + e^-y) 
+				
+					al despejar la y obtendriamos:
+						 p = 1 /(1 + e^-y) => y = ln(p/1-p) 
+						
+				Finalmente, 
+				
+					ln(p/1-p) = b0 + b1 * x
+								
+			En resumen, a una regresion lineal se le aplica una funcion sigmoide para trasnformar el valor final de la prediccion en una probabilidad.
+			
+				Regresion logistica o sigmoide
+						ln(p/1-p) = b0 + b1 * x
+							
+							Es un tuneo  de una regresion lineal. 
+							
+							El eje y se trasnforma en una probabilidad. (enla regresion lineal es un prediccion)
+							Probabilidad entre 0 y 1. 
+							
+							Se busca la funcion sigmoide (o logistica) que mejor se ajusta con respecto al conjunto de funciones sigmoides. Objetivo final, si hay probabilidad de comprar o no (Si se realiza el suceso o no)
+							
+							En el grafico la recta X es la variable independiente y la recta Y la probabilidad de compar o no. (Si lleva a cabo la accion o no)
+							
+							Se toma valores aleatorios para la variable independiente X y se analiza la probabilidad del suceso dado ese valor de X en funcion de la regresion logistica. Luego, en funcion de un "valor central" se decide si ocurre o no el suceso (si compra o no). Ese valor central generalmente es 0,5. Define si ocurre o no el suceso dada la probabilidad obtenida. El valor central se puede elegir arbitrariamente.
+							
+							Si la probabilidad obtenida del modelo es menor que 0,5 no ocurre el suceso, de lo contrario si ocurre.
+							
+							En resumen, el calculo de probabilidades es necesario como herramienta intermedia para realizar la clasificacion (compra o no).
