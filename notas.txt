@@ -502,10 +502,11 @@ Generalidades:
 	 
 		Buscamos el modelo que predise el menor error posible con respecto a los datos dados.
 		
-		R 2 = 1- SSR/SST 
+		R 2 = 1- SSE/SST 
 		
-		SSE es la suma de cuadrados de error
-		SST es la suma de cuadrados total
+		SSE es la suma de cuadrados de error o residuos - Se calcula sumando las diferencias al cuadrado entre los valores predichos y los valores reales de la variable dependiente.
+						
+		SST es la suma de cuadrados total - Es la suma de los cuadrados de las diferencias entre cada punto de datos (valores reales de la variable dependiente-valores observados) y la media de todo el conjunto de datos
 		
 		Cuanto mejor sea mi modelo mas cerca estara R Cuadrado del numero uno. Mide que tan bueno es el modelo que elijo con respecto a una prediccion de media para todos los valores del conjunto de datos.
 		
@@ -617,15 +618,21 @@ La optimizacion depende de los parametros del algoritmo utilizado. DEbe elegir l
 Clasificacion
 -------------
 
+Importante: Los algoritmos con distancia euclideas hay que escalarlos.
+
 A diferencia de la regresión donde se predice un valor continuo, se utiliza la clasificación para predecir una categoría. Existen una gran amalgama de aplicaciones del proceso de clasificación desde medicina hasta marketing. Los modelos de clasificación incluyen desde modelos lineales como la Regresión Logística, SVM, así como otros no lineales como K-NN, Kernel SVM y Bosques Aleatorios.
 
 Clasificar y catalogar.
 
 - Regresion Logistica
 
+	Es buena cuando los datos pueden ser separados por medio de una recta.
+	
+	Busca el mejor separador lineal recto (la mejor recta) posible en el proceso de clasificacion.
+	
 	En el grafico las variables independientes van en el eje de las x y la dependiente en el eje de las Y.
 	
-	Se usa para clasificacion. 
+	Se usa para clasificacion. Es un clasificador lineal. Devuelve probabilidades.
 	
 	Se  predice una accion. Por ejemplo, compra o no compra. Abre o no abre.
 	
@@ -634,11 +641,13 @@ Clasificar y catalogar.
 			
 			Es decir llevar a cabo una accion.
 			
+			La logistica utiliza la regresion lineal, en 2D (Sueldo y Edad por ejemplo), el separador es una recta. En 3D el separador es un plano. En multiple dimensiones el separador lineal es un hiper plano.
+			
 			Ejemplo, 
 				Compra en funcion de la edad
 				Abre el correo en funcion de la edad
 				
-			En lugar dee predecir lo que vaa suceder podriamos predecir quue tan probable es un cliente acepte la oferta.
+			En lugar dee predecir lo que vaa suceder podriamos predecir que tan probable es un cliente acepte la oferta.
 			Probabilidad entre cero y uno. Todo lo que esta por debajo de cero o cero sera no compra, todo lo que sea uno o supere a uno sera compra. Lo intermedio sera un probabilidad de que compre o no. La idea es encontrar esas franjas de edades y cuantificar la probabilidad que compre o no. 
 			
 			No se puede usar la regresion lineal porque los datos no siguen esa funcion. Si en lugar se le aplica una funcion sigmoide (por ejemplo para predecir la venta dada la edad) para despejar el valor de la variable Y, obtendriamos:
@@ -663,7 +672,7 @@ Clasificar y catalogar.
 							
 							Es un tuneo  de una regresion lineal. 
 							
-							El eje y se trasnforma en una probabilidad. (enla regresion lineal es un prediccion)
+							El eje y se trasnforma en una probabilidad. (en la regresion lineal es un prediccion)
 							Probabilidad entre 0 y 1. 
 							
 							Se busca la funcion sigmoide (o logistica) que mejor se ajusta con respecto al conjunto de funciones sigmoides. Objetivo final, si hay probabilidad de comprar o no (Si se realiza el suceso o no)
@@ -672,6 +681,308 @@ Clasificar y catalogar.
 							
 							Se toma valores aleatorios para la variable independiente X y se analiza la probabilidad del suceso dado ese valor de X en funcion de la regresion logistica. Luego, en funcion de un "valor central" se decide si ocurre o no el suceso (si compra o no). Ese valor central generalmente es 0,5. Define si ocurre o no el suceso dada la probabilidad obtenida. El valor central se puede elegir arbitrariamente.
 							
-							Si la probabilidad obtenida del modelo es menor que 0,5 no ocurre el suceso, de lo contrario si ocurre.
+							Si la probabilidad obtenida del modelo es menor o igual que 0,5 no ocurre el suceso, de lo contrario si ocurre.
 							
-							En resumen, el calculo de probabilidades es necesario como herramienta intermedia para realizar la clasificacion (compra o no).
+							En resumenn, el calculo de probabilidades es necesario como herramienta intermedia para realizar la clasificacion (compra o no).
+				
+				Matriz de confusion
+				
+						Una matriz de confusión es una herramienta que permite la visualización del desempeño de un algoritmo que se emplea en aprendizaje supervisado. Cada columna de la matriz representa el número de predicciones de cada clase, mientras que cada fila representa a las instancias en la clase real. Uno de los beneficios de las matrices de confusión es que facilitan ver si el sistema está confundiendo dos clases.
+		
+			En R:
+			
+				# Ajustar el modelo de regresión logística con el conjunto de entrenamiento.
+				classifier = glm(formula = Purchased ~ .,
+							data = training_set, 
+								family = binomial) Es (family = binomial) binomial porque compra o no compra es lo que queremos predecir.
+				
+					CUIDADO - Cambios en la sintaxis de las librerías
+
+					En la clase instalo la librería ElemStatLearn. Si te sale un error debido a cambios en la librería, debes hacer la instalación indicada en los siguiente pasos:
+
+
+					https://cran.r-project.org/src/contrib/Archive/ElemStatLearn/
+
+
+					1. Descarga la librería desde este link o utilizando el enlace anterior.
+
+					2. A continuación abre R-Studio. Selecciona el menú de herramientas y haz click en instalar paquetes.
+
+					3. Desde 'Install from:' elige el la opción package install file(.zip; .tar,etc)
+
+					4. Selecciona el paquete descargado anteriormente.
+
+					También puedes instalarlo haciendo uso de la linea de comandos con la instrucción : R CMD install <pkg>.
+
+- K-Nearest neighbors (K-NN)
+
+	Es usado para categorizacion.
+	
+	No es un clasificador lineal. Los datos pueden ser separados sin la existencia de una recta o linea.
+	
+	Como lo hace?
+	
+		Cuatro pasos:
+		
+				Paso 1. 
+						Elegir numero k de vecinos mas cercanos que tenemos en cuenta para el proceso de clasificacion.
+						Elegir K en impar para no tener empate. K = 5 es el mas utilizado generalmente.
+						
+				Paso 2.
+						Tomar los k vecinos mas cercanos del nuevo dato utilizando la distancia Euclidea. Es decir, se seleccionan los k vecinos mas cercanos utilizando la distancia euclidea.
+						No es necesario utilizar la distancia euclidea, se puede usar otra (ej, manhattan, metrica del infinito, etc..) pero euclidea es la mas utilizada.
+						
+						La distancia euclidea entre dos puntos es basicamente el teorema de pitagora:
+								Distancia entre P1 y P2  = SQRT((x2-x1)^2 + (y2-y1)^2)
+						
+				Paso 3.
+						Entre los k vecinos contamos la cantidad de puntos que pertenecen a cada una de las categorias.
+				
+				Paso 4.				
+						Asignar el nuevo punto de dato a la categoria que tenga mas vecinos en ella. 
+						
+				Paso 5.
+						El modelo ya esta elavorado.
+											
+	En Python:
+	
+		from sklearn.neighbors import KNeighborsClassifier
+		classifier = KNeighborsClassifier(n_neighbors = 5, metric = 'minkowski', p = 2)
+		classifier.fit(X_train, y_train)
+		
+		n_neighbors: nro de vecinos
+		
+		metric: metrica para calcular la distancia de los puntos. (minkowski)
+						(minkowski) Familia de distancias.
+									
+		p: (1) manhattan (2) euclideana
+		
+
+- SVN (support vector machine)
+
+		Detecta los puntos mas cercanos entre las categorias. Esto se llama el margen maximo. Distancia maxima para equivocarse. Luego,  traza una linea x distante de esos puntos. La suma de las distancias entre  los puntos mas cercanos y la linea se busca maximizarla.  Se busca crear ese margen lo mas grande posible. Margen la distancia entre los puntos (o vectores) mas cercanos. Los puntos mas cercanos entre las categorias se llaman vectores. La linea separadora se llama Hiperplano. El Hiperplano busca maximizar el margen. Las rectas asociadas a los vectores se llaman hiperplano positivo e hipleplano negativo.
+		
+		Python.
+		
+		from sklearn.svm import SVC
+		classifier = SVC(kernel = "linear", random_state = 0)
+		classifier.fit(X_train, y_train)
+		
+		kernel: define la forma de separacion. Hay varios: (rbf: Gausiano, linear: lineal, etc.)
+		
+		Kernel lineal: linear. Basicamente es como una regresion logistica.	 Es lineal. Se genera una linea de separacion.
+		Kernel no lineales: rbf
+		
+		Parametro degree: se usa en un kernel polinomico.
+		Parametro gamma: se usa en nucleo gauseano, polinomico o sigmoide.
+		
+		Kernel SVN:
+		
+			Idea de Kernel:
+			
+				Que paso con nucleos no lineales?
+					
+				No siempre el limite de separacion entre las categorias es una recta.
+				Hay datos que no son linealmente separables.
+				
+				La SVN tiene una hipotesis la cual es, que el limite de separacion (o la forma de separacion) debe ser detectada o definida por el humano. La separacion puede ser por esferas, circulos, elipses, etc. 
+				
+				Cuando no son lineales puedo representarlos en otras dimensiones para ver que sucede. Por ejemplo, en 3D puede ser que los puntos esten al nivel del suelo o los otros puntos al nivel del techo. Alli puedo encontar un plano o una linea que los separe. 
+				
+				Datos no separables en forma lineal.
+				
+				Hay que tranformarlos en un espacio de nivel superior y obtener un conjunto de datos separables en forma lineal. Luego, se retorna al espacio original para obtener la separacion correcta.
+				
+				El algoritmo toma datos en una dimension que no son separables linealmente, los transforma en otra dimension, mediante una funcion, tratando de separarlos linealmente, intentando hallar un hiperplano, en la nueva dimension. Encontrada la linea de separacion lineal (o hiperplano) se retorna a la dimension original mediante una proyeccion y se representa, en la dimension original, el separador que es no lineal.
+				Usar esta mecanismo de transformación tiene un precio. Al subir a una dimension el calculo computacional puede ser mas costoso.(puede requerirse un equipo con muchos recursos o puede tardarse en clasificar y dar una respuesta)
+				
+				Truco del Kernel:
+				
+					Kernel RBF (Gausiano) : No lineal. Se púede usar sin necesidad de entrar en un espacio de nivel superior.
+				
+				Tipos de Kernel:
+				
+						- Gausiano (RBF) Muy util cuando los datos deben ser separados como circulos 
+						- Sigmoide 
+						- Polinomico
+						Hay muchos mas...
+				
+				NOTA: Cuando no quiero que una variable domine las demas variables aplico la estandarizacion. Tambien, en algoritmos que trabajan con distancia euclidea.
+				
+			
+- Teorema de Bayes
+
+				P(A|B) = P(B|A) * P(A) / P(B)
+				
+				A: condicionado
+				B: Suceso condicionante
+				P: 
+				
+				Maquina 1: 30 herramientas/hora - Las herramientas son marcadas indicando la maquina que la genero. Maquina 1
+				Maquina 2: 20 herramientas/hora - Las herramientas son marcadas indicando la maquina que la genero. Maquina 2
+				
+				Total de herramientas/hora: 50 herramientas (30+20).
+						
+				De todas las herramientas producidas se observa que el 1% es defectuoso.
+				
+				De todas las herramientas defectuosas se observa que:
+					El 50% de herramientas defectosas proviene de la maquina 1.
+					El 50% de herramientas defectosas proviene de la maquina 2.
+					
+				Pregunta:
+
+				¿Cual es la probabilidad que una herramienta producida por la maquina 2 sea defectuosa?
+				La respuesta es el teorema de bayer.
+				
+				Probabilidad = Casos posibles / Total de casos.
+				
+				Si elijo una herramienta cualquiera la probabilidad que sea de una u otra maquina es:
+				
+				P(Match1) = 30/50 = 0,60 - 60% - Probabilidad de que la herramienta sea producida por la maquina 1 del total de herramientas
+				P(Match2) = 20/50 = 0,40 - 40% - Probabilidad de que la herramienta sea producida por la maquina 2 del total de herramientas
+				
+				P(Defectuosa) = 1%
+				
+				P(Match1| Defectuosa) = 50% - Sabiendo que es defectuosa cual es la probabilidad de que la herramienta sea de la maquina 1
+				P(Match2| Defectuosa) = 50% - Sabiendo que es defectuosa cual es la probabilidad que que la herramienta sea de la maquina 2
+				
+				Las anteriores son probabilidades condicionadas.
+				
+				¿Cual es la probabilidad que una herramienta producida por la maquina 2 sea defectuosa?
+				
+				P(Defectuosa|Match2) = ?
+				
+				La respuesta es el teorema de bayer.
+				
+				Teorema de bayer.
+				
+						P(A|B) = P(B|A) * P(A) / P(B)
+				 
+						P(Defectuosa|Match2) = P(Match2|Defectuosa) * P(Defectuosa) / P(Match2)
+						
+						P(Defectuosa|Match2) =  0,50 * 0,01 / 0,40 = 0,0125 (1,25%) De cada 1000 herramientas producidas de la maquina = 12,5 son defectuosas.
+				
+				En general, la probabilidad condicionada por un suceso se gira el condicionante y el condicionado, multiplicamos por la probabilidad del condicionado y dividimos por la probabilidad del condicionante.
+				
+				Veamos otro ejemplo:
+				
+					Calculo frecuentista:
+						Total de herramientas: 1000 herramientas 
+						Herramientas maquina 2: 400 herramientas 
+						1% tienen defecto: 10 herramientas defectuosas.
+						Herramientas defectuosas de producidas por la maquina 2: 5 herramientas 
+						porcentaje de herramientas defectuosas provenientes de la maquina 2: 5 * 1 / 400 =  1,25%
+						
+					Porque no realizamos el calculo frecuentista(contamos las herramientas)?
+							- Podria ser que tome mucho tiempo contar las herramientas por cada maquina e identificar las defectuosas.
+							- Puede ser que no se tenga acceso a los datos o la informacion.
+							
+							
+					Ejercicio rapido:
+					
+						P(Defectuosa|Match1) = P(Match1|Defectuosa) * P(Defectuosa) / P(Match1)
+											 = 0,50 * 0,01 / 0,60 =
+			
+- Naives Bayes
+
+		El ejemplo se trabajo con dos variables pero puede haber + variables.
+		
+		- Variables independientas: Sueldo y Edad. Vector: (Sueldo, Edad).
+		- Categorias: "Camina al trabajo" o "Conduce al trabajo"
+		
+		Plan de Ataque:
+			
+			Se aplica dos veces. 
+			
+			(1) La primera es para conocer cual es la probabilidad de que la persona camine:
+			 
+					X: Es el vector de caracteristicas (Sueldo, Edad). Ej: (U$S30000, 25). (El dato lo observo o lo consulto).
+					
+					P(camine/X) = P(X/camine) * P(camine) / P(X)
+					
+						P(camine): Se llama Probabilidad Previa o a Priori. Conocer cuanta gente va caminando al trabajo. Probabilidad de que una persona camine. 
+						Se cuenta todas las personas y se cuenta cuantas caminan.
+						P(camine) = Cant. individuos que caminan/Total de individuos.
+												
+						P(X): Se llama Probabilidad Marginal con respecto a esas caracteristicas. Indivudos que presentan esas caracteristicas del total de individuos. Que probabilidad tiene una persona en presentar esas caracteristicas.
+						Como se cualcula? La probabilidad de que un individuo seleccionado al azar presente esas caracteristicas.
+						Para calcularla se selecciona un radio de variabilidad, se dibuja un circulo con ese radio cerca del individuo (punto) a clasificar. El individuo o punto se usa como centro. Luego, se cuenta la cantidad de individuos (puntos) que en ese circulo se parecen al individuo a clasificar. Es decir, cuantos individuos tienen caracteristicas similares al individuo a clasificar.
+						El radio es un parametro de entrada del algoritmo. El radio define la cantidad de individuos o puntos forman parte de la muestra a ser usada para contar la cantidad de individuos (puntos) que en ese circulo se parecen al individuo a clasificar. 
+						Todos los individuos o puntos que estan dentro del circulo se consideran similar al individuo a clasificar. Por lo tanto, todos los puntos dentro del circulo son similares. 
+						Entra el concepto de distancia: No es lo mismo la distancia euclidea o manhattan. 
+												
+						P(X/camine): Se llama Probabilidad condicionada por un suceso.
+						Del total de personas que camina cuantas presenta esas caracteristicas.
+						Para realizar el calculo se usa el mismo circulo definido en el calculo de P(X). La diferencia es que dentro del circulo se cuenta el total de individuos que caminan.	
+												
+						P(camine/X): Se llama probabilidad a posteriori.
+
+			(2) La segunda es para conocer cual es la probabilidad de que la persona conduce:
+			 
+					X: Es el vector de caracteristicas (Sueldo, Edad). Ej: (U$S30000, 25). (El dato lo observo o lo consulto).
+					
+					P(conducen/X) = P(X/conducen) * P(conducen) / P(X)
+					
+						P(conducen): Se llama Probabilidad Previa o a Priori. Conocer cuanta gente conduce al trabajo. Probabilidad de que una persona conduzca. 
+						Se cuenta todas las personas y se cuenta cuantas personas conducen.
+						P(conducen) = Cant. individuos que conducen/Total de individuos.
+												
+						P(X): Se llama Probabilidad Marginal con respecto a esas caracteristicas. Indivudos que presentan esas caracteristicas del total de individuos. Que probabilidad tiene una persona en presentar esas caracteristicas.
+						Como se cualcula? La probabilidad de que un individuo seleccionado al azar presente esas caracteristicas.
+						Para calcularla se selecciona un radio de variabilidad, se dibuja un circulo con ese radio cerca del individuo (punto) a clasificar. El individuo o punto se usa como centro. Luego, se cuenta la cantidad de individuos (puntos) que en ese circulo se parecen al individuo a clasificar. Es decir, cuantos individuos tienen caracteristicas similares al individuo a clasificar.
+						El radio es un parametro de entrada del algoritmo. El radio define la cantidad de individuos o puntos forman parte de la muestra a ser usada para contar la cantidad de individuos (puntos) que en ese circulo se parecen al individuo a clasificar. 
+						Todos los individuos o puntos que estan dentro del circulo se consideran similar al individuo a clasificar. Por lo tanto, todos los puntos dentro del circulo son similares. 
+						Entra el concepto de distancia: No es lo mismo la distancia euclidea o manhattan. 
+																		
+						P(X/conducen): Se llama Probabilidad condicionada por un suceso.
+						Del total de personas que conducen cuantas presenta esas caracteristicas.
+						Para realizar el calculo se usa el mismo circulo definido en el calculo de P(X). La diferencia es que dentro del circulo se cuenta el total de individuos que conducen.	
+						
+						P(conducen/X): Se llama probabilidad a posteriori.
+			
+		   (3) - Paso 3. Compara las probabilidades. La mayor gana.
+		   
+					Naives Bayes compara las dos probabilidades y obtiene la mas probable.
+
+					Compara P(camine/X) vs P(conducen/X) y obtiene la de mayor probabilidad.
+					
+			
+			Ejemplo:
+					
+					Total de personas: 30
+					Personas que conducen: 20 
+					Personas que caminan: 10
+					
+					P(Camine): 10/30
+					P(conducen): 20/30
+					
+					P(X): Como se cualcula? 
+					Se selecciona un radio y luego se define un circulo tomando como centro el individuo a clasificar (sus caracteristicas.Ej: Edad, sueldo). Finalmente, se cuenta la cantidad de puntos o individuos dentro del circulo. En nuesto ejemplo son 4.
+					
+					Personas dentro del circulo: 4 (Individuos similares al individuo a clasificar)
+					Personas dentro del circulo que caminan: 3
+					Personas dentro del circulo que conducen: 1
+					
+					P(X): Cant. individuos dentro del circulo/Total de individuos.
+					P(X): 4/30
+					
+					P(X/camine): Cant. individuos dentro del circulo que caminan/Total de individuos que caminan.
+					P(X/camine): 3/10
+					
+					P(X/conducen): Cant. individuos dentro del circulo que conducen/Total de individuos que conducen.
+					P(X/conducen): 1/20
+										
+					P(camine/X) = P(X/camine) * P(Camine) / P(X)
+ 					P(camine/X) = (3/10 * 10/30) / (4/30) = 0,75
+					
+					P(conducen/X) = P(X/conducen) * P(conducen) / P(X)
+ 					P(conducen/X) =	(1/20 * 20/30) / (4/30) = 0,25
+					
+					P(camine/X) vs  P(conducen/X) = 0,75 vs 0,25 => 0,75 > 0,25 => El individuo a catalogar tiene una mayor probabilidad de caminar. Finnalmente, se categoriza como Camina.
+					
+					
+					
+					
+				
+					
+					
