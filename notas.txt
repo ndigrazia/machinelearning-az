@@ -474,7 +474,7 @@ backwardElimination(training_set, SL)
 	
 	Paso 2. Construir un arbol de desicion para los K puntos de datos. Lo que hace que el arbol tenga una vision parcial de los datos.
 	
-	Paso 3. Se define el numero de arboles de desicion y se repite el paso 1 y 2. Cada nuevo arbol tiene un subconjunto de detos del total de datos de entrenamiento.
+	Paso 3. Se define el numero de arboles de desicion y se repite el paso 1 y 2. Cada nuevo arbol tiene un subconjunto de datos del total de datos de entrenamiento.
 	
 	Paso 4. Cuando llegamos a construir el numero de arboles deseados. Se puede usar todo el bosque para hacer la prediccion. A cada arbol se le indica que realice la prediccion de Y. Finalmente, la prediccion final es el promedio de las predicciones Y dadas por los arboles construidos.
 	
@@ -809,8 +809,9 @@ Clasificar y catalogar.
 				
 				NOTA: Cuando no quiero que una variable domine las demas variables aplico la estandarizacion. Tambien, en algoritmos que trabajan con distancia euclidea.
 				
-			
-- Teorema de Bayes
+- Naive Bayes
+
+		- Teorema de Bayes
 
 				P(A|B) = P(B|A) * P(A) / P(B)
 				
@@ -882,107 +883,448 @@ Clasificar y catalogar.
 					
 						P(Defectuosa|Match1) = P(Match1|Defectuosa) * P(Defectuosa) / P(Match1)
 											 = 0,50 * 0,01 / 0,60 =
-			
-- Naives Bayes
-
-		El ejemplo se trabajo con dos variables pero puede haber + variables.
+	
+		- Naive Bayes.
 		
-		- Variables independientas: Sueldo y Edad. Vector: (Sueldo, Edad).
-		- Categorias: "Camina al trabajo" o "Conduce al trabajo"
-		
-		Plan de Ataque:
-			
-			Se aplica dos veces. 
-			
-			(1) La primera es para conocer cual es la probabilidad de que la persona camine:
-			 
-					X: Es el vector de caracteristicas (Sueldo, Edad). Ej: (U$S30000, 25). (El dato lo observo o lo consulto).
+				- Porque Naive?
+					Naive( se traduce ingenuo)
+					Supone una independencia entre los casos que aparencen dentro de la probabilidades. Que las variables independientes sean independientes es decir, no exista correlacion entre ellas. A veces, puede que no exista esa independencia. Es decir, el teorema de Bayes requiere que la Edad y el sueldo sean independientes entre si.
+					Se puede aplicar igual, y se obtiene resultados bastantes buenos. Por eso se llama ingenuo.
 					
-					P(camine/X) = P(X/camine) * P(camine) / P(X)
-					
-						P(camine): Se llama Probabilidad Previa o a Priori. Conocer cuanta gente va caminando al trabajo. Probabilidad de que una persona camine. 
-						Se cuenta todas las personas y se cuenta cuantas caminan.
-						P(camine) = Cant. individuos que caminan/Total de individuos.
-												
-						P(X): Se llama Probabilidad Marginal con respecto a esas caracteristicas. Indivudos que presentan esas caracteristicas del total de individuos. Que probabilidad tiene una persona en presentar esas caracteristicas.
-						Como se cualcula? La probabilidad de que un individuo seleccionado al azar presente esas caracteristicas.
-						Para calcularla se selecciona un radio de variabilidad, se dibuja un circulo con ese radio cerca del individuo (punto) a clasificar. El individuo o punto se usa como centro. Luego, se cuenta la cantidad de individuos (puntos) que en ese circulo se parecen al individuo a clasificar. Es decir, cuantos individuos tienen caracteristicas similares al individuo a clasificar.
-						El radio es un parametro de entrada del algoritmo. El radio define la cantidad de individuos o puntos forman parte de la muestra a ser usada para contar la cantidad de individuos (puntos) que en ese circulo se parecen al individuo a clasificar. 
-						Todos los individuos o puntos que estan dentro del circulo se consideran similar al individuo a clasificar. Por lo tanto, todos los puntos dentro del circulo son similares. 
-						Entra el concepto de distancia: No es lo mismo la distancia euclidea o manhattan. 
-												
-						P(X/camine): Se llama Probabilidad condicionada por un suceso.
-						Del total de personas que camina cuantas presenta esas caracteristicas.
-						Para realizar el calculo se usa el mismo circulo definido en el calculo de P(X). La diferencia es que dentro del circulo se cuenta el total de individuos que caminan.	
-												
-						P(camine/X): Se llama probabilidad a posteriori.
-
-			(2) La segunda es para conocer cual es la probabilidad de que la persona conduce:
-			 
-					X: Es el vector de caracteristicas (Sueldo, Edad). Ej: (U$S30000, 25). (El dato lo observo o lo consulto).
-					
-					P(conducen/X) = P(X/conducen) * P(conducen) / P(X)
-					
-						P(conducen): Se llama Probabilidad Previa o a Priori. Conocer cuanta gente conduce al trabajo. Probabilidad de que una persona conduzca. 
-						Se cuenta todas las personas y se cuenta cuantas personas conducen.
-						P(conducen) = Cant. individuos que conducen/Total de individuos.
-												
-						P(X): Se llama Probabilidad Marginal con respecto a esas caracteristicas. Indivudos que presentan esas caracteristicas del total de individuos. Que probabilidad tiene una persona en presentar esas caracteristicas.
-						Como se cualcula? La probabilidad de que un individuo seleccionado al azar presente esas caracteristicas.
-						Para calcularla se selecciona un radio de variabilidad, se dibuja un circulo con ese radio cerca del individuo (punto) a clasificar. El individuo o punto se usa como centro. Luego, se cuenta la cantidad de individuos (puntos) que en ese circulo se parecen al individuo a clasificar. Es decir, cuantos individuos tienen caracteristicas similares al individuo a clasificar.
-						El radio es un parametro de entrada del algoritmo. El radio define la cantidad de individuos o puntos forman parte de la muestra a ser usada para contar la cantidad de individuos (puntos) que en ese circulo se parecen al individuo a clasificar. 
-						Todos los individuos o puntos que estan dentro del circulo se consideran similar al individuo a clasificar. Por lo tanto, todos los puntos dentro del circulo son similares. 
-						Entra el concepto de distancia: No es lo mismo la distancia euclidea o manhattan. 
-																		
-						P(X/conducen): Se llama Probabilidad condicionada por un suceso.
-						Del total de personas que conducen cuantas presenta esas caracteristicas.
-						Para realizar el calculo se usa el mismo circulo definido en el calculo de P(X). La diferencia es que dentro del circulo se cuenta el total de individuos que conducen.	
-						
-						P(conducen/X): Se llama probabilidad a posteriori.
-			
-		   (3) - Paso 3. Compara las probabilidades. La mayor gana.
-		   
-					Naives Bayes compara las dos probabilidades y obtiene la mas probable.
-
-					Compara P(camine/X) vs P(conducen/X) y obtiene la de mayor probabilidad.
-					
-			
-			Ejemplo:
-					
-					Total de personas: 30
-					Personas que conducen: 20 
-					Personas que caminan: 10
-					
-					P(Camine): 10/30
-					P(conducen): 20/30
-					
-					P(X): Como se cualcula? 
-					Se selecciona un radio y luego se define un circulo tomando como centro el individuo a clasificar (sus caracteristicas.Ej: Edad, sueldo). Finalmente, se cuenta la cantidad de puntos o individuos dentro del circulo. En nuesto ejemplo son 4.
-					
-					Personas dentro del circulo: 4 (Individuos similares al individuo a clasificar)
-					Personas dentro del circulo que caminan: 3
-					Personas dentro del circulo que conducen: 1
-					
-					P(X): Cant. individuos dentro del circulo/Total de individuos.
-					P(X): 4/30
-					
-					P(X/camine): Cant. individuos dentro del circulo que caminan/Total de individuos que caminan.
-					P(X/camine): 3/10
-					
-					P(X/conducen): Cant. individuos dentro del circulo que conducen/Total de individuos que conducen.
-					P(X/conducen): 1/20
-										
-					P(camine/X) = P(X/camine) * P(Camine) / P(X)
- 					P(camine/X) = (3/10 * 10/30) / (4/30) = 0,75
-					
-					P(conducen/X) = P(X/conducen) * P(conducen) / P(X)
- 					P(conducen/X) =	(1/20 * 20/30) / (4/30) = 0,25
-					
-					P(camine/X) vs  P(conducen/X) = 0,75 vs 0,25 => 0,75 > 0,25 => El individuo a catalogar tiene una mayor probabilidad de caminar. Finnalmente, se categoriza como Camina.
-					
-					
-					
-					
+				El ejemplo se trabajo con dos variables pero puede haber + variables.
 				
+				- Variables independientas: Sueldo y Edad. Vector: (Sueldo, Edad).
+				- Categorias: "Camina al trabajo" o "Conduce al trabajo"
+				
+				Plan de Ataque:
 					
+					Se aplica dos veces. 
 					
+					(1) La primera es para conocer cual es la probabilidad de que la persona camine:
+					 
+							X: Es el vector de caracteristicas (Sueldo, Edad). Ej: (U$S30000, 25). (El dato lo observo o lo consulto).
+							
+							P(camine/X) = P(X/camine) * P(camine) / P(X)
+							
+								P(camine): Se llama Probabilidad Previa o a Priori. Conocer cuanta gente va caminando al trabajo. Probabilidad de que una persona camine. 
+								Se cuenta todas las personas y se cuenta cuantas caminan.
+								P(camine) = Cant. individuos que caminan/Total de individuos.
+														
+								P(X): Se llama Probabilidad Marginal con respecto a esas caracteristicas. Indivudos que presentan esas caracteristicas del total de individuos. Que probabilidad tiene una persona en presentar esas caracteristicas.
+								Como se cualcula? La probabilidad de que un individuo seleccionado al azar presente esas caracteristicas.
+								Para calcularla se selecciona un radio de variabilidad, se dibuja un circulo con ese radio cerca del individuo (punto) a clasificar. El individuo o punto se usa como centro. Luego, se cuenta la cantidad de individuos (puntos) que en ese circulo se parecen al individuo a clasificar. Es decir, cuantos individuos tienen caracteristicas similares al individuo a clasificar.
+								El radio es un parametro de entrada del algoritmo. El radio define la cantidad de individuos o puntos forman parte de la muestra a ser usada para contar la cantidad de individuos (puntos) que en ese circulo se parecen al individuo a clasificar. 
+								Todos los individuos o puntos que estan dentro del circulo se consideran similar al individuo a clasificar. Por lo tanto, todos los puntos dentro del circulo son similares. 
+								Entra el concepto de distancia: No es lo mismo la distancia euclidea o manhattan. 
+														
+								P(X/camine): Se llama Probabilidad condicionada por un suceso.
+								Del total de personas que camina cuantas presenta esas caracteristicas.
+								Para realizar el calculo se usa el mismo circulo definido en el calculo de P(X). La diferencia es que dentro del circulo se cuenta el total de individuos que caminan.	
+														
+								P(camine/X): Se llama probabilidad a posteriori.
+
+					(2) La segunda es para conocer cual es la probabilidad de que la persona conduce:
+					 
+							X: Es el vector de caracteristicas (Sueldo, Edad). Ej: (U$S30000, 25). (El dato lo observo o lo consulto).
+							
+							P(conducen/X) = P(X/conducen) * P(conducen) / P(X)
+							
+								P(conducen): Se llama Probabilidad Previa o a Priori. Conocer cuanta gente conduce al trabajo. Probabilidad de que una persona conduzca. 
+								Se cuenta todas las personas y se cuenta cuantas personas conducen.
+								P(conducen) = Cant. individuos que conducen/Total de individuos.
+														
+								P(X): Se llama Probabilidad Marginal con respecto a esas caracteristicas. Indivudos que presentan esas caracteristicas del total de individuos. Que probabilidad tiene una persona en presentar esas caracteristicas.
+								Como se cualcula? La probabilidad de que un individuo seleccionado al azar presente esas caracteristicas.
+								Para calcularla se selecciona un radio de variabilidad, se dibuja un circulo con ese radio cerca del individuo (punto) a clasificar. El individuo o punto se usa como centro. Luego, se cuenta la cantidad de individuos (puntos) que en ese circulo se parecen al individuo a clasificar. Es decir, cuantos individuos tienen caracteristicas similares al individuo a clasificar.
+								El radio es un parametro de entrada del algoritmo. El radio define la cantidad de individuos o puntos forman parte de la muestra a ser usada para contar la cantidad de individuos (puntos) que en ese circulo se parecen al individuo a clasificar. 
+								Todos los individuos o puntos que estan dentro del circulo se consideran similar al individuo a clasificar. Por lo tanto, todos los puntos dentro del circulo son similares. 
+								Entra el concepto de distancia: No es lo mismo la distancia euclidea o manhattan. 
+																				
+								P(X/conducen): Se llama Probabilidad condicionada por un suceso.
+								Del total de personas que conducen cuantas presenta esas caracteristicas.
+								Para realizar el calculo se usa el mismo circulo definido en el calculo de P(X). La diferencia es que dentro del circulo se cuenta el total de individuos que conducen.	
+								
+								P(conducen/X): Se llama probabilidad a posteriori.
+					
+				   (3) - Paso 3. Compara las probabilidades. La mayor gana.
+				   
+							Naives Bayes compara las dos probabilidades y obtiene la mas probable.
+
+							Compara P(camine/X) vs P(conducen/X) y obtiene la de mayor probabilidad.
+							
+					
+					Ejemplo:
+							
+							Total de personas: 30
+							Personas que conducen: 20 
+							Personas que caminan: 10
+							
+							P(Camine): 10/30
+							P(conducen): 20/30
+							
+							P(X): Como se cualcula? 
+							Se selecciona un radio y luego se define un circulo tomando como centro el individuo a clasificar (sus caracteristicas.Ej: Edad, sueldo). Finalmente, se cuenta la cantidad de puntos o individuos dentro del circulo. En nuesto ejemplo son 4.
+							
+							Personas dentro del circulo: 4 (Individuos similares al individuo a clasificar)
+							Personas dentro del circulo que caminan: 3
+							Personas dentro del circulo que conducen: 1
+							
+							P(X): Cant. individuos dentro del circulo/Total de individuos.
+							P(X): 4/30
+							
+							P(X/camine): Cant. individuos dentro del circulo que caminan/Total de individuos que caminan.
+							P(X/camine): 3/10
+							
+							P(X/conducen): Cant. individuos dentro del circulo que conducen/Total de individuos que conducen.
+							P(X/conducen): 1/20
+												
+							P(camine/X) = P(X/camine) * P(Camine) / P(X)
+							P(camine/X) = (3/10 * 10/30) / (4/30) = 0,75
+							
+							P(conducen/X) = P(X/conducen) * P(conducen) / P(X)
+							P(conducen/X) =	(1/20 * 20/30) / (4/30) = 0,25
+							
+							P(camine/X) vs  P(conducen/X) = 0,75 vs 0,25 => 0,75 > 0,25 => El individuo a catalogar tiene una mayor probabilidad de caminar. Finalmente, se categoriza como Camina. Es una probabilidad.
+								Tiene el punto un 75% de que Camina
+								Tiene el punto un 25% de que Conduce
+							
+					NOTA: Como P(X) es usado en ambas formulas, podemos eliminarlo en ambas formulas y el resultado es el mismo.
+				
+						P(camine/X) = P(X/camine) * P(Camine) 
+						P(camine/X) = (3/10 * 10/30) = 0,1
+						
+						P(conducen/X) = P(X/conducen) * P(conducen) 
+						P(conducen/X) =	(1/20 * 20/30) = 0,033
+						
+						P(camine/X) vs  P(conducen/X) = 0,1 > 0,033
+						El punto a clasificar: Camina. No es una probabilidad. Solo me permite comparar cual es el valor mayor. Es una modificacion ligera. NOTA: No sirve para saber la probabilidad. La mas segura es realizar el calculo completo (usando el denominador P(X)).
+					
+					NOTA: Que pasa con mas de dos caracteriisticas independientes?
+						
+						Para el calculo de probabilidades se aplica Bayes a cada caracteristica independiente. 
+						
+						Recuerda que las probaabilidades no puede superar el 1. Con lo cual si tenemos una caracteristica con una probabilidad mayor al 0,5. El resto de las probabilidades sera menor y esa gana.
+									
+						Si son mas de tres caracteristicas independientes puedo calcular las probabilidades de dos caracteristicas y ver sus probabilidades viendo que si supera sus sumas el 0,5. La mayor de ellas es la que gana.
+
+			Resumen: Se calculan las probabilidades condicionadas para cada una de las caracteristicas.
+			
+			NOTA: 
+				En R hay que factorizar la variable dependiente si no es un factor. Hacerlo antes de aplicar el algoritmo de Naive Bayes.
+				
+				Un factor es una variable categórica con un número finito de valores o niveles (etiqueta). En R los factores se utilizan habitualmente para realizar clasificaciones de los datos, estableciendo su pertenencia a los grupos o categorías determinados por los niveles del factor.
+	
+	
+- Arboles de desicion
+		
+		NOTA: Los arboles no utilizan el concepto de la distancia euclidea. No necesitan escalar.
+		NOTA: Si el algotimo usa distancia euclidea, es necesario escalar. Si no, no es necesario.
+				
+		CART. (Classification and Regresion Trees)
+			---> Arboles de Clasificacion. Basado en variables categoricas. Categorias ej, hombre o mujer, compra o no compra
+			---> Arboles de Desicion. Basado en variables numericas. Predice un valor.
+	
+		Como sabe el algoritmo donde ir cortando los datos?
+			Ejemplo:
+				Rojo = compra
+				Verde = no compra 
+			Se hace de tal modo que se maximiza el numero de categorias (o puntos) dentro de cada una de las divisiones. Por ejmeplo, quremos que las categorias (o puntos) queden en un lado cuanto mas puntos rojos mejor y al otro lado cuanto mas puntos verdes.
+			Concretamente, en la separacion se usa el concepto de entropia. La entropia mide el desorden de una serie de datos. Es un concepto matematico. 
+			
+		Despues de la separacion tendriamos nodos terminales u hojas con los puntos de separacion para la regresion o le asigna rojo o verde dependiendo el caso. 
+		
+		x1 y x2: variables independientes.
+		
+		Luego de la separacion:
+		
+				Si x2 > 60
+						Si x1 < 50
+								"Es Verde"
+						else
+								"Es Rojo"
+				else 
+					if x1 > 70
+						si x2 < 20
+							"Es Rojo"
+						else
+							"Es Verde" 
+					else
+						"Es Rojo"
+						
+				
+		Un Arbol puede tener mas variables independientes.
+		
+		NOTA: La tecnica es muy vieja y no son muy utilizados. Son Simple. Se mejoran con otros algoritmos o tecnicas. Las nuevas tecnicas que los mejoran son varias por ejemplo, la tecnica de bosques aleatorios, Gradient Boosting, etc.
+			  
+		En python el objeto es DecisionTreeClassifier, sus parametros son:
+		
+				criterion: Criterio de division. Por defecto: "Gini". Tambien, esta la "entropy". Ambos son usados para la division. Generalmente se usa la entropia ("entropy"). Busca la homogenea en la separacion de los datos.
+				Entropia 0 la rama es homogenea.
+
+
+- Bosques aleatorios
+
+		Aprendizaje en conjunto: Combinan la potencia de diferentes algoritmos de prediccion. Son varios algoritmos trabajandp en paralelo y luego juntan la informacion. Objetivo: Elevar el resultado.
+	
+		NOTA: En el ejemplo se escalo para que quede bonito el grafico. Los arboles no tienen necesidad de escalar. No usan distancia euclidea.
+
+		NOTA: Puede ser que cuando agrego mas arboles al bosque la prediccion puede que no mejore por el overfitting.
+		
+		Pasos:
+	
+			Paso 1. Se elige un numero K (numero aleatorio). Representa un subconjunto de los datos del conjunto de datos de entrenamiento. En lugar de dividir los datos en conjunto de entrenamiento y conjunto de test. Elegimos un subconjunto de datos de los datos de entrenamiento.
+			
+			Paso 2. Construir un arbol de desicion para los K puntos de datos. Lo que hace que el arbol tenga una vision parcial de los datos.
+			
+			Paso 3. Se define el numero de arboles de desicion y se repite el paso 1 y 2. Cada nuevo arbol tiene un subconjunto de datos del total de datos de entrenamiento.
+			
+			Paso 4. Cuando llegamos a construir el numero de arboles deseados. Se puede usar todo el bosque para hacer la prediccion. A cada arbol se le indica que realice la prediccion de la categoria a la que pertenece el nuevo punto. Finalmente, la prediccion final es asignar al nuevo punto la categoria con mas votos. 
+			
+			Este algoritmo mejor la prediccion de un solo arbol de desicion. 
+				
+			Python:
+				RandomForestRegressor(n_estimators = 10, random_state = 0)	
+					Parametros de ForestRegressor
+							n_estimators -> cantidad de arboles del bosque. Defecto 10 arboles.
+							criterion -> criterio para dividir una rama en dos subramas o nodos hojas.
+										Criterio de division: MSE (error cuadrado medio) diferencia entre la prediccion y el valor real al cuadrado. Se intenta minimizar. Se divide la rama en dos subramas intentando que el MSE de cada rama sea menor al MSE de la rama que se divide. Tambien, hay otros criterios de division como la entropia (Se minimiza la entropia). 
+							max_features -> caracteristicas tenidas en cuenta a la hora de generar las divisiones.
+							random_state -> reproductivilidad para obtener el mismo bosque.
+					  
+
+- Evaluar la eficacia de los modelos de clasificacion.
+
+	- Falsos positivos y falsos negativos.
+		
+			Falsos positivos o errores de tipo 1. Ejemplo, Usuarios que no compraban, la observacion real del dato lo muestra, pero mi modelo indica que compran.
+			
+			Falsos negativos o errores de tipo 2. Ejemplo, Usuarios que compraban, la observacion real del dato lo muestra, pero mi modelo indica que no compran.
+			
+			De estos dos hay uno peor que otro. Falsos positivos o errores de tipo 1 son cuidado. Mientras, Falsos negativos o errores de tipo 2 son PELIGRO DE MUERTE (Son malos) ES EL PEOR DE AMBOS. En ciertas cuestiones medicas o biologicas puede provocar daños a las personas. Ej, No hay un tsunami (pero lo hubo).
+			
+			
+	- Matriz de confusion: 
+		
+			Ejemplo Matriz de confunsion
+									predichos
+								
+								0				1
+						0		35				5	-> (falso positivo)
+			observados
+			(real)		1		10				50
+								 |
+								 V
+							   (falso negativo)
+	
+	       calcular dos prporciones:
+		   
+				Ratio de presicion (RP) = Correctos / Total =  85/100 = 85 %
+				Ratio de error (ER) = Incorrecto / Total = 15 / 100 = 15 %
+				
+				
+	- Paradoja de presicion:
+	
+			Ejemplo Matriz de confunsion
+									predichos
+								
+								0				1
+						0		9700			150	-> (falso positivo)
+			observados
+			(real)		1		50				100
+								 |
+								 V
+							   (falso negativo)		
+							   
+			Ratio de presicion (RP) = Correctos / Total =  9800/10000 = 98 %
+			Ratio de error (ER) = Incorrecto / Total = 200 / 10000 = 2 %
+			
+			Segun la matriz de confusion la gran mayoria de datos son marcados como Cero (9700). Hay muchos datos marcado como Cero. Dejamos el modelo y marco el dato como Cero. Muevo los datos que eran predichos como 1 a 0. La razon es porque es mas probable un 0 que un 1:
+			
+											predichos
+										
+										0				1
+								0		9850			0	-> (falso positivo)
+					observados
+					(real)		1		150				0
+										 |
+										 V
+									   (falso negativo)		
+									
+					Ratio de presicion (RP) = Correctos / Total =  9850/10000 = 98,5 %
+					Ratio de error (ER) = Incorrecto / Total = 200 / 10000 = 2 %
+			
+			Se aumenta la presicion sin haber usado el modelo. Esto es la paradoja de la presicion. Cuando tenes un suceso raro o muy raro que ocurra, lo mejor es no usar modelos. Por ejemplo, si un 0,1 % de la poblacion tiene una enfermedad, lo mas normal es que nadie la tenga. Esto puede mostrar que en sucesos raros los modelos a veces son inutiles.
+		
+		
+	- Curva CAP (Perfil de Presicion Acumulado):
+			
+			Como se sabe que un Perfil acumulado es mejor que otro? El area que queda entre la curva de color rojo y la recta azul. Cuanto mayor es esa area, mejor resultado se obtiene. Lave la pena de representar cuan se lleven a cavo algoritmos de clasificacion para ver que tambien el algoritmo funciona. Generalmente, se traduce a porcentajes: Del 100% de personas (o datos de nuestro dataset) suceptibles a ser contactadas, a que porcentaje tengo que atacar para conseguir el 50% o 60 % de las ventas. Si empleamos varios algoritmos de clasificacion y generamos el Perfil de Presicion Acumulado podemos compararlos. 
+			
+			Perfil de Presicion Acumulado es adecuado para comparar algoritmos de Clasificacion. Al compara los algoritmos con "(Perfil de Presicion Acumulado)" podemos saber que tanto mas ganamos de un modelo a otro o con respecto al modelo aleatorio (tomar individuos al azar). 
+			Existe una curva llamada "Bola de cristal(o Modelo Perfecto)" que es el mejor modelo. Con el se puede contactar el 10% de los clientes y que los mismos realicen el 100% de las compras. Se sabe a quien contactar y que realizara todas las compras. No ocurre casi nunca pero es adonde intentamos ir.
+			
+			
+	- Analisis de las curvas CAP		
+	
+			La linea del Modelo Buen es obtenida desde la salida del algotimo de clasificacion.
+			
+			Para evaluar modelos de clasificacion. Tenemos varias lineas que representan las salidas de nuestro modelos. Sin embargo, existen 3 lineas principales: La linea del modelo perfecto, la linea del buen modelo y la linea del modelo aleatorio. Lo que realizamos es cociente de areas, el limite al que podemos llegar.Como de cerca estamos de la linea perfecto o buen modelo (Bola de cristal). Para ello tomamos el area que va desde la linea del Modelo Perfecto hasta la linea del Modelo Aleatorio. Esta es el area del Modelo Perfecto (Ap). Esta es el area maximo que puede conseguir un modelo de clasificacion. Del mismo modo calculamos el area que va desde la linea del Modelo Bueno hasta la linea del Modelo aleatorio. La llamamos (Ar). Lo que queremos saber que porcentaje del area del Modelo Perfecto (AP) cubre el area del Modelo Bueno.
+					
+					AR = Ar/Ap . 
+					
+					Esto nos da un valor entre 0 y 1. Cuanto mas cerca de 1 mejor ajusta al Modelo Perfecto. Cuanto mas lejos de 1 sera peor. Si el valor es 0 es lo mismo realizar elecciones con el modelo o realizarlas aleatoriamente.
+					
+					El calculo de AR no se suele realizar a mano. Suele haber librerias que ayuden. La curva es dificil de calcular. Normalmente se realiza una serie de muestreos, se calcula con el modelo con el 20% de los datos, con el 40% de los datos, con el 60% de los datos. Se obtiene un poligono que ajusta el area de nuestro modelo y se calcula el area basado en este poligono. 
+					
+					Otra forma de ver que tan bueno es nuestro modelo es establecer una cota del total de contactados. Tipicamente la cota suele ser 50%. Luego se mira que porcentaje de Ventas se consigue en el modelo con el 50% de compradores. Busco el 50% de compradores y analizo cuanto me pronostica el modelo (X %). Se usa la siguiente regla para clasificar el modelo:
+					
+							90% < X < 100% 	Demasiado Bueno.
+							80% < X < 90% 	Muy Bueno.
+							70% < X < 80% 	Bueno.
+							60% < X < 70% 	Malo.
+							60% < X 		Muy malo.
+					
+							Entre 70% y el 80% es un modelo bastante acertado. No presenta problemas de overfitting
+							Entre 80% y el 90% es muy bueno. No presenta problemas de overfitting. Si se presente es Muy bueno.
+							EWntre 90% < X < 100% 	Demasiado Bueno. Puede presentar overfitting. Estudiarlo. Puede ser que en un 100% la variable dependiente forma parte de las independientes. Tambien, puede haber una relacion (o correlacion) entre las variables independientes.
+							
+							NOTA: Ir con  cuidado cuando los modelos superen el 90% de presicion. Es imposible conseguir el 100% de prediccion. Seguramente existe overfitting.
+							
+ - Conclusion - Clasificación
+
+
+		¿Cuales son los pros y los contras de cada modelo?
+
+		¿Cómo sé qué modelo debo elegir para resolver mi problema?
+
+		¿Cómo puedo mejorar cada uno de estos modelos ?
+
+
+		Resolvamos cada pregunta una por una:
+
+		1. ¿Cuales son los pros y los contras de cada modelo?
+
+		En esta clase encontrarás un documento que te dará todos los pros y contras de cada modelo de clasificación.
+
+
+		2. ¿Cómo sé qué modelo debo elegir para resolver mi problema?
+
+		Al igual que con los modelos de regresión, primero tendrás que averiguar si tu problema es o no es lineal.
+
+		Una vez lo sepas, Si tu problema es lineal, deberás intentar crear un modelo de Regresión Logística o bien SVM.
+
+		Si tu problema no es lineal, entonces tenemos varias técnicas donde elegir, como K-NN, Naïve Bayes, Árboles de Decisión o Random Forest.
+
+		Desde un punto de vista empresarial, entonces deberías usar:
+
+		Regresión Logística o Naïve Bayes cuando quieras ordenar tus predicciones por probabilidad. Por ejemplo, deberías usar estas técnicas si quieres crear un ranking de clientes desde el más probable al menos probable que compre un producto. Esto permite crear objetivos específicos para las campañas de marketing, por ejemplo. Y por supuesto, si tu problema de empresa es lineal, mejor utiliza la regresión logística, y si no lo es, intenta con Naïve Bayes.
+
+		SVM  cuando quieras predecir a qué segmento pertenece un cliente. Los segmentos pueden ser cualquier conjunto de características que definan a los clientes, como los que identificaremos en la Parte 4 - Clustering.
+
+		Los árboles de decisión cuando necesites tener una interpretación clara de los resultados modelizados.
+
+		Y por último, Random Forest cuando busques un mejor resultado de predicción y te preocupe menos la interpretación de los modelos.
+
+
+		3. ¿Cómo puedo mejorar cada uno de estos modelos ?
+
+		Igual que en la parte 2, en la Parte 10 - Selección de Modelos, la segunda sección está dedicada a los Ajustes de Parámetros que permite mejorar la eficacia de nuestros modelos ajustando los valores de los parámetros. Como habrás comprobado, existen dos tipos de parámetros en nuestros modelos:
+
+		los parámetros que el modelo aprende, como los coeficientes de la Regresión Lineal,
+
+		los hiper parámetros del algoritmo.
+
+		En este último caso, los hiper parámetros  son parámetros que el algoritmo no aprende, si no que son fijos y forman parte de las ecuaciones de los modelos. Por ejemplo, el parámetro lambda de regularización o el factor de penalización C son hiper parámetros. Hasta el momento hemos tomado los valores por defecto y no nos hemos preocupados de afinar su valor óptimo para mejorar la eficacia del modelo. Entontrar el valor óptimo es parte del Ajuste de Parámetros, así que si estás interesado en descubrir cómo hacerlo, te recomiendo ir directamente a la Parte 10 del curso donde veremos juntos cómo hacerlo.
+						
+					
+-------------------------
+Clustering o Segmentacion
+-------------------------
+
+		Clustering es un proceso similar al de clasificación, pero con un fundamento diferente. En el Clustering no sabes qué categorías estás buscando, si no que intentas crear una segmentación de tus propios datos en grupos más o menos homogéneos. Cuando utilizamos algoritmos de clustering en el data set, surgen de entre los datos cosas inesperadas como estructuras, clusters o agrupaciones que un humano no se habría imaginado pero la máquina crea por nosotros.
+
+		Algoritmos de Clustering para Machine Learning:
+
+			Clustering con K-Means
+
+			Clustering Jerárquico
+			
+- K-Means
+
+		Se usaron en el ejemplo 2 variables pero se pueden tener mas variables (3, 4, etc.) para identificar los puntos.
+		
+		Tenemos un conjunto de puntos que queremos segmentarlos o clasificarlos. La diferencia es que no conocemos las categorias a asignar a cada conjunto. Los datos se agrupan por homogéneos. No hay categorias definidas conocidas previamente. Por ejemplo, compra o no compra.
+		
+		Como funciona:
+		
+			Paso 1. Elegir el numero k de cluster. (NOTA: Ver como calcular el numero K de cluster)
+				
+			Paso 2. Se seleccionan K puntos. Son los baricentros iniciales. (no necesariamente tienen que ser de nuestro dataset). Seran los hipoteticos centros geometricos de cada cluster. Los baricentros son lo puntos en el medio de cada cluster. Se seleccionan al azar. 
+
+			Paso 3. Se asignan cada uno de los puntos del dataset al baricentro mas cercano. Esto forma K cluster.
+
+			Paso 4. Se calcula el nuevo baricentro de cada cluster usando los puntos de cada cluster. Calculo la media geometrica de cada coordenadas (variables o caracteristicas de los datos. Ejemplo X1, x2, etc.) del cluster. Los baricentros originales quedan recalculado. Si en el calculo del nuevo baricentro uso distancia euclidea, los cluster quedaran redondos o elipse. En cambio si uso la distancia manhattan los cluster serian cuadrados. 
+			NOTA: La distancia que elijamos es importante. La euclidea es la mas comun. Que distancia debo utilizar? Depende del problema a resolver. IMPORTANTE: Investigar sobre la forma de calcular las distancias y cuales son sus concecuencias en la forma del cluster.
+			
+			Paso 5. Se reasignan cada uno de los puntos del dataset al baricentro mas cercano. Si se realizan nuevas asignaciones ir al Paso 4 sino ir a Fin.
+			
+			FIN. Modelo listo!
+			
+			
+		- La trampa de la incializacion aleatoria:
+		
+			Al inicio se eligen baricentros al azar para comenzar el algoritmo. Segun como se inicialicen esos baricentros el resultado puede ser bastante diferentes. Hay que tener cuidado con la eleccion de baricentros.
+			
+			¿Que pasa si elegimos mal los baricentros?
+			
+				Segun como inicialicemos nuestros baricentros al comienzo de algoritmo podemos sesgar el resultado final. Esto no es bueno porque una eleccion aleatoria puede llevar a una segmentacion incorrecta. Como corregimos esto? No es sencillo. Existe una modificacion del algoritmo de  K-Means que permite seleccionar bien los baricentros al incio del algoritmo. Se llama K-means ++ (plus plus). Es bastante dificil de entender pero se puede leer en otras fuentes. El algoritmo de K-means ++ esta implementado en python o R y no hace falta entender el fundamento del algoritmo K-means ++ para utilizarlo en esos lenguajes. NOTA. La seleccion de los baricentro iniciales puede sesgar la clasificacion. La respuesta:  K-means ++.
+				
+				
+		- Como seleccionar el numero correcto de K cluster?
+		
+			K indica la cantidad de grupos que salen de la segmentacion.
+			
+			Dependiendo del numero K elegido cambia completamente el resultado del algoritmo.
+		
+			La eleccion depende de una metrica concreta. La metrica se llama la "Suma de los Cuadrados del Centro del Cluster" (WCSS). La formula es la suma de los cuadrados de las distancia de cada punto con respecto al cluster que pertenece (al centro geometrico del cluster). Luego, se suman todos los resultados de cada cluster.
+			
+			WCSS1 = Σ d(Pi, C1)^2
+					Pi E Cluster 1
+				
+			WCSS2 = Σ d(Pi, C1)^2  +  Σ d(Pi, C2)^2  
+					Pi E Cluster 1	 Pi E Cluster 2	 
+		
+			WCSS3 = Σ d(Pi, C1)^2  +  Σ d(Pi, C2)^2  + Σ d(Pi, C3)^2  
+					Pi E Cluster 1	 Pi E Cluster 2	   Pi E Cluster 3
+					
+			Se busca minimizar el WCSS. A medida que se aumenta el numero de cluster las Sumas de los Cuadrados (WCSS) se reducen.
+					
+			¿Hasta donde se disminuyen? 
+			 
+			El decremento no sera constante. Al principio decrece rapidamente pero existira un momento en que al agregar mas cluster, los puntos estan tan cerca que no existe una reduccion o mejora considerable. Se traba de buscar el mejor equilibrio, ya que en un extremo puedo tener tantos cluster como puntos (esa es la menor distancia) pero no sirve para el modelo. Se busca al agregar un nuevo cluster una disminucion palpable de la metrica WCSS. Para ello, se usa la tecnica del codo, el cual es un metodo visual que se basa en decidir a partir de que punto, añadir un nuevo cluster a nuestro algoritmo de K-means no aporta una mejora. Es decir, disminuir la suma de los cuadrados de las distancias entro los puntos y el cluster al que pertenecen. 
+			Se hace el grafico del codo y de forma visual detectar el cambio en la tendencia de disminucion del valor WCSS. 
+			Nro. optimo de cluster = Tecnica del Codo. A veces es dificil detectar el numero K correcto en el grafico. No existe una formula matematica perfecta que permita sacar el valor correcto de K. 	La Tecnica del Codo es la mas pactada que funciona. Al final, es nuestra desicion como Analista elegir el K numero de cluster.
+			
+			# Método del codo para averiguar el número óptimo de clusters
+			from sklearn.cluster import KMeans
+			wcss = []
+			for i in range(1, 11): # Hace de 1 a 10
+				kmeans = KMeans(n_clusters = i, init = "k-means++", max_iter = 300, n_init = 10, random_state = 0)
+				kmeans.fit(X)
+				wcss.append(kmeans.inertia_) #kmeans.inertia_: Trae la Suma de los Cuadrados de las distancias(WCSS).
+				
+			# Parametros:
+			# n_clusters: Nro. de cluster
+			# init: inicializacion de los baricentro. Como no queremos caer en la trampa usamos el k-means++.
+			# max_iter: Puede ser que el algoritmo no finalice, moviendo el centro de un lado al otro. Se recomienda indicar el numero maximo de iteraciones. Indica que luego de n iteraciones finalice el algoritmo. Default 300. 
+			# n_init: Inicializacion aleatoria. Defecto 10.
+			
+			plt.plot(range(1,11), wcss)
+			plt.title("Método del codo")
+			plt.xlabel("Número de Clusters")
+			plt.ylabel("WCSS(k)")
+			plt.show()
+			
+			
+				
+			
