@@ -1253,7 +1253,7 @@ Clustering o Segmentacion
 
 		Se usaron en el ejemplo 2 variables pero se pueden tener mas variables (3, 4, etc.) para identificar los puntos.
 		
-		Tenemos un conjunto de puntos que queremos segmentarlos o clasificarlos. La diferencia es que no conocemos las categorias a asignar a cada conjunto. Los datos se agrupan por homogéneos. No hay categorias definidas conocidas previamente. Por ejemplo, compra o no compra.
+		Tenemos un conjunto de puntos que queremos segmentarlos o clasificarlos. La diferencia con Clasificacion es que no conocemos las categorias a asignar a cada conjunto. Los datos se deben segmentar. No sabemos los grupos a segmentar. Los datos se agrupan por homogéneos. No hay categorias definidas conocidas previamente. Por ejemplo, compra o no compra.
 		
 		Como funciona:
 		
@@ -1305,6 +1305,8 @@ Clustering o Segmentacion
 			Se hace el grafico del codo y de forma visual detectar el cambio en la tendencia de disminucion del valor WCSS. 
 			Nro. optimo de cluster = Tecnica del Codo. A veces es dificil detectar el numero K correcto en el grafico. No existe una formula matematica perfecta que permita sacar el valor correcto de K. 	La Tecnica del Codo es la mas pactada que funciona. Al final, es nuestra desicion como Analista elegir el K numero de cluster.
 			
+			Python:
+			
 			# Método del codo para averiguar el número óptimo de clusters
 			from sklearn.cluster import KMeans
 			wcss = []
@@ -1325,6 +1327,133 @@ Clustering o Segmentacion
 			plt.ylabel("WCSS(k)")
 			plt.show()
 			
+			En R:
 			
+				NOTA: El algoritmo estandariza los valoes de las variables. Cambia la escala.
+				EL objeto "clusplot" de R es para usarlo en dos dimensiones (no mas de dos variables).
 				
+				
+- Clustering Jerarquico
+
+		Como funciona?
+		
+			El enfoque y el proceso es diferente al de k-means. El resultado puede ser exactamente igual al de k-means.
+			
+			Existen dos tipo de agrupaciones jerarquicas: Aglomerativo y divisitivo. No es lo mismo un cluster jerarquico Aglomerativo que un cluster jerarquico Divisitivo. El aglomerativo es un enfoque de abajo hacia arriba. En el curso vemos el aglomerativo. Comenzamos desde los elementos (desde abajo) y construimos nuestro cluster jearquico. Comenzamos desde los elementos y vamos juntando objetos similares para crear conglomerados. 
+			
+			Cluster jerarquico Divisitivo: Partimos del total de elementos y comenzamos a partir por donde nos interesa para crear el cluster.
+			
+			Trabajamos con Cluster jerarquico Aglomerativo:
+			
+				- Como funciona el algoritmo?
+				
+						Paso 1: 
+							Hacer que cada punto sea un cluster (Asi tenemos tantos cluster como puntos). (N Clusteres)
+							
+						Paso 2:
+							Elegimos los dos puntos mas cercanos y los juntamos en un unico cluster. (N-1 Clusteres)
+							Por que los puntos mas cercanos? Porque el algoritmo aglomerativo se basa en distancias. 
+							
+							OJO que dependiendo como calculo la distancia (euclidea, manhattan, etc) afecta al resultado del algoritmo. Ecuclidea es la mas usada.
+							
+							Se repite, es decir se van junatndo los dos puntos mas cercanos en cluster hasta no poder armar mas clusteres.
+							
+							Los puntos mas alejados son mas diferentes.
+							
+							Pueden quedar cluster con un unico punto dado que ese/esos punto/puntos esta/estan mas alejado/alejados del resto de los puntos.
+							
+						Paso 3:
+							Elegimos los dos clusteres mas cercanos y los juntamos en un unico cluster. (N-2 Clusteres)
+							La clave es elegir simpre los clusteres mas cercanos. Como calculo la distancia entre dos clusteres? 
+							
+							Puede haber varias opciones para seleccionar los puntos de referencia que representan a cada cluster:
+							
+							(1) Distancia entre los puntos mas cercanos de cada cluster.
+							(2) Distancia entre los puntos mas alejados de cada cluster.
+							(3) Distancia media. Distancia entre todas las combinaciones de puntos entre un cluster y otro. Finalmente, se hace la media de todas esas distancias (de todos esos resultados).
+							(4) Distancia entre sus baricentros. Se busca el centro geometico y se calcula la distancia entre esos centros.
+					
+							OJO que dependiendo como selecciono los puntos (usando cualquiera de las tecnicas anteriores) se afecta al resultado del algoritmo. Se elige dependiendo del problema a tratar.
+							
+							Luego de elegir la opcion para seleccionar los puntos de referencia, se calcula la distancia entre esos puntos de referencia usando euclidea, manhattan, etc. Defecto euclidea.
+									
+						Paso 4:
+							Repetir el Paso 3. Es decir, ir juntando los clusteres mas cercanos hasta tener un unico cluster.
+							
+						FIN.
+				
+				
+				- Como funcionan el Dendrograma?
+				
+						Para saber el numero de clusteres que van a salir necesitamos pasar por una herramienta visual llamada dendograma. 
+						
+						Paso 1 .
+						
+							Se representan cada punto en el eje X indicando (P1, P2, .., Px) P1. Punto 1, P2 Punto 2,... Pn Punto n. En el eje de las Y se indican valores que representan las futuras distancias.
+							
+							Este es el grafico de Dendrograma.
+							
+						Paso 2. Se incia el  Cluster jerarquico Aglomerativo:
+						
+								Paso 2.1: 
+									Hacer que cada punto sea un cluster (Asi tenemos tantos cluster como puntos). (N Clusteres)
+						
+								Paso 2.2:
+									Elegimos los dos puntos mas cercanos y los juntamos en un unico cluster. (N-1 Clusteres)
+									Se calcula la distancia entre esos puntos (Euclidea, manhattan, etc. ). Euclidea es la que mas se usa. Se indica una raya horizontal que une esos dos puntos en el grafico Dendrograma, tomando como Y el valor de sus diferencias. Luego, se une la raya horizontal con el eje de las X (donde se representan los puntos). Esto se hace para cada punto cercano hasta no poder formar mas clusteres.
+									
+									La barra resultante es mayor a mayor distnacia entre los puntos.
+									
+								Paso 2.3:
+									Elegimos los dos clusteres mas cercanos y los juntamos en un unico cluster.	Se calcula la distancia entre esos clusteres (usando alguno de las opciones de calculo). Se indica una raya horizontal que une esos dos clusteres en el grafico Dendrograma, tomando como Y el valor de sus diferencias.
+									
+								Paso 2.4:
+									Repetir el Paso 2.3. Es decir, ir juntando los clusteres mas cercanos hasta tener un unico cluster. Se indica una raya horizontal que une todos los clusteres en el grafico Dendrograma, tomando como Y el valor de sus diferencias.
+							
+								FIN.	
+							
+						El Dendograma representa las uniones y jerarquias entre los clusteres a media que se van construyendo.
+	
+	
+				- Como utilizar los Dendograma?
+						
+						Dendograma: Permite identificar el numero adecuado de clusteres.
+						
+						Se miran los niveles horizontales. Se define una distancia para cortar el dendograma horizontalmente. Ese umbral (Ej. una distancia de 1,7) me permite separar los clusteres. Luego, marcar la raya horizontal que representa el umbral en el dendograma. Como resultado, voy a tener clusteres separados. En el ejemplo, todo lo que esta por debajo del umbral se conforman en cluster que tiene una diferencia no superior a 1,7.
+						
+						NOTA: La cantidad de lineas verticales que corta la linea horizontal que representa el umbral es la cantidad de clusteres.
+						
+						Segun como seleccionemos el umbral tendremos diferentes numeros de clusteres. Cual es la forma optima de identificar el numero de clusteres? Hay una regla que se puede usar y es que la recta vertical mas larga hasta que cruza a una linea horizontal (las que representan las uniones entre las agrupaciones), es la que debemos cortar con la raya horizontal del umbral. Se anlizan las lineas horizontales que salen de una horizontal hasta otra horizontal (imaginariamente). La mas larga es la que se corta. Una linea vertical mas estrecha marca menor distancia entre los elementos. Sin embargo, a mayor linea vertical mayor distancia entre los elementos (agrupaciones o puntos). Se corta por cualquier punto de la recta vertical mas larga. NOTA: Cuando se corta con la linea horizontal (umbral) no se debe tocar las rectas horizontales que representan las uniones de los elementos (puntos o grupos). La cantidad de rectas verticales que se cortan con el recta horizontal (umbral) es la cantidad de cluster a usar.
+						
+						
+						Python:
+												
+							# Utilizar el dendrograma para encontrar el número óptimo de clusters
+							import scipy.cluster.hierarchy as sch
+							dendrogram = sch.dendrogram(sch.linkage(X, method = "ward"))
+							plt.title("Dendrograma")
+							plt.xlabel("Clientes")
+							plt.ylabel("Distancia Euclídea")
+							plt.show()
+									
+							# sch.linkage: Representa el algoritmo Aglomerativo
+							# Parametros
+								# X: La lista de variables (matriz) a segregar.
+								# method: metodo usado para encontrar los cluster o armar los clusteres. Ward: Intenta minimizar la varianza entre los puntos que exiten en los cluster. Se minimiza la varianza intracluster.
+							
+							# Ajustar el clustetring jerárquico a nuestro conjunto de datos
+							from sklearn.cluster import AgglomerativeClustering
+							hc = AgglomerativeClustering(n_clusters = 5, affinity = "euclidean", linkage = "ward")
+							y_hc = hc.fit_predict(X)
+							
+							# Parametros
+							# n_clusters: nros. de clusteres.
+							# affinity: distancia a utilizar.
+							# linkage: metodo usado para encontrar los cluster o armar los clusteres. Ward: Intenta minimizar la varianza entre los puntos que exiten en los cluster. Se minimiza la varianza intracluster.
+							#El metodo usado en linkage debe ser el mismo al metodo usado en el dendograma (parametro "method").
+							
+							
+			
+			
+		
 			
