@@ -1,3 +1,8 @@
+			
+			
+			
+		
+			
 https://docs.google.com/spreadsheets/d/1I6hcZlYZqGIQEsnKMoXMVsccITrSsbFdnLyJyAk55-Q/edit?pli=1#gid=119576526
 
 https://github.com/joanby/tensorflow2
@@ -1334,7 +1339,9 @@ Clustering o Segmentacion
 				
 				
 - Clustering Jerarquico
-
+        
+		No son apropiado para grandes datasets
+		
 		Como funciona?
 		
 			El enfoque y el proceso es diferente al de k-means. El resultado puede ser exactamente igual al de k-means.
@@ -1356,7 +1363,7 @@ Clustering o Segmentacion
 							
 							OJO que dependiendo como calculo la distancia (euclidea, manhattan, etc) afecta al resultado del algoritmo. Ecuclidea es la mas usada.
 							
-							Se repite, es decir se van junatndo los dos puntos mas cercanos en cluster hasta no poder armar mas clusteres.
+							Se repite, es decir se van juntando los dos puntos mas cercanos en cluster hasta no poder armar mas clusteres.
 							
 							Los puntos mas alejados son mas diferentes.
 							
@@ -1385,6 +1392,8 @@ Clustering o Segmentacion
 				
 				- Como funcionan el Dendrograma?
 				
+						Dendrograma es una arbol.
+										
 						Para saber el numero de clusteres que van a salir necesitamos pasar por una herramienta visual llamada dendograma. 
 						
 						Paso 1 .
@@ -1439,7 +1448,7 @@ Clustering o Segmentacion
 							# sch.linkage: Representa el algoritmo Aglomerativo
 							# Parametros
 								# X: La lista de variables (matriz) a segregar.
-								# method: metodo usado para encontrar los cluster o armar los clusteres. Ward: Intenta minimizar la varianza entre los puntos que exiten en los cluster. Se minimiza la varianza intracluster.
+								# method: metodo usado para encontrar los cluster o armar los clusteres. Ward: Intenta minimizar la varianza entre los puntos que exiten en los cluster. Se minimiza la varianza intracluster. En R hay varios tipos de "ward". Se usa "ward.D", ward.D2 es una mejora
 							
 							# Ajustar el clustetring jerárquico a nuestro conjunto de datos
 							from sklearn.cluster import AgglomerativeClustering
@@ -1451,9 +1460,221 @@ Clustering o Segmentacion
 							# affinity: distancia a utilizar.
 							# linkage: metodo usado para encontrar los cluster o armar los clusteres. Ward: Intenta minimizar la varianza entre los puntos que exiten en los cluster. Se minimiza la varianza intracluster.
 							#El metodo usado en linkage debe ser el mismo al metodo usado en el dendograma (parametro "method").
-							
-							
-			
-			
+					
+					NOTA: El grafico es para dos dimensiones. Si se trabaja con mas dimensiones. Comentar el codigo del dibujo, ya que es imposible realizarlo. Se puede usar ACP para la reduccion de dimensiones y reducirlas tal vez hasta conservar solo dos y poder representar el grafico.-
+
+
+Conclusión de la Parte 4 - Clustering
+
+Hemos aprendido dos modelos de clustering: K-Means y el Clustering Jerárquico.
+
+Adjunta en esta clase encontrarás una hoja de ayuda con los pros y contras de los dos modelos de clustering.
+
+
+
+------------------------------------
+Aprendizaje con Reglas de Asociación
+------------------------------------
+
+NOTA: Trata el problema de recomendaciones.
+Busca asoiaciones entre transacciones u operaciones.
+
+Premisa: 
+
+	La gente que compre este producto, tambien compro este otro producto.
+	La gente que hizo esto, tambien hizo esto otro.
+				 
+	Analiza el comportamiento emparejado de los usuarios.
+	
+	Lo compra o no lo compra. No hablamos de cantidades. (Presencia o Ausencia	)
+	
+	Sirve para realizar recomendaciones. Por ejemplo, si compro miel y manteca, se puede recomendar que compore gallettitas. Esta recomendacion se extrae de los datos del set de datos trabajado.
+	
+Dos modelos de reglas de asociación:
+
+-(1) Apriori
+-(2) Eclat
+
+
+- Apriori
+
+		Ejemplo: Sistema de recomendacion de peliculas(Netflix), Optimizacion de Cesta de Compra (Amazon)
 		
-			
+		Como funciona?
+				
+				Se dividi en tres partes.
+				
+				(1) Soporte de la regla de asociacion:
+				
+						Recomendacion de Peliculas
+						
+								Sop(M) = |Usuarios que vieron M|/|usuarios|
+								Usuarios que van a favor de lo que estamos evaluando/total de usuarios	
+				
+						Optimizacion de Cesta de Compra
+								Sop(I) = |transacciones que contiene I|/|transacciones|
+								Transacciones que van a favor de lo que estamos evaluando/total de transacciones
+					
+				(2)	Confianza
+				
+						Recomendacion de Peliculas
+						
+								Conf(M1=>M2) = |Usuarios que vieron M1 y M2|/|Usuarios que vieron M1|
+								
+				
+						Optimizacion de Cesta de Compra
+					
+								Conf(I1=>I2) = |transacciones que contiene I1 y I2|/|transacciones que contiene I1|
+						
+						Que tan seguros estamos de que ocurren dos cosas a la vez. (Una especie de pprobabilidad condicionada) Ej. Que usuario consumio un item y otro al mismo tiempo?.  Que confianza hay cuando vemos una pelicula y luego ver otra?. Numero de  usuarios que ven una pelicula y luego otra, dividido el numero total de usuarios que ven la primera de ellas. Ej. Numero de personas que ven Interestelar y Luego ven ex-maquina, dividido el numero de personas que ven interestelar. Cantidad de usuarios que compran el item 1, luego compran el item 2, dividido la cantidad de uarios que compran el item 1.
+										
+				(3)	Lift
+				
+						Recomendacion de Peliculas
+						   Lift(M1=>M2) = Conf(M1=>M2)/Sop(M2)
+						
+						Optimizacion de Cesta de Compra
+							Lift(I1=>I2) = Conf(I1=>I2)/Sop(I2)
+							
+				Prob = Casos posibles / casos totales.
+							
+				Ejemplo General:
+				
+						- Total de poblacion de personas: 100.
+						
+						- Total de personas que vieron ex-maquina del total de la poblacion = 10.
+						
+						- Soporte de Ex-maquina: Nivel superior al 10 % (Elegido por caso de uso)
+							Sop(ex-maquina) = 10 / 100 = 0,1 = 10%
+							10 personas vieron ex-maquina del total de la poblacion.
+							
+					    - Total de personas que vieron Interestelar del total de la poblacion: 40
+						
+						- Total de personas que vieron Interestelar y Luego	ex-maquina: 7
+
+						- Confianza(Interestelar=>ex-maquina) - Nivel superior al 10 % (Elegido por caso de uso)
+							Conf(Interestelar=>ex-maquina) = 7 / 40 = 0,175 = 17,5%
+							
+						-  Lift(Interestelar=>ex-maquina) = 0,175 / 0,1  = 1,75 
+						
+							Si vieste Interestelar, recomendar ver ex-maquina es mejor que recomendar sin saber nada. 
+				
+		Algoritmo Apriori:
+
+					Paso 1. Decidir el soporte y el nivel de confianza minimo.(Se decide de acuerdo al problema a tratar - Subjetivo)
+							Para evitar que el algoritmo crezca y se tranforme en algo dificil de tratar, que no converja, se establece un soporte minimo. Por ejemplo, no queremos es tratar productos que tengan un soporte menor al 20% (por decir algo). Porque sera una perdida de tiempo construir algo para ese valor porque seguramente sera dificil que la gente vea esa recomendacion o es insignificante. Se debe jugar con esos umbrales.
+							
+							- Si busco valores muy altos de soporte y nivel de confianza, el sistema no recomendara nada.  
+							
+							- Si busco valores muy bajos de soporte y nivel de confianza, el sistema realizara muchas recomendaciones y lo probable es que el usuario no lo utilice. 
+
+							Sera un tira y afloje.
+					
+					Paso 2. 
+							Elijo todas las transacciones con soporte superior al minimo elegido. Filtramos por soporte. Si tenes 20 peliculas, calculamos el soporte de las 20 peliculas y elegimos aquellas que el soporte supere el minimo elegido. (No implica cruces).
+							
+					Paso 3. 
+							Elijo todas las transacciones del subconjunto del Paso 2 con nivel de confianza superior al minimo elegido. Filtramos por nivel de confianza. Hacemos los cruces para aquellas peliculas cuyo soporte supere el nivel de soporte, luego calculamos la confianza de los cruces, finalmente, elegimos aquellas confianzas que superen el minimo elegido. (Implica curces).
+					
+					Paso 4.
+							Se ordenan las reglas resultantes (los dos procesos de filtrados) por Lift descendiente (relevancia de la reglas). Se colocan todas las reglas con mayor impacto primero.
+							
+							
+					Amazon, facebook, Netflix son ejemplo de aplicacion de reglas apriori.
+					
+	Aplicacion en Lenguaje R:
+	
+	Recurso adicional: cómo representar las reglas de asociación en un grafo 
+	
+	# ------------------------------------------------------------------------
+	# GOAL: show how to create html widgets with transaction rules
+	# ------------------------------------------------------------------------
+	 
+	# libraries --------------------------------------------------------------
+	library(arules)
+	library(arulesViz)
+	 
+	# data -------------------------------------------------------------------
+	path <- "~/Downloads/P14-Part5-Association-Rule-Learning/Section 28 - Apriori/"
+	trans <- read.transactions(
+	file = paste0(path, "R/Market_Basket_Optimisation.csv"),
+	sep = ",",
+	rm.duplicates = TRUE
+	)
+	 
+	# apriori algoirthm ------------------------------------------------------
+	rules <- apriori(
+	data = trans,
+	parameter = list(support = 0.004, confidence = 0.2)
+	)
+	 
+	# visualizations ---------------------------------------------------------
+	plot(rules, method = "graph", engine = "htmlwidget")
+	
+	
+	El problema con matrices con valores vacios es que será difícil llegar a entender el dataset en el sentido clásico, lo que necesitamos es establecerlo como una matriz dispersa, una matriz Sparse, que es una matriz dispersa en realidad, una matriz Sparse que contiene muchos ceros y por tanto, muchas veces, en lugar de reservar espacio en memoria para la celda, no le hace falta reservarlo, de modo que se guarda internamente. Al ser una matriz con tan pocos valores distintos de cero, se optimiza muchísimo el espacio de memoria y la forma de trabajar con ello. Internamente se guarda en formato de tres columnas: A qué fila primera? A qué columna segunda corresponde? y  Qué valor tercera? Es la forma interna en la que se guardan las matrices de todas las matrices dispersas.	
+	
+	Lo que se hace es tomar todo ese conjunto de datos. Supongamos que hay un total de  120 productos diferentes en este caso y lo que podemos hacer es crear una serie de columnas, cada una de las cuales sea un producto. Luego podemos tener filas correspondiendo a los clientes y finalmente, valores dentro de la matriz que sea ese usuario compra o compra ese artículo.
+    Por ejemplo, de modo que tendremos en las columnas agua mineral, huevos, pollo, chocolate, patatas fritas, miel, brownies, lo que sea. Tendremos un total de 120 columnas, correspondiendo a todos y cada uno de los 120 productos que hay en este dataset. En cada una de las filas aparecerán los usuarios que llevan a cabo las compras.
+	
+	Productos en columna, clientes en fila es la forma más estándar de declarar una matrices, luego internamente se guarda,  primera columna Ídem de usuario, segunda columna Ídem de producto, tercero compra o no compra, que básicamente es presencia,
+	ausencia del valor.
+	
+	En R se usa "arules" libreria de Association Rules o Reglas de asociación.
+	
+	libray(asrules)
+	dataset = read.transactions("file_name_dataset" , sep="," , rm.duplicates=true ) Esto es una sparse matriz.
+	summary(dataset) Ver el resultado
+	
+	dispersion: indica el % de valores cubiertos. la diferencia con el 100% son el valor cero.
+	element length distribution: cantidad de compras que tenian 1 o 2 o ... n productos.
+	
+	crear el algoritmo apriori:
+      rules = apriori(dataset, 
+	           parameter = list (support=0.1, confidence=0,8))	NOTA: limite minimo de soporte y nivel de confianza. Su seleccion depende del objetivo buscado.
+			   
+			   support y confidence bajo mas de reglas. Si las reglas generadas no son suficientes podemos subirlos.
+			   
+			   Soporte: 
+				   Para decidir el valor de soporte tenemos que preguntarnos cuántos de los elementos diferentes de nuestro dataset queremos que aparezcan como reglas significativas de aprendizaje. Se puede realizar un top de los 10 elementos mas fecuentes (con itemFrecquencyPlot(dataset, topN=10)). Sin emargo, para optimizar las ventas nesitamos definir las ventas de los items que se venden mas. Esto se puede ver en el grafico construido en el valor en la barra vertical llamada "item frequency (relative)". Alli se puede identificar el valor de soporte a usar (valor en la barra vertical llamada item frequency (relative)). Sus valores se define segun lo buscado por el negocio.  Con el soporte defino que items voy a trabajar o seran mi base de las futuras reglas.		   
+				   En el ejemplo se definio:
+						Items que se compran 3 veces al dia (los datos del dataset son ventas de una semana), 7500 son los registros totales del dataset.
+						
+						3 * 7  / 7500 = 0,003 (valor del soporte)
+						
+						El soporte se puede definir sobre las necesidades de la tienda.
+												
+			   Confianza:
+			   	   La confianza puede comenzarse por el defecto (0,8). Confianza baja se optienen reglas que representan ventas muy raras. Depénde de los objetivos de la empresa. Es arbitraria. Un nivel de confianza demasiado pequeño, obtendremos algunas reglas que ocurren muy de vez en cuando y que no tendrían sentido. Por ejemplo, comprar chocolate. A la vez que compro el champú, he ido a por champú porque me he quedado sin champú y me ha pegado antojo de chocolate. Eso no es una regla de asociación, es una casualidad o una coincidencia. Ese es el tipo de reglas que se obtienen de forma esporádica, con poca confianza. Se puede jugar con el valor del nivel de confoanza.
+				   
+				   Confianza del 0,8 (80%) significa que las reglas que cree el algoritmo de apriori tiene que ser válida al menos en el 80% de las transacciones estudiadas. El 80% de las transacciones que se llevan a cabo es un número bastante elevado, significa que tiene que ser verdadera en cuatro de cada cinco cestas de la compra debe ocurrir la regla estudiada. Entonces, por eso es que las reglas de asociación con un nivel de confianza tan alto es muy restrictiva. Lo que sí se puede hacer es tomar el nivel de confianza que teníamos anteriormente (0,8) y empezar por dividir por dos, por tres, por cuatro. Ir bajando ese nivel de confianza si lo disminuyo a la mitad.
+				   Lo que estoy investigando son reglas de asociación que ocurran en el 40% de las cestas de la compra donde se incluyen esos items.
+			   
+	Como resultado de ejecucion de la linea anterior, el algoritmo retorna la cantidad de reglas de asociacion. "writing ... [x rules(s)]. Donde x es el numero de reglas.
+	
+	NOTA: Cambiar el soporte o el nivelde confianza si las reglas no tienen sentido.
+	
+	Soporte: 0.003 (0,3%)
+	Confianza: 0,8 (80%)
+	
+	RECORDEMOS 
+		Se filtran los items de acuerdo al soporte establecido y luego, al nivel de confianza.
+	
+		El algoritmo filtrara sólo items con soporte superior al mínimo establecido que aparezcan al menos en un 0,3% de las cestas de la compra del supermercado. Y a continuación se extraen las reglas que aparezcan, al menos en el 40% de las cestas de la compra. El paso dos y el paso tres, en R se hacen automáticamente, solo se define el soporte y el nivel de confianza. Finalmente, se ordenan por su lift de mayor A MENOR.
+		
+		
+	inspect(rules[1:10]) /las diez primeras reglas- extrae la fila 1 a la 10
+	
+	Retorna un conjunto de 10 reglas de recomendacion:
+		inspect(sort(rules, by='lift')[1:10]))/Ordena descendiente por lift y extrae las 10 reglas de mayor lift
+				lift - mayor peso.
+				
+		Ejemplo de salida:
+				{mineral water, pasta} => {olive oil}
+				
+				Analisis: Si comro agua y pasta podemos recomendar aceite de oliva.
+				          Tambien, que se coloquen en la misma gondola los tres productos.
+
+		Las reglas resultantes se aplican y prueban, en caso de que alguna no sea adecuada se cambian por otras o se ajusta el soporte o nivel de confianza.				  
+    
+		
