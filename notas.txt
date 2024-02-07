@@ -1,8 +1,3 @@
-			
-			
-			
-		
-			
 https://docs.google.com/spreadsheets/d/1I6hcZlYZqGIQEsnKMoXMVsccITrSsbFdnLyJyAk55-Q/edit?pli=1#gid=119576526
 
 https://github.com/joanby/tensorflow2
@@ -1677,4 +1672,99 @@ Dos modelos de reglas de asociación:
 
 		Las reglas resultantes se aplican y prueban, en caso de que alguna no sea adecuada se cambian por otras o se ajusta el soporte o nivel de confianza.				  
     
+	Aplicacion en Lenguaje PYTHON:
+
+
+	Las empresas han estado utilizando las reglas de asociación para saber dónde colocar los productos en la tienda que colocar al lado de cada uno de los ítems.
+
+	Por poner un ejemplo muy simple si alguien compra unos cereales, es muy probable que esta persona también quiera comprar la leche para no tomarlo solos.
+	
+	Entonces el colocar los cereales cerca de la leche es una técnica muy útil para que el cliente que inicialmente había ido con intención de comprar cereales, compre también la leche, se lleve otro artículo y la empresa gane más dinero de forma más genérica.
+	
+	Supongamos que un cliente quiere comprar un producto y para eso va a la tienda. Si ese producto puede asociarse correctamente a un producto b, se puede hacer que una persona entra a comprar el producto A y de regalo, colocándolo al lado. También se lleve el producto B.
+	
+	En el ejemplo, cada observación es un cliente con su cesta de la compra y se lleva una serie de productos específicos.
+	tengo 7500 cestas de la compra o 7500 usuarios.
+	
+	Soporte:
+		se trata del número de transacciones o la proporción de transacciones que contienen un determinado ítem y dividido por el número total de transacciones. Es un argumento que nos indica con qué presencia mínima debe estar un item para ser considerado como el objetivo de una regla de asociación. Entonces, lo que me interesa es que aparezcan reglas con un soporte más elevado que un mínimo que yo establezca aquí, que realmente no me salgan reglas de asociación de un item que se compra solo una vez
+		lo que me interesa es que aparezcan reglas con un soporte más elevado que un mínimo que yo
+		establezca aquí, que realmente no me salgan reglas de asociación de un item que se compra solo una
+		vez a la semana
 		
+		necesito que sean relevantes
+		
+		Entonces esto va a depender del objetivo de la empresa.
+
+		Esto hay que hablarlo con el jefe de la empresa para decidir qué ítems son los que vamos a proceder
+		a estudiar y cuáles son los que el cliente suele colocar dentro de su cesta de la compra, al menos
+		un mínimo de veces.
+		
+		Los datos de python corresponden a ventas semanales.
+		
+		El soporte, pues quiero ítems que se compren un mínimo de tres veces al día, por ejemplo, 3% son
+		21 veces a la semana.
+		Por tanto, en este caso el soporte será el cociente entre 7X3 21 dividido sobre el número total de
+		transacciones.
+		Busco aquellos ítems que aparecen por lo menos siete por tres 21 dividido 7500 veces que tienen una
+		relevancia superior por lo menos a ese mínimo.
+
+		Es decir, que existan al menos tres transacciones al día por siete.
+		21.
+		Por qué tenemos el dataset con una semana de ventas del centro comercial?
+		Entonces busco la presencia de ítems que salgan al menos en 21 cestas de la compra sobre el total del
+		data set
+		Y eso evidentemente es un porcentaje, el soporte, que era un porcentaje y que en nuestro caso lo podemos
+		calcular directamente.
+		Simplemente hay que dividir la frecuencia total de los ítems con respecto al total del dataset.
+		De acuerdo, lo voy a hacer aquí en la zona de la consola.
+		Simplemente tres por siete dividido 7500 es la frecuencia que estoy intentando observar.
+		
+		Esto nos daría un soporte mínimo de 0,0028. redondeado a 0,003
+		 es una proporción.
+
+	nivel de confianza
+	
+				Diferentes niveles de confianza nos darán cestas diferentes si somos muy poco permisivos, si queremos
+		que la confianza sea muy elevada de los elementos con soporte mínimo, sólo me voy a quedar con los
+		que realmente muchísimas, muchísimas veces, aparezcan juntos en la cesta de la compra.
+		Lo normal es empezar con un nivel de confianza alto que ocurra en el 80% de las cestas de la compra
+		y luego ir bajando para ver cómo van apareciendo reglas de asociación y cuáles de ellas son buenas o
+		cuáles no, evidentemente se pondría en producción.
+		Miraríamos, hay un impacto en los ingresos y luego podríamos volver, cambiar el soporte y o el nivel
+		de confianza, volver a experimentar con nuevas reglas de asociación más fuertes y así llegar a la forma
+		de optimizar, en definitiva, nuestra tienda.
+		
+		En R fue empezar con un valor alto, con un nivel de confianza de 0,8.
+		
+		Nos dimos cuenta de que no había reglas de asociación con el nivel de confianza, ya que era demasiado
+		elevado.
+		Lo bajamos a un nivel inferior, de hecho lo baje a 0,4 y al bajar simplemente lo que permití es que
+		en lugar de buscar reglas que aparecieran el 80% de las cestas de la compra que podéis imaginar, 80%
+		de las cestas de la compra son muchas.
+		Entonces, al bajar el nivel de confianza, no necesito que esta información aparezca o esta asociación
+		aparezca en tantas cestas de la compra.
+		De modo que la forma de razonar es esa de que sabiendo que los ítems se compran un mínimo de 21 veces
+		por semana, lo que quiero es qué porcentaje de cesta de la compra aparecen esos ítems juntos.
+		
+		Se busca asociaciones lógicas entre esos productos, no casualidades, 
+		no cosas irrelevantes.
+		Entonces para esto sí que hay que intentar jugar con el nivel de confianza.
+
+		Si estableces una confianza muy alta, pues no obtendréis ninguna regla de asociación.
+		Y si sois demasiado permisivos, evidentemente encontraréis correlaciones entre los productos de la
+		cesta de la compra, un poco inútiles.
+		
+		Usamos el valor de R un nivel de confianza de 0,2.
+		
+		Lift:
+		
+		lift, es el cociente entre soporte y nivel de confianza
+		
+		las reglas de asociación lo único que nos indican es el cociente, nos hacen un ranking.
+		De qué tan buena es esa asociación de productos
+
+		La idea es establecer un mínimo para que solo se me imprima las reglas más relevantes en lugar de un
+		monto reglas de las cuales la mitad son inútiles.
+		
+		esto dependerá del problema tratado.
