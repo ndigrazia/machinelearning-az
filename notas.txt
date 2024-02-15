@@ -1768,3 +1768,98 @@ Dos modelos de reglas de asociación:
 		monto reglas de las cuales la mitad son inútiles.
 		
 		esto dependerá del problema tratado.
+		
+		Se busca por Lift decendente.
+		
+		El Lift era la medida de la fuerza de una regla de asociación.
+		
+		Salida de Python
+		
+					RelationRecord(items=frozenset({'chicken', 'light cream'}), support=0.004532728969470737, ordered_statistics=[OrderedStatistic(items_base=frozenset({'light cream'}), items_add=frozenset({'chicken'}), confidence=0.29059829059829057, lift=4.84395061728395)])
+					
+					Analisis:
+							support=0.004532728969470737
+									0,45 % de las compras incluyeron el pollo.
+							confidence=0.29059829059829057
+									29% de las compras incluyeron el pollo y la crema ligera.
+							lift=4.84395061728395
+									Lift proporcion entre soporte y confianza es muy alta.
+									
+					RelationRecord(items=frozenset({'escalope', 'mushroom cream sauce'}), support=0.005732568990801226, ordered_statistics=[OrderedStatistic(items_base=frozenset({'mushroom cream sauce'}), items_add=frozenset({'escalope'}), confidence=0.3006993006993007, lift=3.790832696715049)])
+							support=0.005732568990801226
+								el 0,57 de las compras incluyen el escalope
+							confidence=0.3006993006993007
+								30% de las compras incluyen escalope y mushroom cream sauce
+					
+					RelationRecord(items=frozenset({'escalope', 'pasta'}), support=0.005865884548726837, ordered_statistics=[OrderedStatistic(items_base=frozenset({'pasta'}), items_add=frozenset({'escalope'}), confidence=0.3728813559322034, lift=4.700811850163794)])
+					
+					RelationRecord(items=frozenset({'fromage blanc', 'honey'}), support=0.003332888948140248, ordered_statistics=[OrderedStatistic(items_base=frozenset({'fromage blanc'}), items_add=frozenset({'honey'}), confidence=0.2450980392156863, lift=5.164270764485569)])
+		
+
+- Eclat
+		
+  Es una version simplificada de las reglas apriori.
+  
+  Las reglas de asociación resolvía el problema de la gente que compró este articulo tambien, compro este otro.
+  
+  De modo que a base de mirar cómo se comportan los usuarios, buscamos reglas generales que nos indiquen  que la gente que ha visto la película A, también ve la película B, o que en general toda la gente que ve la película A, le interesa ver también la película B. Se establecen relaciones fuertes de que el haber hecho algo, el haber visto en esta película, implique también ver esta otra película. Como ejemplo.
+  
+  Cada una de estas reglas puede tener diferente probabilidad, diferente fuerza.
+  Nos interesa buscar las reglas más fuertes.
+  
+  En el algoritmo analizaremos qué tan probable es que un conjunto venga a la par, que dos películas se vean a la vez o que tres peliculas se vean a la vez o que un paquete de peliculas vayan a la vez
+  
+  No hace falta hablar del lift o confianza como en apriori. Simplemente vamos a utilizar el soporte de un conjunto. Vamos hablar de conjunto de cosas. 
+  
+  A las relaciones que salen del algoritmo hay que analizarlas para saber si son importantes. En Apriori usabamos el lift descendente.En Eclat hay que establecer una medida de qué tan imporante es que ocurra una cosa junto a la otra.La importancia de esa regla. Esas combinaciones son las que ahora tenemos que investigar. Eclat se basa en el soporte.
+  
+  Vamos a medir el soporte, mo me hará falta ni la confianza ni el lift. Medimos el soporte del conjunto y no de un item como en Apriori.
+  
+  Se define la importancia con el nivel de soporte de un conjunto. El modelo de eclat no tiene sentido ser evaluado para item.Miramos conjunto de items. No nos hace falta la confianza ni el lift.
+  
+  En eclat vemos cuál es la frecuencia de que los ítems vengan empaquetados, que vengan juntos. Eso es lo que va a calcular el soporte del conjunto.
+  
+  Ejemplo, qué tan probable es o qué tan juntas suelen ir la película interestelar con la película El naufrago. Qué porcentaje de los usuarios ven esas dos películas a la vez o que les ha gustado las dos peliculas a la vez, que sean un pack. Es decir, si hipotéticamente tenemos 100 usuarios en nuestro dataset, cuántos de esos usuarios han visto las dos películas, que se hayan interesado a la vez por Interestelar o por El naufrago. Empaquetamos las cosas. Si, por ejemplo, tuviéramos un 80% de los usuarios de la base de datos han visto esas dos películas, tenemos una muy alta probabilidad de que esas dos películas vayan en pares (juntas).Por tanto, si uno ha visto una, automáticamente podemos recomendar la otra.
+  
+  Si lo compran juntos, si es probable que aparezcan juntos.  Los que han comprado una cosa podemos recomendarle la otra.
+  
+  Apriori es mas potente. Eclat es mas simple y rapido (solo tiene el soporte)
+  
+  Algoritmo.
+  
+		Paso 1. Se selecciona un soporte minimo a utilizar.
+		Paso 2. Tomar todas las operaciones con soporte superior al minimo.
+		Paso 3. Ordenar por soporte descendente. Elegir las mas relevantes. Por ejemplo Top 10.
+		
+	En el lenguaje R:
+	
+		Tiene un solo parametro (el soporte). Las reglas que me van a salir en esta clase no van a ser las mismas que las que he obtenido con el modelo apriori.
+		
+		La diferencia está que ahora voy a tener la posibilidad de hablar de conjuntos de productos comprados en pack, no que un producto implique la compra de otro, sino que productos que aparecen en pack será como una especie de nube de productos que aparezcan juntos.
+		
+		rules = eclat(data = dataset, 
+                parameter = list(support = 0.003, minlen = 2))
+				
+				minlen: indica que minimamente cada transaccion tenga dos elementos. Evita los singleton. Que no sean transacciones de un item. Por lo menos dos. 
+				
+		Lo que tengo no son reglas de asociación, sino que son subconjuntos de elementos que tienden a aparecer juntos. 
+  
+  
+		Así aparecerán los diez soportes más altos, los diez subconjuntos de elementos que más seguro estamos de que aparecen en conjunto. No hay A implica B como en apriori. Aqui tenes subconjuntos de artículos comprados con más frecuencia.
+		
+		Por ejemplo, el que más aparece conjuntamente es el agua mineral con los espaguetis para hervir. Tiene un soporte cercano al 6% (soporte 0,059). Significa que aparece por lo menos en seis, en el 6% del total de celdas de cestas de la compra y representa 448 cestas de la compra con respecto al total.
+
+
+Parte 6 - Reinforcement Learning
+
+Reinforcement Learning (o aprendizaje por refuerzo) es una rama del Machine Learning, llamada también Online Learning. Se utiliza para resolver problemas de interacción, donde los datos observados hasta el momento t son considerados para decidir qué acción se lleva a cabo en el momento t + 1.
+
+En Inteligencia Artificial cuando se entrenan máquinas capaces de hacer tareas como caminar, o conducción de coches inteligentes.
+
+Un resultado esperado proporciona una recompensa a la IA, mientras que uno no deseado le otorga un castigo. En este caso las Máquinas aprenden a través de ensayo y error.
+
+Algoritmos de Reinforcement Learning:
+
+- Upper Confidence Bound (UCB)
+
+- Muestreo Thompson
