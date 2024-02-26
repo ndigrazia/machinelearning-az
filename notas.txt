@@ -1850,7 +1850,10 @@ Dos modelos de reglas de asociación:
 		Por ejemplo, el que más aparece conjuntamente es el agua mineral con los espaguetis para hervir. Tiene un soporte cercano al 6% (soporte 0,059). Significa que aparece por lo menos en seis, en el 6% del total de celdas de cestas de la compra y representa 448 cestas de la compra con respecto al total.
 
 
-Parte 6 - Reinforcement Learning
+
+------------------------------------
+Parte 6 - Reinforcement Learning (o aprendizaje por refuerzo)
+------------------------------------
 
 Reinforcement Learning (o aprendizaje por refuerzo) es una rama del Machine Learning, llamada también Online Learning. Se utiliza para resolver problemas de interacción, donde los datos observados hasta el momento t son considerados para decidir qué acción se lleva a cabo en el momento t + 1.
 
@@ -1858,8 +1861,94 @@ En Inteligencia Artificial cuando se entrenan máquinas capaces de hacer tareas 
 
 Un resultado esperado proporciona una recompensa a la IA, mientras que uno no deseado le otorga un castigo. En este caso las Máquinas aprenden a través de ensayo y error.
 
-Algoritmos de Reinforcement Learning:
+Algoritmos de Reinforcement Learning (aprendizaje por refuerzo):
 
 - Upper Confidence Bound (UCB)
 
 - Muestreo Thompson
+
+
+- El problema del bandido multibrazo:
+	
+		Hay diferentes formas.
+		
+		Este problema no es el único que se puede resolver con aprendizaje por refuerzo.
+		
+		Es un ejemplo generico.
+		
+		Los algoritmos de aprendizaje por refuerzo permiten por ejemplo que un perro robot sea capaz de caminar y no chocar con una pared, de subir un escalón o cosas de este estilo. En el caso del robot es súper fácil de entender, porque para enseñarle a caminar hay que enseñarles que primero hay que poner el pie derecho y luego el pie izquierdo de delante, luego el pie derecho de atrás, izquierdo de atrás y en base a ir combinando esos movimientos uno tras otro, es cómo se va enseñando y educando a un robot en forma de perro, a una tarea concreta que es el caminar. Básicamente le voy dando las acciones que puede tomar mover pierna derecha, izquierda, delante, detrás y le enseño cuando mover una pierna es algo positivo y cuando no, cuando da un paso adelante y no se cae, le doy una recompensa. Cada vez que se cae le doy un castigo.
+		
+		Normalmente la recompensa es el número +1 y el castigo suele ser cero o -1.
+		De modo que lo que quiere el perro es maximizar las recompensas. Lo que hace es recordar qué acciones han sido buenas y las intenta repetir cada vez.
+		
+		Y así es como se enseña a caminar a un perro. De modo que no hay que programar. 
+		
+		Esto se mete dentro de una rama diferente, ya no es machine learning, ya es inteligencia artificial.
+		
+		- El bandido multibrazo. Podemos pensar en un ladrón que va al banco y que tiene toda una banda organizada, múltiples brazos operativos para poder atracar correctamente el banco. Esto podemos simplificarlo bastante, porque básicamente un bandido multi brazo no es ni más ni menos que una tragamonedas.
+	
+		El problema del bandido multi brazo es una especie de juego psicológico. Cuando entras en una sala de casino en lugar de tener una tragamonedas, tenéis muchas tragamonedas. La idea es que cada una de estas máquinas tragamonedas tendrá una programación diferente y llevará más o menos tiempo jugando, más o menos tiempo dando vueltas la barra de los premios. Se llama multi brazo porque es un problema que sirve para resolver o elegir la mejor tragamoneda que maximiza la victoria del jugador.
+		
+		Esto tendrá una aplicación directa al mundo de los problemas de una empresa cuando haya elecciones múltiples que queremos elegir una de ellas para maximizar.
+		
+		El problema es descubrir cuál es la distribución de premios de cada una de estas máquinas. Qué distribución tienen por detrás, una distribución de números, de beneficios, de premios a partir del uso de las mismas y así poder elegir cuál de todas estas máquinas tiene un resultado mejor.
+		
+		Cada una de ellas tendrá una distribución diferente. De antemano no sé cuál es la distribución de estas máquinas, se complica un poco. No puedo ir jugando en cada una de ellas porque terminare arruinado para descubrir su distribucion de premios. El objetivo es determinar cuál es la mejor distribución que podemos elegir entre las tragamonedas. Cada una de ellas tiene una distribucion diferente. La idea es elegir la mejor maquina que tenga la mejor distribucion. Como determinar la mejor distribucion.
+		
+		Cada maquina tiene diferentes distribuciones de probabilidad de pago de premio. Mas a la derecha mayor el premio (cola mas larga a la izquierda). Mas alto el pico mayor la probabilidad de pago. La D5 es la mejor conociendo esas distribuciones. Se busca obtener ese resultado con el algoritmo de Reinforcement Learning. Se buscan los limites de confianza hasta donde estamos dispuestos a llegar. Si se supera ese limite se incurrira en una frustracion. El objetivo es encontrar la mejor distribucion psando el menor tiempo posible 	jugando. Mayor tiempo mayor perdida de dinero.
+		
+		Otro ejemplo, imaginemos una campaña de coca-cola con varios anuncios. Cada uno de los cuales generan datos en base a una campaña de marketing. Son 5 anuncion cada uno con sus correspondientes campañas de marketing. El objetivo es buscar que anuncio funciona mejor para maximizar las ventas. No tenemos una distribucion al inicio de la campaña. Las distribuciones de cada campaña las conozco despues de que miles de personas miren los anuncios en sus correspondientes campañas. Que se hace, basicamente se toman los 5 anuncios y se hace un test AB con multiples pruebas A y B hasta tener una muestra grande y concluir con cierto nivel de confianza que anuncio otorga mejor resultado. El problema es que se suele gastar mucho dinero y tiempo. Las Test AB no es la mejor opcion que se puede aplicar practicamente. Si podemos conocer las distribuciones de cada anuncio en lugar de un test AB podemos obtener mejores resultados en el menor tiempo posible. Mejor de un test AB aplicar las tecnicas de Reinforcement Learning
+
+---------------------------------
+- Upper Confidence Bound (UCB)
+---------------------------------
+
+		Limite de confianza superior (UCB) 
+		
+		Intenta solucionar el problema del bandido multi brazo con múltiples brazos, que básicamente se resumía en que teníamos cinco máquinas tragamonedas y teniamos que averiguar como Cómo para maximizar las devoluciones de las máquinas en base a intentar descubrir las distribuciones. Hay una distribución para cada una de ellas y la desconocemos. No sabemos muy bien cuál de todas es la óptima. Por tanto, necesito combinar la exploración de estas máquinas haciendo apuestas para intentar extraer información.
+		
+		La aplicación moderna de este problema es entrar dentro del mundo de la publicidad, de modo que si tenéis cinco o diez, 15, 500 anuncios diferentes, hay que averiguar cuál de ellos es el mejor. Se intenta averiguar cuales son las distribuciones. Quiero combinar la exploración de los datos con las técnicas de learning para obtener el resultado más óptimo e intentar maximizar todo el dinero de la empresa para que no se arruine.
+		
+		Algoritmo:
+		
+			Cómo se puede afrontar este problema?
+			Tenemos de brazos. Por ejemplo, los brazos pueden ser los anuncios que mostramos a los usuarios cuando se conectan a una página web o podrían ser cada una de las máquinas tragamonedas.
+			
+			Cada vez que un usuario se conecta debo elegir qué anuncio tengo que mostrar cada vez o a qué máquina tragamonedas tengo que jugar cada vez.
+			
+			Para ello, En cada ronda N se elige uno de los anuncios a ser mostrado o una de las tragamonedas  a ser jugado.
+			
+			En cada ronda que juegue o cada anuncio que muestre, voy a otorgar una recompensa, el anuncio y dará una recompensa en forma de número cero o uno.
+			
+			De acuerdo, si el usuario hace clic en el anuncio o si el usuario tiene un beneficio en la máquina tragamonedas pues la recompensa para la  ronda N será uno y cero cuando no. Por tanto, cuantificado las recompensas que recibe el usuario en cada momento y como en principio, todo esto será diferente, el objetivo será maximizar la recompensa a través de las rondas que se lleven a cabo. 
+			
+			Lo anterior es los pasos de nuestro algoritmo.
+			
+			UCB se basa en calcular un intervalo de confianza.
+			
+			Algoritmo:
+			
+			Se extrae informacion mediante la accion directa sobre un tragamoneda o un anuncio. Se trata de usar el menor tiempo posible en identficar las distribuciones evitando arruinarse economicamente.
+			
+			Al incio podemos suponer que tenemos la misma media distribucion para todos los anuncios o tragamonedas. Son todas iguales hasta que tenga evidencia de lo contrario. Todas las mismas medias. El algoritmo crea una banda que representa el beneficio del anuncio o la tragamoneda. El objetivo es encontrar la banda con el tope superior mas arriba. En base a rondas de prueba comienzo a modificar las medias y se recalcula la anchura del intervalo de confianza, se mueve el limite superior y el limite inferior.
+			
+			Partimos de una misma media y distribucion (General) para todos y el intervalo de confianza es grande. 
+			
+			PASO 1: Ronda n. Elijo una tragamonedas o anuncio cualquiera. Si paga o el usuario hace click obtengo un beneficio 1 en otro caso 0. Si no hace click en el anuncio baja la media con respecto a la general y la amplitud del intervalo de confianza (tamaño de la caja).   
+			
+			Se agrega toda la información de todo lo observado con respecto a la máquina elegida en la ronda. Al otorgar 0 porque no es seleccionado el anuncio, el valor de puntos discontinuos (representa la media) baja porque la media es ligeramente inferior a como era anteriormente. Cuando n sea bastante grande, la media converjira a la media de la distribución. Cuanto mayor sea la n ira bajando el tamaño de la caja paulatinamente. Ira bajando el intervalo de confianza. A mayor n, se reduce la amplitud del intervalo de confianza. El proceso de converjencia sera muy lento.
+			
+			PASO 2: Se elige otra maquina y se repite el experimento. Si se otorga 1  porque es seleccionado el anuncio, el valor de puntos discontinuos (representa la media) sube porque la media es ligeramente superior a como era anteriormente.  La amplitud del intervalo de confianza (tamaño de la caja) reduce tambien.
+			
+			PASO 3: Se realizan cientos o miles de iteraciones. Se eligen la maquina o anuncio con mayor limite superior. Sin embargo, a veces hay que pasar a otra maquina o anuncio con menor limite superior porque puede afectar los experimentos negativamente pero al final puede mejorar el limite del intervalo de confianza.
+			
+			PASO 4: Luego de repetir las iteraciones, se elige la de mayor limite de confianza. Aunque se debe alternar con las otras alternativas para evitar correr riesgo, ya que puede afectar los experimentos negativamente pero al final puede mejorar el limite del intervalo de confianza. Entonces habrá una estrategia específicamente diseñada para que en cada ronda de los resultados previos que hemos observado, influyan en qué vamos a mostrar en el siguiente. Y la clave para entender acerca del aprendizaje por refuerzo es precisamente que tenemos unos diez anuncios, lo que ocurre es que el algoritmo observará paulatinamente los resultados obtenidos durante las primeras rondas, durante las primeras diez rondas, las primeras diez veces que se muestre el anuncio y en base a esto decidiremos qué anuncio es el que se volverá a mostrar al usuario. En realidad como correríamos esto simultáneamente, mostraríamos el anuncio y el algoritmo evaluaría, no tendríamos un dataset como tal, sino que iríamos teniendo datos a medida que el usuario mira un anuncio. Básicamente, el usuario irá viendo cada vez los anuncios con mayor recompensa con los que tienen mayor CTR, mayor índice de clics. Recordemos, que el presupuesto es limitado.
+			
+			La seleccion aleatoria cambia el resultado a ser re-ejecutado el experimento. Evidentemente si vuelvo a ejecutar aquí el resultado es 1234. Lo interesante aquí es que el valor final tampoco supera demasiado. Esta entre 1200 y 1400. La idea es que gracias a nuestro algoritmo más avanzado, el confidence mount o el muestreo Thomson, quiero obtener un resultado mejor que 1200 o 1300, que es lo que estoy obteniendo hasta el momento con seleccion aleatoria.
+			
+			En el ejercicio en python con el algoritmo UCB casi hemos duplicado (2178) la recompensa total obtenida por el algoritmo de selección aleatoria (1200 a 1300), de modo que los anuncios mostrados a los usuarios ahora son mucho más optimizados.Se redoble el numero de ventas.
+			
+			En python se elige el nro 4.
+			
+			
+			
