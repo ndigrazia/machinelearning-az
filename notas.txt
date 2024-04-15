@@ -1238,7 +1238,7 @@ Clasificar y catalogar.
 						
 					
 -------------------------
-Clustering o Segmentacion
+Parte 4 - Clustering o Segmentacion
 -------------------------
 
 		Clustering es un proceso similar al de clasificación, pero con un fundamento diferente. En el Clustering no sabes qué categorías estás buscando, si no que intentas crear una segmentación de tus propios datos en grupos más o menos homogéneos. Cuando utilizamos algoritmos de clustering en el data set, surgen de entre los datos cosas inesperadas como estructuras, clusters o agrupaciones que un humano no se habría imaginado pero la máquina crea por nosotros.
@@ -1468,7 +1468,7 @@ Adjunta en esta clase encontrarás una hoja de ayuda con los pros y contras de l
 
 
 ------------------------------------
-Aprendizaje con Reglas de Asociación
+Parte 5 - Aprendizaje con Reglas de Asociación
 ------------------------------------
 
 NOTA: Trata el problema de recomendaciones.
@@ -1905,22 +1905,23 @@ Algoritmos de Reinforcement Learning (aprendizaje por refuerzo):
 
 		Limite de confianza superior (UCB) 
 		
-		Intenta solucionar el problema del bandido multi brazo con múltiples brazos, que básicamente se resumía en que teníamos cinco máquinas tragamonedas y teniamos que averiguar como Cómo para maximizar las devoluciones de las máquinas en base a intentar descubrir las distribuciones. Hay una distribución para cada una de ellas y la desconocemos. No sabemos muy bien cuál de todas es la óptima. Por tanto, necesito combinar la exploración de estas máquinas haciendo apuestas para intentar extraer información.
+		Intenta solucionar el problema del bandido multi brazo con múltiples brazos, que básicamente se resumía en que teníamos cinco máquinas tragamonedas y teniamos que averiguar como maximizar las devoluciones de las máquinas en base a intentar descubrir las distribuciones. Hay una distribución para cada una de ellas y la desconocemos. No sabemos muy bien cuál de todas es la óptima. Por tanto, necesito combinar la exploración de estas máquinas haciendo apuestas para intentar extraer información.
 		
-		La aplicación moderna de este problema es entrar dentro del mundo de la publicidad, de modo que si tenéis cinco o diez, 15, 500 anuncios diferentes, hay que averiguar cuál de ellos es el mejor. Se intenta averiguar cuales son las distribuciones. Quiero combinar la exploración de los datos con las técnicas de learning para obtener el resultado más óptimo e intentar maximizar todo el dinero de la empresa para que no se arruine.
+		La aplicación moderna de este problema es entrar dentro del mundo de la publicidad, de modo que si tenéis cinco o diez, 15, 500 anuncios diferentes, hay que averiguar cuál de ellos es el mejor. Se intenta averiguar cuales son las distribuciones. Quiero combinar la exploración de los datos con las técnicas de reinforcement learning para obtener el resultado más óptimo e intentar maximizar todo el dinero de la empresa para que no se arruine.
 		
 		Algoritmo:
 		
 			Cómo se puede afrontar este problema?
-			Tenemos de brazos. Por ejemplo, los brazos pueden ser los anuncios que mostramos a los usuarios cuando se conectan a una página web o podrían ser cada una de las máquinas tragamonedas.
+			
+			Tenemos d brazos (o anuncios). Por ejemplo, los brazos pueden ser los anuncios que mostramos a los usuarios cuando se conectan a una página web o podrían ser cada una de las máquinas tragamonedas.
 			
 			Cada vez que un usuario se conecta debo elegir qué anuncio tengo que mostrar cada vez o a qué máquina tragamonedas tengo que jugar cada vez.
 			
-			Para ello, En cada ronda N se elige uno de los anuncios a ser mostrado o una de las tragamonedas  a ser jugado.
+			Para ello, En cada ronda N se elige uno de los anuncios a ser mostrado o una de las tragamonedas a ser jugado.
 			
 			En cada ronda que juegue o cada anuncio que muestre, voy a otorgar una recompensa, el anuncio y dará una recompensa en forma de número cero o uno.
 			
-			De acuerdo, si el usuario hace clic en el anuncio o si el usuario tiene un beneficio en la máquina tragamonedas pues la recompensa para la  ronda N será uno y cero cuando no. Por tanto, cuantificado las recompensas que recibe el usuario en cada momento y como en principio, todo esto será diferente, el objetivo será maximizar la recompensa a través de las rondas que se lleven a cabo. 
+			Si el usuario hace clic en el anuncio o si el usuario tiene un beneficio en la máquina tragamonedas pues la recompensa para la  ronda N será uno y cero cuando no. Por tanto, cuantificado las recompensas que recibe el usuario en cada momento y como en principio, todo esto será diferente, el objetivo será maximizar la recompensa a través de las rondas que se lleven a cabo. 
 			
 			Lo anterior es los pasos de nuestro algoritmo.
 			
@@ -1932,15 +1933,51 @@ Algoritmos de Reinforcement Learning (aprendizaje por refuerzo):
 			
 			Al incio podemos suponer que tenemos la misma media distribucion para todos los anuncios o tragamonedas. Son todas iguales hasta que tenga evidencia de lo contrario. Todas las mismas medias. El algoritmo crea una banda que representa el beneficio del anuncio o la tragamoneda. El objetivo es encontrar la banda con el tope superior mas arriba. En base a rondas de prueba comienzo a modificar las medias y se recalcula la anchura del intervalo de confianza, se mueve el limite superior y el limite inferior.
 			
-			Partimos de una misma media y distribucion (General) para todos y el intervalo de confianza es grande. 
+			Paso 1:
 			
-			PASO 1: Ronda n. Elijo una tragamonedas o anuncio cualquiera. Si paga o el usuario hace click obtengo un beneficio 1 en otro caso 0. Si no hace click en el anuncio baja la media con respecto a la general y la amplitud del intervalo de confianza (tamaño de la caja).   
+			En cada ronda n, se calcula dos numeros para cada anuncio i:
+			
+				
+					Ni(n) Numero de veces que el anuncio i se selecciona hasta la ronda n
+					Ri(n) Suma de recompensas del anuncio i hasta la ronda n
+					
+			Paso 2:
+			
+			
+					Luego de esos dos numeros, calculamos la recompensa media del anuncio i hasta la ronda n:
+							
+								ri(n) = Ri(n)/Ni(n)
+								
+					y el intervalo de confianza en la ronda n:
+					
+								(ri(n) - Δi(n),ri(n) + Δi(n))
+								
+								Δi(n)= √ 3log(n)/2 Ni(n)
+								
+								√ = raiz cuadrada.
+								
+		
+			PASO 3: Se selecciona el anuncio i con mayor limite superior de confianza (UCB)
+					
+
+					
+			Lo vemos de manera intuitiva: Comenzamos a jugar.
+			
+			Las rayitas que tenéis en horizontal de cada uno de los colores representan el valor esperado o el valor medio de cada una de las distribuciones. Las cajas representa el intervalo de confianza para cada anuncio o tragamonedas.
+			
+			Partimos de una misma media y distribucion (General) para todos y el intervalo de confianza es grande. Todo lo mismo para los anuncios o tragamonedas.  Luego a mayor cantidad de pruebas, se reduce el intervalo de confianza pero tengo la limitante del presupuesto, ya que no puedo realizar multiples pruebas porque terminaria arruinado.
+			
+			PASOS:
+			
+			Partimos suponiendo que todo es identico, todas las medias son iguales.
+			
+			PASO 1: Ronda n. Elijo una tragamonedas o anuncio cualquiera. Si paga o el usuario hace click obtengo un beneficio 1 en otro caso 0. Si no hace click en el anuncio baja la media con respecto a la general y la amplitud del intervalo de confianza se comienza a reducir (tamaño de la caja), se hace mas pequeño.   
 			
 			Se agrega toda la información de todo lo observado con respecto a la máquina elegida en la ronda. Al otorgar 0 porque no es seleccionado el anuncio, el valor de puntos discontinuos (representa la media) baja porque la media es ligeramente inferior a como era anteriormente. Cuando n sea bastante grande, la media converjira a la media de la distribución. Cuanto mayor sea la n ira bajando el tamaño de la caja paulatinamente. Ira bajando el intervalo de confianza. A mayor n, se reduce la amplitud del intervalo de confianza. El proceso de converjencia sera muy lento.
 			
-			PASO 2: Se elige otra maquina y se repite el experimento. Si se otorga 1  porque es seleccionado el anuncio, el valor de puntos discontinuos (representa la media) sube porque la media es ligeramente superior a como era anteriormente.  La amplitud del intervalo de confianza (tamaño de la caja) reduce tambien.
+			PASO 2: Se elige otra maquina y se repite el experimento. Si se otorga 1  porque es seleccionado el anuncio, el valor de puntos discontinuos (representa la media) sube porque la media es ligeramente superior a como era anteriormente.  La amplitud del intervalo de confianza (tamaño de la caja) reduce (se hace mas pequeño) tambien. Se repite el proceso eligiendo otra y asi sucesivamente. 
 			
-			PASO 3: Se realizan cientos o miles de iteraciones. Se eligen la maquina o anuncio con mayor limite superior. Sin embargo, a veces hay que pasar a otra maquina o anuncio con menor limite superior porque puede afectar los experimentos negativamente pero al final puede mejorar el limite del intervalo de confianza.
+			PASO 3: Se realizan cientos o miles de iteraciones. Se eligen la maquina o anuncio con mayor limite superior.  Luego, de algunas iteracciones comienzo a elegir la de mayor limite superior. Sin embargo, a veces hay que pasar a otra maquina o anuncio con menor limite superior porque puede afectar los experimentos negativamente pero al final puede mejorar el limite del intervalo de confianza. Es decir una de mejor distribucion en un momento determinado viene fallando pero luego se ajusta y es la de mejor ganancia.
 			
 			PASO 4: Luego de repetir las iteraciones, se elige la de mayor limite de confianza. Aunque se debe alternar con las otras alternativas para evitar correr riesgo, ya que puede afectar los experimentos negativamente pero al final puede mejorar el limite del intervalo de confianza. Entonces habrá una estrategia específicamente diseñada para que en cada ronda de los resultados previos que hemos observado, influyan en qué vamos a mostrar en el siguiente. Y la clave para entender acerca del aprendizaje por refuerzo es precisamente que tenemos unos diez anuncios, lo que ocurre es que el algoritmo observará paulatinamente los resultados obtenidos durante las primeras rondas, durante las primeras diez rondas, las primeras diez veces que se muestre el anuncio y en base a esto decidiremos qué anuncio es el que se volverá a mostrar al usuario. En realidad como correríamos esto simultáneamente, mostraríamos el anuncio y el algoritmo evaluaría, no tendríamos un dataset como tal, sino que iríamos teniendo datos a medida que el usuario mira un anuncio. Básicamente, el usuario irá viendo cada vez los anuncios con mayor recompensa con los que tienen mayor CTR, mayor índice de clics. Recordemos, que el presupuesto es limitado.
 			
@@ -1950,5 +1987,356 @@ Algoritmos de Reinforcement Learning (aprendizaje por refuerzo):
 			
 			En python se elige el nro 4.
 			
+			https://telefonica-hispam.udemy.com/course/machinelearning-es/learn/lecture/14188047#overview
 			
 			
+--------------------
+- Muestreo Thompson
+--------------------
+
+Utilizaremos este algoritmo para resolver el problema del bandido multi brazo.
+
+Tenemos varias tragamonedas cada una de ellas tiene una distribución de probabilidad, una distribución de premios, y queremos saber cuál es la mejor distribución. De modo que tenemos que empezar a jugar a estas máquinas y al mismo tiempo intentar averiguar cuál es la que nos da mejor distribución, mejores premios. Cómo nos va a llevar algo de tiempo no queremos arruinarnos en el proceso de maximizar nuestros beneficios. Entonces buscamos un equilibrio ideal entre explorar las máquinas y explotar el algoritmo.
+
+Tenemos los anuncios que queréis mostrar a un usuario en un momento dado. Cada vez que los usuarios se conectan a la página web se ejecuta lo que llamamos una ronda y en cada
+ronda se muestra uno de esos anuncios al usuario. Este algoritmos se aplica sobre todo si no tenéis muchos fondos o recursos para hacer un test AB. 
+
+En cada ronda se elige un anuncio a mostrar.
+
+Ese anuncio puede darnos recompensa uno o cero si el usuario hace click en el anuncio o no. Del mismo modo, cuando tenéis una tragamonedas y tiráis de la palanca, puede ser que no de ningún beneficio, recompensa igual a cero o que sí de algún beneficio, recompensa igual a uno.
+
+Se usa para optimizar campañas de marketing.
+
+Usa reglas de bayes. Sige Inferencia bayesiana
+
+Estos tres pasos son los necesarios para implementar el algoritmo:
+
+La idea es que cada uno de esos anuncios dará un valor de retorno . El objetivo es maximizar ese retorno. Entonces, la idea es que aquí vamos a tener tantas barras verticales simbolizando la media retorno como anuncio tengas (o tragamonedas). Las lineas verticales muestran el valor promedio de retorno de tres distribuciones diferentes de tres  anuncios detrás de las cuales hay una distribución mejor pero no la conozco.
+
+Así que en este caso se escoge un valor aleatorio para simbolizar la medida de la distribución para el incio del algoritmo para cada uno de los anuncios. Es el punto de partida. No hay conocimiento previo de la situación actual o del estado de las cosas, los anuncios son todos iguales. Evidentemente, debo tener al menos algunas rondas de prueba para ir sacando valores de retorno y obtener algunos datos con los que poder analizar. 
+
+Entonces, cuando nosotros nos imaginamos una distribución, no tenemos rayas verticales, imaginamos una distribución en forma de campana. No muchos valores se concentran en torno a la media, pero a medida que nos alejamos de la misma, tenemos una forma acampanada. Ese valor esperado es importante. Es el centro de la distribución o el rendimiento real esperado de la máquina o anuncio. La barras es la media de la distribucion acampanada. Quiero encontrar la distribucion de cada anuncio o tragamoneda. No hay conocimiento previo de todos los anuncion o tragamonedas. (No copnozco la distribucion. Supongo una campara)
+
+Empesemos: 
+He metido algunas monedas (tomo varias muestras) y he sacado algunos valores de retorno para la primera máquina. En base a las pruebas obtengo valores de retorno y en base a esto podriamos intuir la forma de la distribucion de la primera maquina. (no es exacta pero se comienza a intuir la distribucion). No es una distribución exacta pero uno intuye que va a ser una cierta campana de Gauss, por lo menos de esa forma, es decir, que se distribuya en torno a los valores. Entonces esa sería la primera distribución que uno podría fabricar. Paso a la segunda maquina, tomo los valores de retorno y construyo la campana de gauss y asi con las siguientes maquinas. Estas distribuciones nos dan una idea inicial de por donde van los valores. Las idea es usar esas distribuciones para encontrar el valor medio real. Se espera que cambie la distribucion a medida que juego con las maquinas. No estoy intentando recrear al completo la distribución de esas máquinas, sino que estoy intentando averiguar la posible forma en la que esas máquinas podrían distribuir las ganancias. El objetivo es averiguar las medias se situan en las medias de las tres campanas, las cuales representan las tragamonedas o anuncios. La punta de la campana representa la media estimada o valor mas probable (El valor real no lo conozco). A medida que nos alejemos de esa punta de la distribución, la probabilidad de que la media de la máquina del valor que devuelve la máquina se encuentra ahí, va decreciendo automáticamente. Y esto es muy importante, que lo que estoy haciendo no es intentar adivinar las distribuciones, no averiguar la verdadera distribucion de las maquinas. Intento una aproximacion de las distribuciones. El enfoque thompson es probabilistico e heuristico, vamos a ir probando. El UCB es deterministico (es estricto). En tompson intento crear un enfoque probabilistico (vamos probando)
+
+El algoritmo utiliza un mecanismo auxiliar basado en el mundo de la probabilidad y de las matemáticas para intentar inferir el valor medio. El algoritmo conoce solo la distribucion. Queremos inferir cual es la distribucion de cada una de las maquinas o anuncios.
+
+El algoritmo comienza realizando pruebas al azar en cada una de las maquinas. Toma varias muestras por maquina para armado de la posible distro de cada maquina.
+
+Con las distribuciones ya observadas (varias pruebas realizadas), podemos intentar potenciar y ajustar mejor la curva de cada una de ellas. Con la eleccion al azar de una de las opciones. Seleccionada esa opcion, el algoritmo saca el valor esperado o promedio de la distribucion. Los hace para cada una de las maquinas o anuncios. Luego, tendremos tres valores esperados (el algorimo usa tres maquinas) de cuál es la media. Se genero una muestra hipotética, un número imaginario del valor de retorno (media de la distribucion) de cada una de las tres máquinas tragamonedas.
+
+Por tanto, luego de ese realizar las pruebas en las maquinas tengo un sub estado. Con este sub estado con el que estoy mirando la realidad de las máquinas tragamonedas, tengo mi propia visión sesgada evidentemente del mundo. Como es obvio, simplemente se elige la máquina que parece tener el rendimiento esperado más alto (Verde). Luego, si esa cree el algoritmo es la buena me voy a ir a la máquina y voy a jugar un poco más, a ver si consigo a ajustar mejor la distribucion.
+
+Seleccionamos la máquina de color verde, de modo que el algoritmo cree que es la mejor. Y lo que haremos básicamente será tirar de la palanca de color verde, nos dará un nuevo valor para que la máquina nos devuelva el valor y nosotros lo analizaremos, ese valor se basa en la distro detras de la maquina. Con ese valor ajustamos la distro de esa maquina. De modo que hemos añadido un nuevo elemento la muestra, Que haya más elementos típicamente va a estrechar mas la distribucion, va a ser mas estrecha a la campaña y la media se va moviendo. Cada vez que añada nueva información, la nueva distribución se vuelve a ajustar, se vuelve a refinar y tenemos una percepción del mundo más ajustada.
+
+Con la información que tenemos empieza una nueva ronda, entonces vamos a hacer exactamente lo mismo. Generaremos o seleccionaremos algunos valores aleatorios de cada una de las tres distribuciones. Vuelvo a aplicar el algoritmo, calculando las medias esperada de cada una de las maquinas y analizo la de mejor rendimiento. Elijo la maquina con mayor rendimiento (Amarillo). Puede ser otra maquina, vuelvo a jugar en esa maquina para ajustar la distro con la distro real de esa maquina y continuo el ciclo con una nueva ronda. Resumen: Realizo una ronda, pruebo las maquinas y obtengo su valor, ajusto la distro, a la de mayor valor de retorno vuelvo a tirar y ajusto la distro nuevamente, finalmente, repito la ronda.
+
+Repetimos este proceso varias veces hasta obtener diferentes distribuciones para cada una de las maquinas. Hemos refinado las distribuciones sustancialmente y lo que tenéis aquí es después de muchas, muchas,muchas veces, el muestreo Thomson nos podría proporcionar estas distribuciones. 
+
+Entonces, combinando la inferencia, el intentar descubrir la exploración de cómo funciona la variable junto con la explotación, siempre jugando a la que me da mayor probabilidad de beneficio, es un proceso de refinar las distribuciones. 
+
+Lo que se intenta es obtener la mejor distribucion la que otorgue mejor beneficios sin perder dinero al hacerlo. Finalmente, obtenemos de todas la de mayor beneficios. 
+
+----------------
+Thompson vs UCB
+----------------
+
+Thompson
+
+- Es probabilistico. Es heuristico. 
+
+- puedo tirar de la palanca 50 veces, 500 veces antes de proceder a recalcular los datos. De hecho es una ventaja porque el muestreo de Thomson hace que no tengáis que actualizar el resultado de forma tan pesada cada vez que veis. No requiere actualizacion constante. El aplicar un puesto de Thomson permite un equilibrio entre explorar los datos por un lado y luego proceder a su explotación, de modo que dejo que los usuarios hagan mil clics antes de volver a calcular las distribuciones de probabilidad. Feedback retrazado. Y si somos capaces de retrasar los cálculos, sobre todo si obtenéis miles de clicks en un minuto o millones de clics correctamente, intentar actualizar el algoritmo de inmediato sería computacional super costoso. 
+
+El algoritmo de información se encarga de generar lotes de datos. Lotes de muestras espera recibir 500 clics o esperar recibir 5000 clics? Luego los suministra al algoritmo de muestreo de Thomson y la flexibilidad que este nos aporta permite 
+actualizar el algoritmo una vez cada x minutos o cada x horas lo dejáis ejecutar, dejáis que genere las distribuciones de probabilidad, actualiza el modelo y luego obtenéis otros 500 o 5000 clicks. Volves a actualizar el algoritmo y seguirá funcionando.
+
+- Mas evidencias empiricas que funciona.
+
+- Deberia dar un resultado superior al UCB.
+
+
+
+UCB
+
+- Es determinista.  Lo que va a suceder es medianamente predecible. Es determinista en el sentido de que simplemente hay que mirar la esquina superior de los intervalos. Entonces el algoritmo tirará de esa palanca sí o sí, si el valor está más arriba.
+Entonces, ese valor fijo es la idea de que siempre que la barra superior esté por encima del resto, forzará a que el algoritmo se ponga del lado de esa máquina y nos indique que es la que debemos estar probando. Por lo tanto, ese es un enfoque determinista que el valor que se obtenga es muy determinado y que no vaya a cambiar normalmente de una iteración a la siguiente.
+
+- requiere única y exclusivamente una actualización a cada ronda del intervalo de confianza. No puede pasarse a la siguiente ronda hasta que se ha incorporado este valor y se ha calculado el valor del intervalo de confianza.
+
+-----------------------------
+Muestreo thompson en Python:
+-----------------------------
+
+random_selection.py
+	Algoritmo con seleccion aleatoria ver (total de reward). Es el menor de recompensa con respecto a UCB t Thompson
+	Thompson es el ganador con mayor numero de recompensas.
+
+El USB en python eligio el anuncio numero 5. Thompson deberia seleccionar el mismo anuncio.
+
+Algoritmo:
+
+	Para cada ronda:
+	
+		Paso 1: En cada ronda n, se consideran dos numeros para el anuncio i:
+			N¹i(n) - Numero de veces que el anuncio i recibe la recompenza 1 hasta la ronda n
+			Nºi(n) - Numero de veces que el anuncio i recibe la recompenza 0 hasta la ronda n
+
+		Paso 2:
+			Para cada anuncio i, se elige un valor aleatorio generado a partir de la distribucion beta:
+					θi(n) = ß(N¹i(n) + 1, Nºi(n) + 1) 
+					
+					La distribucion ß sale de la influencia Bayesiana. 
+					Tiene dos hipotesis de la inlfluencia bayesiana:
+							1- Cada anuncio i tiene una recompensa y que sigue un distribucion de Bernoulli.
+							2- θi es desconocida pero sigue una distribucion uniforme en el intervalo de 0 a 1.
+							
+							Juntando las dos nos lleva a la regla de bayes y obtenemos:
+								θi(n) = ß(N¹i(n) + 1, Nºi(n) + 1) 
+								
+					
+					θi(n) Probabilidad de que sea satisfactorio (que se haga click en el anuncio o que se haga la venta)
+				
+		Paso 3:
+			Elegimos el anuncio con mayor valor θi(n).
+				
+	thompson gana en total de reward con respecto al UCB
+	
+	-------------------------------------------------
+	thompson es el ganador de reinforcement learning.
+	-------------------------------------------------
+	
+	Thompson recomienda que el anuncio 5 es el ganador (anuncio 4 desde 0)
+	
+	
+	
+-------------------------------------------------
+Parte 7 - Procesamiento del Lenguaje Natural
+-------------------------------------------------
+
+
+El Procesamiento del Lenguaje Natural (o NLP) es aplicar modelos de Machine Learning a texto y lenguaje. Enseñar a una máquina a entender un texto hablado y escrito es el foco principal del Procesamiento del Lenguaje Natural. Cada vez que dictas algo a tu iPhone o Android, habrás visto que se convierte en texto. Esa es la magia del algoritmo de NLP.
+
+También puedes usar el NLP en una reseña en forma de texto para predecir si se trata de una reseña positiva o negativa. Se puede usar NLP en un artículo para predecir a qué categorías de artículos se está intentando segmentar (noticia, divulgación, matemáticas...). También se puede predecir gracias a NLP el género de un libro. 
+
+Un algoritmo muy conocido del mundo del NLP es la técnica del Bag of Words. Es un modelo utilizado para pre procesar textos que necesitan clasificarse antes de ajustar el algoritmo de clasificación basándonos en las observaciones que contienen los textos.
+
+Veremos :
+
+Limpiar los textos para prepararlos para los modelos de Machine Learning,
+
+Crear un modelo de Bag of Words ,
+
+Aplicar algoritmos de Machine Learning al modelo de Bag of Worlds.
+
+
+La idea es trabajar con palabras. Crearemos lo que se llama el modelo de la bolsa de palabras del Bag of words y aplicaremos técnicas del machine learning profundizando en cómo se debe trabajar con el caso de texto.
+
+Se trata de una área de la informática, de la ciencia de computación e inteligencia artificial, que se ocupa de la interacción que existe entre el lenguaje que habla un ordenador y el lenguaje natural de los humanos. Por eso se llama el lenguaje natural, porque es el que un humano tiende a utilizar sin más. Se utilizan las técnicas de MLP para poderles aplicar modelos de machine learning tanto a texto como idioma.
+
+
+Podríamos enseñar a las máquinas a entender lo que dicen las palabras, tanto habladas como escritas, procesar el lenguaje natural convirtiéndolo en una serie de datos y tomar decisiones en base a ello. Ejecutar el algoritmo final en base a lo interpretado. Por ejemplo se puede utilizar para analizar sentimientos o identificar el estado de ánimo o la opinión subjetiva, una gran cantidad de texto, predecdir genero de un libro, Responder a preguntas (chatbot), traducto, resumen de texto y reconocimiento del habla. 
+
+Librerias de NLP:
+
+Natural Language Toolkit (NLTK)
+SpaCy
+Standford NLP
+Open NLP
+
+
+Todas ellas son librerías muy interesantes, tienen muchísimos diccionarios, aceptan muchísimos idiomas y la verdad se pueden hacer cosas muy interesantes como estas. Desglosa una frase en el análisis del discurso, en el análisis de cuál es el sujeto, el verbo, los complementos, los atributos. Se puede analizar todo lo que es el contexto de la frase. Estas etiquetas ya las coloca automáticamente un algoritmo, como por ejemplo de la librería NLTK. Tambien, se puede generar relaciones entre palabras, relaciones muy interesantes, como por ejemplo que hombre es a rey, como mujer es a reina o que caminando viene de caminar o el pasado de caminar es caminado, por ejemplo, al igual que el pasado de nadar es nadado, o incluso relaciones como País con sus capitales, agrupar palabras por contextos similares, son ejemplos de NLP.
+
+En general tendremos que antes pre-procesar los textos antes de ser clasificados o antes de ser ajustados por un determinado 
+modelo. Esto involucra:
+				-Conocer el vocabulario de palabras. (corpus de palabra)
+				-Que tan importasnte es una palabra para un lenguaje
+				
+				
+Veremos:
+
+		(1) Limpiar textos y prepararlos para aplicarles el algoritmo de ML
+		(2) Crea una bolza de palabras (bag of words)
+		(3) Aplicar las técnicas de aprendizaje automático a esa bolza de palabras con la idea de clasificar o elaborar texto dinámicamente.
+		
+		
+El procesamiento de lenguaje natural es una rama del aprendizaje automático que se ha centrado en el análisis de textos donde se realiza algún análisis predictivo. Se puede usar para realizar resumenes, predecir si un texto es positivo o negativo, genero de un libro, analisis de paginas web, analisis o categoria de un articulo de un periodico, etc.  En general haremos modelos que se puedan aplicar a la mayoría de problemas donde se involucre algo de texto. Dudas (Comunidad de Discord)
+
+
+Cuál es la diferencia entre un CSV o un TSV?
+
+Ambos son archivos de texto, pero a la hora de leerlos csv significa valores separados por comas, mientras que tsv es valores separados por tabuladores. Cuando nos afrontamos a problemas de lenguaje natural, es normal que el separador estándar de coma no sea la mejor eleccion sobre todo en texto. Cuando escribes una valoración o texto puede haber una coma que por tanto no es el mejor separador. Por eso se ha optado por que el separador sea un tabulador ,de modo que la primera columna contendrá la valoración del cliente y la segunda columna separada por un tabulador de la primera, Un cero o un uno que significa una review negativa o positiva. Lo más normal es que el texto venga separado por tabulador que por comas.
+
+El dato tiene que venir separado por un carácter que no tienda a aparecer en el interior del texto. Es raro escribir un tabulador.
+
+Una recomendación es que si las comillas dobles en el texto entonces el truco es ignorar agregando otro parámetro "quoting". 
+En este caso voy a indicar el número tres, que el tres aquí equivale a la opción de ignorar las comillas dobles.
+
+El primer paso para trabajar con textos y crear modelos que sean capaces de predecir en base a ese texto es limpiar el texto. Luego, crearemos lo que se llama una bolsa de palabras que es un modelo donde aparecen las palabras relevantes. Sólo quiero quedarme con las palabras que son relevantes para el discurso que estamos analizando. Palabras relevantes que ayuden a decidir al final el sentido positivo o negativo de la frase. La limpieza es necesaria para hacer una buena predicción. 
+Nos desharemos de la puntuación, la coma, el punto y coma, las comillas , palabras no relevantes, numeros (no tiene ub impacto significativo a si gusta o no gusta).  También haremos lo que se llama el steaming(la limpieza de algunas versiones diferentes de una misma palabra, el participio con el infinitivo o variantes). Ejemplo, El verbo love,loving , loved son diferentes terminaciones del verbo querer. Nos interesa es el infinitivo, tomar el verbo en sí mismo para saber si eso induce a una palabra positiva o negativa. La supresión final de las terminaciones para no tener en exceso demasiadas palabras. Al final, reagrupando las mismas versiones de una palabra como amor, love, love, loving es una forma de reducir el número de palabras. Reducir las palabras del saco de palabras. Nos permite agrupar terminos y tener un menor diccionario de palabras. También nos desharemos de todo lo que sea en mayúsculas y lo pasaremos todo a minúscula para tener unas reseñas en un texto más fluido y más limitado.
+
+Una vez que se haya limpiado, el último paso será el de crear el bag of words, el saco de palabras donde se aplicará lo que llamamos el proceso de tokenización.
+
+La tokenización Simplemente divide todas las diferentes reseñas en las palabras que lo conforman y gracias al proceso previo solo quedaran destacadas y el proceso de tokenización las dividira en palabras sueltas. Luego, tomaremos cada una de las palabras y les atribuirá una columna a cada una de ellas. Evidentemente tendremos muchas columnas porque tendremos muchas palabras. Para cada columna, tendremos cuántas veces la palabra aparece en una determinada review. Por tanto, evidentemente habrá muchos ceros, porque lo más normal es que una review no tenga casi ninguna de las palabras. Pero por otro lado, habrá palabras que aparezcan dos veces, tres veces, cuatro veces en una misma review.
+
+Así que tendremos la información resumida en una matriz dispersa, una matriz con muchísimos ceros en su interior, pero que básicamente es la estructura básica para poder crear nuestro saco de palabras y luego suministrarla a los algoritmos de machine learning.
+
+Proceso de aprendizaje del lenguaje: (Analiza las reseñas para saber si son positivas o negativas y luego estimar)
+
+
+1) Limpiamos el texto de cada una de las reviews.
+
+	Hay que empezar paso a paso a paso, palabra a palabra, y aplicar una por una el proceso de eliminación. El proceso de quitar palabras inútiles. El proceso de limpiar palabra a palabra en una primera ronda. Luego pasaremos a la siguiente, a la siguiente, a la siguiente, a la siguiente, y así sucesivamente hasta haber filtrado, limpiado todas y cada una de las reviews. (las técnicas de limpieza se comentaron anteriormente).
+	Si tengo que recorrer todo esto y hacerlo a mano seria un  proceso costoso para ello uso dos librerias: RE (regular expresion) y NLTK.
+	
+	Lo interesante, lo que me interesa ver del dataset es si somos capaces de limpiar de algún modo con expresiones regulares.
+	Usamos expresiones regulares para eliminar puntuaciones,  eliminar números, signos de exclamación, interrogación, los tres puntos. Sólo quiero quedarme con las letras de la A a la Z y nada más. En la expresion agregamos un sombrerito al inicio para indicar lo que no quiero eliminar. Quiero quedarme con las letras de la A a la Z y, eliminar espacios en blanco, signos de puntuación, etc. Aplicamos la regular expresion a cada reseña.
+	
+	Luego, pasamos cada una de las letras de la reseña a minuscula.
+	
+	Finalmente, eliminamos palabras irrelevantes. Este tipo de palabras que no ayudan al algoritmo de aprendizaje automático a discernir si una valoración tiene significado positivo o un significado negativo. Todas esas palabras son los artículos, las conjunciones, las proposiciones, etc. 
+	En el caso contrario, tenemos palabras como Loved que tiene el significado positivo de me ha gustado el sitio. Por tanto, es más probable que la valoración sea positiva. Podríamos tener otras muchas reseñas con la palabra Loved o derivados de la misma, lo cual haga indicar al algoritmo que la persona realmente le gusta el sitio o la comida del restaurante. Pero aquí, hay palabras que no aportan nada. Por ejemplo "This is" o este. No me va a dar significado con respecto a si el sitio le gusta o no le gusta. 
+	
+	El objetivo es crear una matriz dispersa donde en cada columna aparecerá una palabra diferente del nuestro saco de palabras.
+	Cuantas más palabras tengáis, mayor será el tamaño de la matriz(matriz sparse). Entonces la idea es quedarme solo con palabras que realmente vayan a favor o en contra de que una valoración sea positiva o negativa. Entonces, ahora viene el proceso de búsqueda, el proceso de limpieza que sea capaz de deshacerse de este tipo de palabras irrelevantes para predecir si una determinada valoración tiene significado positivo o negativo. Para ello usaremos la libreria NLTK (natural language toolkit). Voy a eliminar las palabras irrelevantes con esa libreria. Descargo la lista de palabras irrelevantos con nltk.download('stopwords') - Stopwords es un diccionario de palabras irrelevantes.
+	
+	La fase de eliminar las palabras irrelevantes es muy interezante ya que son matrices que en general menos del 1% de su interior suele estar lleno de números. La mayoría son ceros. Por eso reducimos el tamaño de la matriz. Si yo añado columnas inútilmente, lo único que hago es de decrementar la velocidad de convergencia de mi algoritmo. 
+	
+	Luego, de obtener las palabras relevantes, necesito una función para extraer la raíz de una palabra, habrá que crear una clase o utilizar una librería que se encargue de ese proceso de traducción a que cada una de estas palabras aparezca con su infinitivo respectivo. Este proceso se llama stemming.
+			  ps = PorterStemmer()
+			  ps.stem(word) 
+			  
+	El proceso stemming elimina las declinaciones o las conjugaciones de una determinada palabra.
+
+			
+2) Generar la lista con las futuras críticas limpias de mis clientes. Esa lista se llama corpus. 
+
+	En procesamiento de los lenguajes naturales, el corpus es la palabra común que se refiere a colección de texto que puede ser utilizada para cualquier tipo de algoritmo. Comentarios largos que han sido reducidos, que han sido limpiados como podrían ser libros, artículos, de una página web, tuits, cualquier tipo de texto que deseéis analizar y una vez que lo habéis limpiado, se denomina un corpus.
+	
+	Nuestro corpus contendrá mil reseñas limpias y preparadas para aplicarlas a cualquiera de los algoritmos de machine learning.
+
+
+3) Crear el saco de palabra.
+
+	Luego de limpiar el texto, podemose aplicar un algoritmo de machine learning para tratar con el lenguaje natural.Vamos a crear el bag of words. 
+	El saco de palabras es una consecuencia de que las palabras no tienen una estructura tan definida como lo tienen los números.
+
+	Lo que vamos a hacer es simplemente tomar todas las palabras que son diferentes y pasaran a hacer una columna. La idea es que cualquier palabra diferente tendrá que aparecer en columnas separadas. Básicamente, el saco de palabras o la bolsa de palabras tendrá las mismas filas que tenía antes (mil reseñas), pero ahora aparecerá una columna para cada palabra, esencialmente diferente. 
+	Luego, en cada celda del nuevo saco de palabras, corresponderá si una determinada palabra aparece o no en una reseña y cuántas veces va a aparecer en la misma. De modo que cuando la palabra no aparece en la reseña, se pone un cero en dicha columna. Por tanto, será una tabla con muchos, muchos ceros. La matriz es una matriz sparse.
+	
+	En este caso, la clasificación es porque se trata de una categoría valoración de la reseña como positiva o negativa. El resultado es binario. Por tanto, por eso se trata al final de un problema de clasificación. Podrias tener mas de una categoria. Por ejemplo, rn un libro, podíais intentar predecir entre novela, romance, aventura, etc.
+	
+	Cada una de las columnas que corresponden a la presencia o ausencia de la palabra será una variable independiente y la valoracion (positiva o negativa) es una variable dependiente. Se analiza la correlacion entre las palabras y la valoracion.
+	
+	Que tan pronto como logremos crear la bolsa de palabras (matriz dispersa), tendremos información de todas las palabras en formato numérico. Habremos traducido la palabra a número y columnas para palabras, filas para valoraciones. Tendremos la matriz de características o matriz de variables independientes, que básicamente es mi matrices y a partir de la cual podría aplicar cualquiera de esos algoritmos. Ademas, tendremos el vector de variables dependientes, si la valoración es positiva o negativa cero o uno. Habremos traducido el problema de texto a número, entonces simplemente tendremos que copiar o pegar cualquier algoritmo de clasificación. 
+	Es tan importante crear la bolsa de palabras, porque es la fase que me permite traducir de texto a número y asistir al modelo de clasificación estándar, traduciendo la entrada de datos numericos que el modelo espera. En resumen, transformamos el texto a numeros.
+	 
+	Al crear esa gran matriz dispersa habremos hecho el proceso de tokenización. De modo que una vez creado el modelo de bolsa de palabras, podremos aplicar el algoritmo de clasificación que nos interese para predecir valoración positiva o negativa.
+	
+	Para ello usamos:
+	
+		cv = CountVectorizer(max_features = 1500)
+		X = cv.fit_transform(corpus).toarray()
+		Transformará las palabras de los textos en vectores de frecuencias, cuantas veces aparece una determinada palabra en el interior de una frase y armara la matriz dispersa de palabras (bolsa de palabras)
+		
+		max_features limita el número máximo de columnas a las palabras más frecuentes, de modo que no aparezcan todas, si no las que realmente aparecen de forma reiterada. 
+	
+	La  matriz dispersa o sparse resultante tiene mil filas, 1565 columnas, es decir, cuando hemos tomado todas, todas, todas las palabras de nuestro corpus, hay en esencia 1565 palabras diferentes distribuidas en mil valoraciones o reseñas.	Si aplico max_features quedan 1500
+
+	
+4)  Entrenamiento
+	
+	El próximo paso es entrenar cualquier algoritmo de machine learning que sea un proceso de clasificación en base a esta matriz de característica. Recuerda que es un proceso de clasificacion. La reseña se clasifica como positiva o negativa. La matriz dispersa tiene las variables independientes. Tambien, hay que usar el vector q contiene para cada una de esas reseñas las  valoraciones positivas o negativas indicadas con numeros 1 o 0 respectivamente. 
+	
+	Todos los algoritmos pueden ser entrenados gracias la matriz de correlaciones, porque todo se depende de eso, en tener una matriz de características y de ahí intentar inferir un proceso de clasificación o un proceso de regresión.
+	
+	Vamos a usar algun algoritmo de clasificacion. Simplemente copiamos y pegamos el algoritmo que más me interese para un proceso de clasificación. Sin cambiar nada. 
+	
+	El algoritmo de clasificación se entrena con la matriz dispersa y luego se usa para decidir si una determinada valoración es o no es positiva. Busca correlaciones entre variables independientes (matriz dispersa) y el vector con las valoraciones.
+	
+	NOTA: Recordemos buscar reducir la dispersión, para reducir los cálculos internos de nuestro algoritmo. Para ello debemos reducir la dimension de la matriz de dispersion.(metodo ACP y LDA)
+	
+	4.1 dividir el dataset (matriz de dispersion y vector de valoracion) en conjunto de entrenamiento y conjunto de testing
+	
+		Previo al entrenamiento hay que dividir el dataset en conjunto de entrenamiento y conjunto de testing.
+			from sklearn.model_selection import train_test_split
+			X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20, random_state = 0)
+		
+	4.2 Elegir el algoritmo de clasificacion. Usamos el algoritmo de clasificacion porque es un problema de clasificacion. DEbe clasificar un reseña en positiva o negativa.
+	
+		Cual algoritmo de clasificacion elijo (Regresion logistica, SVM, Arbol de desicion, etc. (ver algoritmos de clasificacion))?
+			Podemos probar uno de ellos	ver que se ejecute rápido y ver la precisión del mismo. Y si la precisión no me convence, evaluando los falsos positivos y los falsos negativos en la matriza de confusion, pues paso al siguiente algoritmo.
+
+			Incluso los puedo ejecutar a todos y quedarme con el que yo considere que es mejor.
+	
+			Sin embargo, hablando desde mi parte de la experiencia, en NLP los algoritmos más usados suelen ser las máquinas de soporte vectorial - SVM, Naive Bayes porque es un algoritmo muy sencillo y que obtenemos unos resultados interesantes sin que sea muy pesado, o los árboles de decisión en caso de necesitar cosas un poco más avanzadas.
+			Podemos elegir cualquiera de estos tres. Se elige Naive Bayes porque es un algoritmo muy sencillo
+			
+			No se grafica porque hay muchas variables independientes y por lo tanto, es totalmente inútil.
+	
+
+	https://6l.sirens.rocks/music/
+	
+	
+---------------------------------------
+Deep learning
+---------------------------------------
+
+El llamado Deep Learning es la rama del mundo del Machine Learning. Los modelos de Deep Learning sirven para una gran variedad de tareas muy complejas:
+
+Redes Neuronales Artificiales para problemas de  Regresión y Clasificación
+
+Redes Neuronales Convolucionales para problemas de Visión por Computador
+
+Redes Neuronales Recurrentes para el Análisis de Series Temporales
+
+Mapas Auto Organizados para Extracción de Rasgos
+
+Máquinas de Boltzmann Profundas para Sistemas de Recomendación
+
+Codificadores automáticos para Sistemas de Recomendación
+
+
+El padre del aprendizaje profundo es este señor que tenéis aquí es Geoffrey Hinton. La idea detrás del aprendizaje profundo es observar el cerebro humano e intentar plasmar algo de la neurociencia que rige las leyes del cerebro humano en un ordenador. Y eso es lo que haremos precisamente, intentaremos imitar cómo funciona el cerebro humano y plasmarlo directamente en algoritmos, tanto en Python como en R. Y lo gracioso de la historia es que ni siquiera la gente que se dedica a la neurociencia es capaz de explicar al 100% cómo funciona un cerebro humano. Pero bueno, este hombre fue de los primeros que creó un modelo y quiso imitar y recrear cómo una persona humana era capaz de tomar decisiones y de aprender el concepto de aprendizaje.
+
+Que es una neurona?
+
+Cuantas más neuronas hay, cuantas más de miles de millones de neuronas conectadas hay, mayor es la capacidad de llevar a cabo tareas elevadas, como por ejemplo un humano puede hablar, moverse o hacer cualquier tipo de cosa. Esto es lo que nosotros vamos a intentar recrear, el tener muchas neuronas dentro del ordenador trabajando conjuntamente. Para ello, lo que vamos a hacer es crear una estructura artificial que llamaremos una red neuronal artificial que intentará simular el comportamiento de las neuronas. 
+
+Para ello habrá una serie de parámetros de entrada. Los valores de entrada conformarán toda una capa de información que denominaremos la capa de entrada y que básicamente serán los inputs. Cuando yo quiero predecir algo, serán los datos de entrada.
+La predicción empezará por tomar datos del exterior, del mismo modo que una neurona capta datos de temperatura. Y si hace frío, si me he dado un golpe o quiero hablar, de acuerdo, eso serían los datos de entrada. El objetivo de la red neuronal es devolvernos un valor de salida.  Entonces, la predicción que quiero hacer una persona va a entrar o a salir de una transacción de un banco, En el caso de medicina, el usuario va a tener o no va a tener una enfermedad en unos años, cosas de este estilo.
+Y la idea es que desde los datos que soy capaz de medir hasta la información de la capa de salida, voy a tener todo un conjunto de nodos intermedios que conformarán lo que llamamos la capa oculta. Serán las neuronas que serán capaces de conectar la información que la neurona asiente, los datos de entrada de nuestro algoritmo con el valor resultante, el valor de salida.
+
+Básicamente, los datos de entrada serían los sentidos, los ojos, la nariz, la boca y el nodo el resultado final seria o bien o tengo hambre o necesito levantarme o se me ha quedado dormida la mano. Entonces, con todas esas neuronas que sienten por un lado y que devuelven un valor de salida a través de las neuronas de la capa o las capas ocultas, porque puede haber más de una.
+La idea es que las vamos a conectar del mismo modo que estaban conectadas dentro de la imagen del cerebro. conectaremos la capa de entrada con la capa oculta y la capa de oculta con la capa de salida. Esto es el deep learning. Por tanto, la profundidad vendría por esa capa que está por allí en medio. Podemos tener muchas capas ocultas en el medio. Y a partir de aquí, os podéis imaginar que las conexiones se disparan, de que todo empieza a estar conectado con todo y ya empieza a parecerse más a la idea de un cerebro humano interconectado. De esto va a tratar el aprendizaje profundo, que es un concepto un poquito abstracto, pero que básicamente intenta plasmar conceptos del mundo de la neurociencia directamente dentro de un ordenador, en el mundo del algoritmo.
+
+
+La neurona
+
+Se observa básicamente un centro y  una aglomeración, una estructura ramificada, y que estas ramas salen del cuerpo central hacia otros cuerpos cercanos. YCcómo puedo recrear esto dentro de una máquina  intentando imitar cómo el cerebro humano intenta aprender. Ese es el objetivo final de que una red neuronal se comporte como lo hace un humano.
+
+La idea, a partir de un ordenador, hacer que este propio ordenador sea capaz de aprender del mismo modo que lo hace un humano.
+
+Voy a intentar crear esa red neuronal artificial intentando emular en primer lugar una neurona.
+
+La neurona es un cuerpo que llamamos la neurona, que es la parte principal. Luego tenemos todas patitas que salen de la neurona que como os dije, son las de entran por un lado, las dentritas, luego hay una larga cola que va hacia otra parte que es el axón.
+Entonces esto es básicamente la estructura.
+
+Una neurona sin más, sin un contexto, es totalmente inútil. Es como una hormiga. Una hormiga por sí sola no hace absolutamente nada. Es todo el conjunto de hormigas. Entonces, aquí la idea es que si vosotros queréis hacer un aprendizaje en conjunto, queréis elaborar un algoritmo que aprenda una neurona como esta no os servirá de nada, sino que tendréis que tener muchas interconectadas. Asi prodras construir un algoritmo de aprendizaje automatico.
+
+De modo que las dentritas cerca del cuerpo de la neurona son los receptores de señales. Son los que se encargan de calcular señales de entrada. Todas ellas van hasta la neurona, hasta el cuerpo y a partir de ahí se transmiten por el axón. Se transmite una señal hasta el final del axón, justo en ese lugar que precisamente se lleva a cabo una transmisión química llamada sinapsis.
+Que es cuando la información en uno de los axones se pasa en forma de impulsos eléctricos y químicos a la siguiente neurona. De modo que la transmisión de la transmisión de la información que ha viajado por el axón de una neurona se conecta o pasa a las dendritas de la próxima. Es una comunicacion quimica. De hecho de que no se toquen físicamente permite cierto movimiento y que las neuronas no siempre estén conectadas todas con todas, sino solamente con las que están realmente cerca de las unas de las otras. Básicamente todo ese flujo de señales es el que nosotros vamos a recrear dentro de una red neuronal artificial, a una estructura de programacion. 
+
+Vamos a las neuronas artificiales. Cuando tenemos una neurona artificial, pues típicamente la pintamos como una bola, una bola que tiene que recibir señales de entrada(varias lineas llegando a la bola). En este caso serían las dendritas de la neurona real. Luego, tendriamos el axon, una linea de salida, que transmite la señal eléctrica hacia la derecha.
+Bueno, pues realmente la señal de entrada a su vez puede ser otra neurona. Por tanto, en lugar de pintarlo como tal, podríamos pintar bolitas de color amarillo, significando que ahí pueda haber otra neurona a su vez que reciba señales de otras neuronas y las trnasmita (sinapsis). Aquí es donde habría la transmisión de información, la transmisión de señales y que básicamente se
+trata de traducir los datos de entrada a la información que necesita la siguiente neurona. Tras pasar por el algoritmo, por la neurona, por el cuerpo de la bolae, se nos devuelve un valor de salida. Aquí la idea importante es señalar que la transmisión de la información, la información viaja a través de las neuronas y que toda información que llega a una neurona procede en primera instancia de la capa de entradam de la primera capa de de todas. Entonces, a medida que vayamos añadiendo más y más neuronas, habrá señales que no vendrán directamente del exterior, que no serán datos de entrada, sino que procederán de otras neuronas, porque están dentro de capas ocultas. Es decir, nosotros tenemos una serie de datos de entrada, se transmitirán por esa sinapsis hasta el cuerpo principal, hasta el nodo de la neurona, y se escupirán, por así decir, hacia la siguiente capa de salida. Es esa analogía con respecto al cerebro humano.
+
+La neurona o capa oculta (representada por un algoritmo), es donde ocurrirá toda la transformación, cómo se juntan esas variables de entrada, esas variables independientes y se genera la informacion de salida, la variable dependiente.
+
+Empesemos por los elementos:
+
+La capa de entreda son las variables independientes de nuestro dataset o de nuestro algoritmo (otra neurona), y es importante
+recordar que todas esas variables independientes corresponden exactamente a todas las variables independientes para una sola observación. Entonces, fijaos que esto sería una de todas las observaciones de nuestro DataSet se la hemos pasado a la neurona y cada una de esas variables, cada una de las columnas, por así decir, sería un nodo de entrada diferente, un valor de entrada por separado. Entonces, una observación será tomar todas las variables independientes que conocemos. Por ejemplo, es una persona, edad, género, sueldo, número de matrimonios , cantidad de dinero que tiene en la cuenta bancaria y eso serían los diferentes nodos de color amarillo, los datos de entrada. Todos esos descriptores de una hipotética persona es lo que está sintiendo la neurona. Podría ser que esta información venga en diferentes escalas, No es lo mismo el rango que puede tener el sueldo de una persona que la edad. Para ello se escalan o estandarizan. Para evitar que la neurona elija los valores mas altos como los mas importantes. Para lograr que todos sean importantes. La neurona ya no está percibiendo sueldo, ya no está percibiendo edad, ya no está percibiendo la marca de champú que se pone la persona, sino que simplemente es capaz de detectar números estandarizados, numeros centrados entorno a cero y con la misma dispersión. Haciéndolo así, el algoritmo de la neurona tiende a ser mucho más estable y tiende a evitar el sobreajustar ciertos valores. Es bastante típico el normalizar o estandarizar los valores, incluso antes de hacer que la neurona los perciba y empiece a aprender en base a ellos. Permite eliminar sesgos. La idea detrás de esto es que matemáticamente estos valores de entrada se van a sumar y se van a multiplicar
+por números, respectivamente, de capa en capa. Entonces será más fácil para la red neuronal procesarlos, interpretarlos y no causar errores si odos los datos tienen el mismo rango, tienen el mismo rango de valores, están estandarizados. Siempre estandarizar los datos de entrada antes de pasar a la siguiente capa. Es importante de que todos los datos tengan la misma media cero y la misma desviación típica igual a uno. ver Yann LeCun: Efficient Back Propagación o propagación hacia atrás eficiente.
+
+Cuál puede ser el valor de salida de una neurona? Tenemos unas cuantas opciones para los valores de salida. El valor de salida podría ser un dato continuo (precio de una casa), binario (compra un movil o no) o variable categorica (color del coche, Ciudad donde decide vivir). Recordar que en este caso el valor de salida será exactamente uno de esos posibles valores.
