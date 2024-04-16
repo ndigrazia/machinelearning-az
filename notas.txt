@@ -2278,9 +2278,10 @@ Proceso de aprendizaje del lenguaje: (Analiza las reseñas para saber si son pos
 	https://6l.sirens.rocks/music/
 	
 	
----------------------------------------
-Deep learning
----------------------------------------
+---------------------------------------------------
+Deep learning 
+---------------------------------------------------
+
 
 El llamado Deep Learning es la rama del mundo del Machine Learning. Los modelos de Deep Learning sirven para una gran variedad de tareas muy complejas:
 
@@ -2311,32 +2312,160 @@ Básicamente, los datos de entrada serían los sentidos, los ojos, la nariz, la 
 La idea es que las vamos a conectar del mismo modo que estaban conectadas dentro de la imagen del cerebro. conectaremos la capa de entrada con la capa oculta y la capa de oculta con la capa de salida. Esto es el deep learning. Por tanto, la profundidad vendría por esa capa que está por allí en medio. Podemos tener muchas capas ocultas en el medio. Y a partir de aquí, os podéis imaginar que las conexiones se disparan, de que todo empieza a estar conectado con todo y ya empieza a parecerse más a la idea de un cerebro humano interconectado. De esto va a tratar el aprendizaje profundo, que es un concepto un poquito abstracto, pero que básicamente intenta plasmar conceptos del mundo de la neurociencia directamente dentro de un ordenador, en el mundo del algoritmo.
 
 
-La neurona
 
-Se observa básicamente un centro y  una aglomeración, una estructura ramificada, y que estas ramas salen del cuerpo central hacia otros cuerpos cercanos. YCcómo puedo recrear esto dentro de una máquina  intentando imitar cómo el cerebro humano intenta aprender. Ese es el objetivo final de que una red neuronal se comporte como lo hace un humano.
+---------------------------------------
+- Redes Neuronales Artificiales (ANN)
+---------------------------------------
 
-La idea, a partir de un ordenador, hacer que este propio ordenador sea capaz de aprender del mismo modo que lo hace un humano.
 
-Voy a intentar crear esa red neuronal artificial intentando emular en primer lugar una neurona.
+	- La neurona
 
-La neurona es un cuerpo que llamamos la neurona, que es la parte principal. Luego tenemos todas patitas que salen de la neurona que como os dije, son las de entran por un lado, las dentritas, luego hay una larga cola que va hacia otra parte que es el axón.
-Entonces esto es básicamente la estructura.
 
-Una neurona sin más, sin un contexto, es totalmente inútil. Es como una hormiga. Una hormiga por sí sola no hace absolutamente nada. Es todo el conjunto de hormigas. Entonces, aquí la idea es que si vosotros queréis hacer un aprendizaje en conjunto, queréis elaborar un algoritmo que aprenda una neurona como esta no os servirá de nada, sino que tendréis que tener muchas interconectadas. Asi prodras construir un algoritmo de aprendizaje automatico.
+	Se observa básicamente un centro y  una aglomeración, una estructura ramificada, y que estas ramas salen del cuerpo central hacia otros cuerpos cercanos. YCcómo puedo recrear esto dentro de una máquina  intentando imitar cómo el cerebro humano intenta aprender. Ese es el objetivo final de que una red neuronal se comporte como lo hace un humano.
 
-De modo que las dentritas cerca del cuerpo de la neurona son los receptores de señales. Son los que se encargan de calcular señales de entrada. Todas ellas van hasta la neurona, hasta el cuerpo y a partir de ahí se transmiten por el axón. Se transmite una señal hasta el final del axón, justo en ese lugar que precisamente se lleva a cabo una transmisión química llamada sinapsis.
-Que es cuando la información en uno de los axones se pasa en forma de impulsos eléctricos y químicos a la siguiente neurona. De modo que la transmisión de la transmisión de la información que ha viajado por el axón de una neurona se conecta o pasa a las dendritas de la próxima. Es una comunicacion quimica. De hecho de que no se toquen físicamente permite cierto movimiento y que las neuronas no siempre estén conectadas todas con todas, sino solamente con las que están realmente cerca de las unas de las otras. Básicamente todo ese flujo de señales es el que nosotros vamos a recrear dentro de una red neuronal artificial, a una estructura de programacion. 
+	La idea, a partir de un ordenador, hacer que este propio ordenador sea capaz de aprender del mismo modo que lo hace un humano.
 
-Vamos a las neuronas artificiales. Cuando tenemos una neurona artificial, pues típicamente la pintamos como una bola, una bola que tiene que recibir señales de entrada(varias lineas llegando a la bola). En este caso serían las dendritas de la neurona real. Luego, tendriamos el axon, una linea de salida, que transmite la señal eléctrica hacia la derecha.
-Bueno, pues realmente la señal de entrada a su vez puede ser otra neurona. Por tanto, en lugar de pintarlo como tal, podríamos pintar bolitas de color amarillo, significando que ahí pueda haber otra neurona a su vez que reciba señales de otras neuronas y las trnasmita (sinapsis). Aquí es donde habría la transmisión de información, la transmisión de señales y que básicamente se
-trata de traducir los datos de entrada a la información que necesita la siguiente neurona. Tras pasar por el algoritmo, por la neurona, por el cuerpo de la bolae, se nos devuelve un valor de salida. Aquí la idea importante es señalar que la transmisión de la información, la información viaja a través de las neuronas y que toda información que llega a una neurona procede en primera instancia de la capa de entradam de la primera capa de de todas. Entonces, a medida que vayamos añadiendo más y más neuronas, habrá señales que no vendrán directamente del exterior, que no serán datos de entrada, sino que procederán de otras neuronas, porque están dentro de capas ocultas. Es decir, nosotros tenemos una serie de datos de entrada, se transmitirán por esa sinapsis hasta el cuerpo principal, hasta el nodo de la neurona, y se escupirán, por así decir, hacia la siguiente capa de salida. Es esa analogía con respecto al cerebro humano.
+	Voy a intentar crear esa red neuronal artificial intentando emular en primer lugar una neurona.
 
-La neurona o capa oculta (representada por un algoritmo), es donde ocurrirá toda la transformación, cómo se juntan esas variables de entrada, esas variables independientes y se genera la informacion de salida, la variable dependiente.
+	La neurona es un cuerpo que llamamos la neurona, que es la parte principal. Luego tenemos todas patitas que salen de la neurona que como os dije, son las de entran por un lado, las dentritas, luego hay una larga cola que va hacia otra parte que es el axón.
+	Entonces esto es básicamente la estructura.
 
-Empesemos por los elementos:
+	Una neurona sin más, sin un contexto, es totalmente inútil. Es como una hormiga. Una hormiga por sí sola no hace absolutamente nada. Es todo el conjunto de hormigas. Entonces, aquí la idea es que si vosotros queréis hacer un aprendizaje en conjunto, queréis elaborar un algoritmo que aprenda una neurona como esta no os servirá de nada, sino que tendréis que tener muchas interconectadas. Asi prodras construir un algoritmo de aprendizaje automatico.
 
-La capa de entreda son las variables independientes de nuestro dataset o de nuestro algoritmo (otra neurona), y es importante
-recordar que todas esas variables independientes corresponden exactamente a todas las variables independientes para una sola observación. Entonces, fijaos que esto sería una de todas las observaciones de nuestro DataSet se la hemos pasado a la neurona y cada una de esas variables, cada una de las columnas, por así decir, sería un nodo de entrada diferente, un valor de entrada por separado. Entonces, una observación será tomar todas las variables independientes que conocemos. Por ejemplo, es una persona, edad, género, sueldo, número de matrimonios , cantidad de dinero que tiene en la cuenta bancaria y eso serían los diferentes nodos de color amarillo, los datos de entrada. Todos esos descriptores de una hipotética persona es lo que está sintiendo la neurona. Podría ser que esta información venga en diferentes escalas, No es lo mismo el rango que puede tener el sueldo de una persona que la edad. Para ello se escalan o estandarizan. Para evitar que la neurona elija los valores mas altos como los mas importantes. Para lograr que todos sean importantes. La neurona ya no está percibiendo sueldo, ya no está percibiendo edad, ya no está percibiendo la marca de champú que se pone la persona, sino que simplemente es capaz de detectar números estandarizados, numeros centrados entorno a cero y con la misma dispersión. Haciéndolo así, el algoritmo de la neurona tiende a ser mucho más estable y tiende a evitar el sobreajustar ciertos valores. Es bastante típico el normalizar o estandarizar los valores, incluso antes de hacer que la neurona los perciba y empiece a aprender en base a ellos. Permite eliminar sesgos. La idea detrás de esto es que matemáticamente estos valores de entrada se van a sumar y se van a multiplicar
-por números, respectivamente, de capa en capa. Entonces será más fácil para la red neuronal procesarlos, interpretarlos y no causar errores si odos los datos tienen el mismo rango, tienen el mismo rango de valores, están estandarizados. Siempre estandarizar los datos de entrada antes de pasar a la siguiente capa. Es importante de que todos los datos tengan la misma media cero y la misma desviación típica igual a uno. ver Yann LeCun: Efficient Back Propagación o propagación hacia atrás eficiente.
+	De modo que las dentritas cerca del cuerpo de la neurona son los receptores de señales. Son los que se encargan de calcular señales de entrada. Todas ellas van hasta la neurona, hasta el cuerpo y a partir de ahí se transmiten por el axón. Se transmite una señal hasta el final del axón, justo en ese lugar que precisamente se lleva a cabo una transmisión química llamada sinapsis.
+	Que es cuando la información en uno de los axones se pasa en forma de impulsos eléctricos y químicos a la siguiente neurona. De modo que la transmisión de la transmisión de la información que ha viajado por el axón de una neurona se conecta o pasa a las dendritas de la próxima. Es una comunicacion quimica. De hecho de que no se toquen físicamente permite cierto movimiento y que las neuronas no siempre estén conectadas todas con todas, sino solamente con las que están realmente cerca de las unas de las otras. Básicamente todo ese flujo de señales es el que nosotros vamos a recrear dentro de una red neuronal artificial, a una estructura de programacion. 
 
-Cuál puede ser el valor de salida de una neurona? Tenemos unas cuantas opciones para los valores de salida. El valor de salida podría ser un dato continuo (precio de una casa), binario (compra un movil o no) o variable categorica (color del coche, Ciudad donde decide vivir). Recordar que en este caso el valor de salida será exactamente uno de esos posibles valores.
+	Vamos a las neuronas artificiales. Cuando tenemos una neurona artificial, pues típicamente la pintamos como una bola, una bola que tiene que recibir señales de entrada(varias lineas llegando a la bola). En este caso serían las dendritas de la neurona real. Luego, tendriamos el axon, una linea de salida, que transmite la señal eléctrica hacia la derecha.
+	Bueno, pues realmente la señal de entrada a su vez puede ser otra neurona. Por tanto, en lugar de pintarlo como tal, podríamos pintar bolitas de color amarillo, significando que ahí pueda haber otra neurona a su vez que reciba señales de otras neuronas y las trnasmita (sinapsis). Aquí es donde habría la transmisión de información, la transmisión de señales y que básicamente se
+	trata de traducir los datos de entrada a la información que necesita la siguiente neurona. Tras pasar por el algoritmo, por la neurona, por el cuerpo de la bolae, se nos devuelve un valor de salida. Aquí la idea importante es señalar que la transmisión de la información, la información viaja a través de las neuronas y que toda información que llega a una neurona procede en primera instancia de la capa de entradam de la primera capa de de todas. Entonces, a medida que vayamos añadiendo más y más neuronas, habrá señales que no vendrán directamente del exterior, que no serán datos de entrada, sino que procederán de otras neuronas, porque están dentro de capas ocultas. Es decir, nosotros tenemos una serie de datos de entrada, se transmitirán por esa sinapsis hasta el cuerpo principal, hasta el nodo de la neurona, y se escupirán, por así decir, hacia la siguiente capa de salida. Es esa analogía con respecto al cerebro humano.
+
+	La neurona o capa oculta (representada por un algoritmo), es donde ocurrirá toda la transformación, cómo se juntan esas variables de entrada, esas variables independientes y se genera la informacion de salida, la variable dependiente.
+
+	Empesemos por los elementos:
+
+	La capa de entreda son las variables independientes de nuestro dataset o de nuestro algoritmo (otra neurona), y es importante
+	recordar que todas esas variables independientes corresponden exactamente a todas las variables independientes para una sola observación. Entonces, fijaos que esto sería una de todas las observaciones de nuestro DataSet se la hemos pasado a la neurona y cada una de esas variables, cada una de las columnas, por así decir, sería un nodo de entrada diferente, un valor de entrada por separado. Entonces, una observación será tomar todas las variables independientes que conocemos. Por ejemplo, es una persona, edad, género, sueldo, número de matrimonios , cantidad de dinero que tiene en la cuenta bancaria y eso serían los diferentes nodos de color amarillo, los datos de entrada. Todos esos descriptores de una hipotética persona es lo que está sintiendo la neurona. Podría ser que esta información venga en diferentes escalas, No es lo mismo el rango que puede tener el sueldo de una persona que la edad. Para ello se escalan o estandarizan. Para evitar que la neurona elija los valores mas altos como los mas importantes. Para lograr que todos sean importantes. La neurona ya no está percibiendo sueldo, ya no está percibiendo edad, ya no está percibiendo la marca de champú que se pone la persona, sino que simplemente es capaz de detectar números estandarizados, numeros centrados entorno a cero y con la misma dispersión. Haciéndolo así, el algoritmo de la neurona tiende a ser mucho más estable y tiende a evitar el sobreajustar ciertos valores. Es bastante típico el normalizar o estandarizar los valores, incluso antes de hacer que la neurona los perciba y empiece a aprender en base a ellos. Permite eliminar sesgos. La idea detrás de esto es que matemáticamente estos valores de entrada se van a sumar y se van a multiplicar
+	por números, respectivamente, de capa en capa. Entonces será más fácil para la red neuronal procesarlos, interpretarlos y no causar errores si odos los datos tienen el mismo rango, tienen el mismo rango de valores, están estandarizados. Siempre estandarizar los datos de entrada antes de pasar a la siguiente capa. Es importante de que todos los datos tengan la misma media cero y la misma desviación típica igual a uno. ver Yann LeCun: Efficient Back Propagación o propagación hacia atrás eficiente.
+
+	Cuál puede ser el valor de salida de una neurona? Tenemos unas cuantas opciones para los valores de salida. El valor de salida podría ser un dato continuo (precio de una casa), binario (compra un movil o no) o variable categorica (color del coche, Ciudad donde decide vivir). Recordar que en este caso el valor de salida será exactamente uno de esos posibles valores. En el caso del continuo, en el caso binario está claro, Pero en el caso de la categoría solemos representar la red neuronal un poco tuneada de hecho.En el caso de categorías, la idea es que nosotros vamos a tener una serie de variables posibles, una serie de opciones de categorías a elegir y el algoritmo elegirá sólo una de ellas. De hecho, será muy interesante ver como el algoritmo es capaz de pasar de números a categorías a través de variables dummy, por ejemplo. 
+
+	Por supuesto, el valor de salida tiene que ser el valor de salida de esa misma observación de entrada. Por tanto, hay una observación con toda la información suministrada a la capa de entrada. Hay una observación, la misma con el valor de salida de la observación en cuestión. Y la idea es que lo que suministro a la red neuronal por la entrada y lo que me
+	devuelve la capa salida, tiene que ser la misma observación.  Entonces se pasa la información a la neurona fila por fila, se pasan todas las filas de la red de la red neuronal y así esta va aprendiendo una tras otra. Lo podéis pensar como si fuera una regresión lineal múltiple, donde la red neuronal va a intentar encontrar los coeficientes de forma automática. Yo no voy a no voy a tener una fórmula que me los dé, sino que hará como si fuera prueba error hasta encontrarlos. De acuerdo, entonces esa sería una forma bastante buena de simplificar el concepto detrás de una red neuronal. De acuerdo, entonces se ponen una serie de valores, y la red neuronal va a probar los pesos, va a probar los coeficientes del modelo hasta encontrar aquellos que mejor devuelven el resultado de salida final.  Por tanto, al final la red neuronal irá aprendiendo fila a fila a partir del dataset de los datos de entrada
+
+	Por último, tenemos la fase de la sinapsis. Son las fechas que van desde las neurnas de la izquierda hacia la neurona de la derecha. Entonces esto serían las sinapsis y realmente a nivel matemático esto no son ni más ni menos que pesos, son coeficientes. Y la idea es que la neurona tiene que encontrar el valor óptimo de esos pesos, de modo que sea capaz de calcular el valor de salida ponderando cada peso por Valor de entrada y sumando los datos. En pocas palabras, lo que hace una red neuronal es multiplicar los valores de entrada por sus pesos y sumar el resultado. De acuerdo, entonces la red neuronal lo que tiene que hacer es aprender ajustando los pesos. Uy, ahora me ha dado demasiado alto. Voy a bajar este. Este suma demasiado poco.
+	Voy a añadirle algo más. Y esto básicamente es lo que hará que una neurona dé un buen resultado. De modo que lo que haremos será que la información, los datos de entrada, se ponderen con esos pesos y intentar ajustar lo mejor posible el valor de salida.
+
+	Pero básicamente, cuando estáis entrenando una red neuronal, lo que estáis haciendo es un problema de ajustar estos pesos. El W1, W2, w m son los pesos que el algoritmo tiene que encontrar. Y ahí es precisamente donde entra en juego el algoritmo del gradiente descendente, que es el que es capaz de encontrar los valores óptimos de los pesos  e incluso cuando no tenemos el resultado correcto, ir a buscar el culpable. Cuál de esos pesos es el que realmente causa la discrepancia con respecto al valor de salida. Pero básicamente un problema de redes neuronales es un problema de saber encontrar los pesos. En la neurona central es donde va a ocurrir el problema de gradiente descendente,  la propagación hacia atrás y demás.
+
+	Van a pasar por una serie de pasos. El primer paso, ya os lo he comentado, en la neurona se van a sumar los productos de cada peso por el valor de entrada respectivo. Esa será la primera fase a tener en cuenta, en la que la suma ponderada va a resumir toda la información en un único número. Una vez que tenemos ese resultado final, ese numerito se le aplica una función de activación. La función de activación servirá precisamente para ver si la neurona debe despertarse o no, debe activarse o no, si la entrada de datos es lo suficientemente interesante como para transmitir la señal por el axón. Y si ese valor es suficientemente alto, pues lo que hacemos es transmitir la información hacia la siguiente capa, hacia el valor de salida. Por tanto, fijaros que dependiendo de qué función de activación elijáis la neurona, podría transmitir o no la señal.La elección de la función de activación también será interesante Eso ocurrirá precisamente en la tercera etapa, donde si el valor es suficientemente elevado, la información que la neurona ha calculado será transmitida hacia la siguiente capa.
+
+	Entonces se toman unos datos de entrada, se ponderan con unos pesos. Se aplica una función de activación para ver si la neurona se despierta o no, y en caso de despertarse transmite la información por el axón hasta la siguiente neurona.
+
+	La gran cantidad de neuronas que coloquemos conectadas entre todas ellas harán que este algoritmo sea 
+	capaz de aprender muchísimos, muchísimos rasgos.
+
+	Operacion dentro de la neurona:
+		  n
+		Σ  wi*xi
+		  i=1
+		  
+		  w: peso de la entrada
+		  x: valor de la entrada
+		  n: cantidad de entradas
+		  
+		  
+	- La funcion de Activacion
+	
+	
+	La funcion de activacion es la que determina si el valor resultante de la neurona tiene que pasar a la proxima capa o no.
+	
+	Básicamente veremos cuatro tipos diferentes de funciones de activación que tenemos a nuestra disposición y se utilizan dentro del mundo del machine learning.
+	
+	Por supuesto, existen más tipos de funciones de activación, pero estas cuatro que veremos son las predominantes.
+	
+	Las funciones son:
+	
+		- Funcion escalon o umbral:  
+		
+		R(x) = 1 if x >= 0 o 0 if x < 0
+		
+		Realmente se llama así porque parece realmente un escalón en un grafico de X y Y. En el eje de las X tenemos la entrada ya ponderada multiplicada por los respectivos pesos de la fase de sinapsis, por así decir, de la red neuronal, y el valor de salida que ésta devuelve se transforma a cero o uno respectivamente, dependiendo de si la ponderación da positiva o negativa. Si el resultado de la neurona es >=0 es 1 y  0 si el resultado es < 0.
+		
+		Se crea un salto entorno al valor cero (0). De modo que cuando se calculan los valores de entrada por los pesos, si el
+		resultado de esa ponderación es negativo, entonces la función escalón lo transforma automáticamente a 0. Y en el caso de que la ponderación de un número positivo, automáticamente la función escalón lo transforma en uno.
+	 
+		Hay blancos y negros o se activa o no.
+		
+		- Funcion Sigmoide:
+		
+		Funcion con forma similar a la funcion logistica en regresion. 
+		
+		En caso de tener que devolver 0 o 1. Se puede establecer un valor de corte entorno a 0,5 (1/2), valor resultante de x=0. Todo por debajo de 0,5 tiene resultado 0 y todo por encima de 0,5 tiene resultado 1.
+		
+		R(x) = 1 / (1 + e ^-x)
+		
+		e: El número de Euler 
+			∞
+		e=∑	1/n!
+			n=0
+		
+		Es una fórmula bastante interesante y que básicamente se trata de hacer esa misma división entre cero y uno, pero en este caso de forma continua (mas suave), con un poquito de pendiente y derivable, o sea, sin puntas en torno a ningún punto.
+		
+		Cuando X es un número muy negativo, pues esta función se acerca mucho a cero y cuando X es un valor muy grande, tiende a uno.
+	
+		Valores muy negativos los transforma a valores cercanos a 0 y valores muy positivos los transforma a valores cercanos a 1. Cuanto mas positivos es el resultado mas se aproxima a 1.
+		
+		Esto lo que hace el hecho de que está entre cero y uno es poderlo interpretar como una probabilidad. Qué tan probable es que la neurona se active.
+		
+		- Funcion Rectificador:
+		
+		R(x) = max(x, 0)
+		
+		La mitad de la función totalmente nula, luego va creciendo paulatinamente. los valores de x hasta 0 hace a la funcion nula luego, crece paulatinamente.
+		
+		Es una de las funciones más populares para redes neuronales artificiales, por el hecho de que transforma todo lo negativo directamente en cero, se carga todo lo que sea negativo. 
+		
+		Todo aquello que una vez ponderado por los pesos de la red neuronal da negativo, no interesa, desaparece.
+		
+		Y a partir de ahí todo lo positivo se conserva como tal. Por eso la función es el máximo entre el valor de la ponderación y el número cero. La funcion aumenta gradualmente con respecto al valor de entrada.
+		
+		- Funcion Tangente Hiperbolica (Tanh):
+
+		Forma similar a la sigmoide.
+		
+		R(x) = 1 - (e^-2x) /  1 + (e^-2x) 
+		
+		Aquí la idea es que si la función sigmoide empezaba en 0 y acababa en uno. La función tangente hiperbólica empieza por debajo de cero. Empieza en -1 y acababa en 1.  Justo en 0 vale 0. Y a partir de ahí, los números positivos de la ponderación van creciendo hasta un máximo de uno. 
+		
+		Pede ser útil en algunas aplicaciones donde necesitamos valores negativos.
+		
+		Para mas detalle ver paper: Deep sparse rectificador neural networks. By Xavier Glorot. Alli se ve porque la función de rectificación es una función tan importante y popular.
+		
+		Cada una de las neuronas de la capa oculta pondera más o menos cada uno de los valores de entrada. Cada neurona puede tener diferentes funciones de activacion. Aplicaríamos esas funciones de activación respectivamente y transmitiría los valores a la señal de salida y justo ahí al final. Si nosotros queremos predecir qué tan probable es que el valor de salida pertenezca a una clase o contenga cierto valor, por ejemplo, se podría aplicar en este caso una función sigmoide.
+		
+		Esta combinación es bastante típica, sobre todo cuando en las capas ocultas vamos aplicando rectificadores para eliminar lo que no nos interesa en cada una de las neuronas centrales.Y luego, emitimos a partir de allí la predicción de la capa oculta y en el nodo final, el valor de salida es transformado a una probabilidad a través de utilizar una función sigmoide. Esto es super tipico.
+		
+		
+	- Como funcionan las redes neuronales?
+		
+		Veremos un ejemplo real de cómo se puede aplicar una red neuronal a un ejemplo clásico del mundo de las compras y ventas de casas. La tasación de casas. Tenemos un problema de evaluar propiedades. Tenemos una red neuronal que quiero que tenga en cuenta algunos campos, algunos parámetros de nuestra vivienda y el valor de venta de la misma. Usaremos un enfoque teorico. Entrenar la red es importante. Pero previamente, antes de entrenar a una red neuronal tengo que saber cómo montarla, qué estructura le tengo que dar, cuántos nodos de entrada, capas ocultas, funciones de activación, etc. Luego, se entrena y obtiene la prediccion final. 
+		
+		Bueno, pues digamos que para ello voy a necesitar una serie de parámetros de entrada. Podría ser, por ejemplo, el área en pies cuadrados de la propiedad, el número de dormitorios que tiene la propiedad, la distancia a la ciudad, suponemos que está en medio del campo o no tiene qué estar en el centro de la ciudad y la edad de la vivienda. Son cuatro variables que podrian conformar nuestra capa de entrada. Probablemente podrian haber mas parametros. Pero usaremos estos por simplicidad. Bueno, es una forma muy básica, pero la red neuronal tendría una capa de entrada con esta información y va a intentar aprender para devolvernos, para descubrirnos una capa de salida Para intentar sacar el valor de la casa que estoy intentando pronosticar.
+		
+		Si no hubiera ningún tipo de capa oculta, lo único que podría hacer era ponderar los datos de entrada con una serie de pesos W1 w2 w3 y w4, lo que hemos llamado sinapsis y se calcularía el resultado. De hecho, esto, el precio que calcularía sería básicamente esta ecuación: El precio final sería w uno por x1 más w dos por x dos w3 por x tres más w cuatro por x cuatro que no es ni más ni menos que una regresión lineal múltiple.
+			
+			precio final = w1 * x1 + w2 * x2 + w3 * x3 + w4 * x4
+
+							xi: peso
+							xi: valor de entrada
+
+		No hay funcion de activacion. Si aplicáramos alguna función de activación, por ejemplo la logística, podríamos sacar una probabilidad, porque sería un número entre cero y uno. Podriamos utilizar cualquier otra funcion de activacion.
+		
+		La gran mayoría de algoritmos que os he enseñado durante este curso de machine learning se pueden generalizar a algoritmos de redes neuronales, de modo que la regresión lineal simple se puede ver como una red neuronal. La lineal múltiple se puede ver como una red neuronal. La logística se puede ver como una red neuronal. Y básicamente todos los algoritmos de predicción y clasificación que os he enseñado durante el curso se pueden ver como redes neuronales. La red neuronal es muy potente. Todos los algoritmos de machine learning que existen se pueden representar como neuronas operando entre ellas hasta que el nodo final devuelve o bien una categoría o bien un valor de predicción. Si nohay capa oculta no estamos en un problema de deep learning, se puede ver como un problema clasico de machine learning. La ventaja que tenemos y la flexibilidad, por supuesto, es poder colocar entre medias capas ocultas que se encarguen de aumentar la precisión de nuestra predicción. Entonces, alargaremos con una capa oculta intermedia, donde aparecerán una serie de neuronas entre medias. Y el poder de esta capa oculta es que cada una de esas neuronas podrá ver los datos a su modo, podrá interpretar los datos a su modo. Entonces, para ello vamos a hacer un ejemplo y suponer que realmente se ha entrenado esa red neuronal. Se supone que vamos a suministrar una serie de viviendas a la red neuronal y ésta va a ir aprendiendo los pesos que deben ocupar cada una de las uniones entre la capa de entrada de la capa oculta y lo mismo con la capa oculta y la capa de salida.
+
+		Después de un par de iteraciones de la red neuronal, conectamos los cuatro datos de entrada, las cuatro variables de entrada con la primera neurona. Y aquí empieza a juntarse la información porque recuerda que sólo podemos tener un número cada vez. Como ya os enseñé anteriormente, la sinapsis es la fase de transmisión de la información desde una
+		capa hasta la siguiente. En este sistema habrá una serie de pesos y según esos pesos, sean o no sean cero, las variables aportarán más o menos a cada neurona. Vamos a suponer que de las cuatro variables de entrada hay dos con pesos no nulos. Es decir que la primer neurona le importa dos variables. Sopongamos el area de la propiedad y la distancia. No le importa los dormitorios o cualquier otra variable (cant. dormitorios o edad). De acuerdo, entonces lo único que le importa a la primera neurona es saber cuál es el área, cuál es la distancia a la ciudad. Son los únicos 2 valores de sinapsis que llega a la primera neurona con valores no nulos. Pues esta neurona básicamente lo que hace es evaluar cómo de lejos está la ciudad. Por ejemplo, cuanto más lejos está de la ciudad, más barata se vuelve la propiedad.
+		Y en términos de área, pues la idea es que cuanto más grande la propiedad, más cara es entonces el precio. Esta neurona lo entenderá como un factor proporcional al área e inversamente proporcional, por ejemplo, o con signo negativo en lo que es la distancia a la ciudad. De modo que esta neurona buscará casas grandes y lejos de la ciudad como forma de entender. La neurona será capaz de tasar las casas grandes que están lejos de la ciudad. Detecta una casa grande y lejos de la ciudad. Esta casa yo la se predecir, yo la se tasar y le voy a dar el resultado final a la capa de salida.
+		Esta neurona se especializa en esto y por tanto la función de activación que dispara a esta neurona sólo se activará cuando se cumplan ciertos criterios con respecto a la distancia y al área de la casa. Sólo será una neurona activa que sólo hara una sinapsis si realmente los valores de esas dos variables de entrada son los adecuados. No le importa la edad o los domitorios. El poder de la red neuronal es que cada neurona entenderá los datos a su modo. 
+		Bueno, pues la primera neurona es capaz de centrarse en el área y la distancia a la ciudad. Veamos la segunda, le interesa el área, el número de dormitorios y la edad. Por qué motivo podría interesarse por estas tres variables? Que ha encontrado que le permita jugar con estos datos? Bueno, recuerda que la red neuronal se entrena con todo el conjunto de datos que ya están escritos y se suministran a la red neuronal para que vaya aprendiendo. Y a través de pasar por todos los cientos de miles de ejemplos, cientos de miles de casas ha descubierto que combinando las variables de área, dormitorio y edad consigue algo interesante. El entrenamiento lo que hace es refinar el concepto que la red neuronal obtiene acerca de los datos de entrada. No le importa si esta cerca o lejos de la ciudad. Tan pronto como se cumplen los criterios de un número determinado de habitaciones, área y edad de la casa, se activa como neurona y le suministra el feedback a la capa de salida. Eesto aporta algo de información adicional a la capa de salida y permite que esas tres variables se combinen en un único atributo. Vemos la ultima neurona, sole le interesa la edad. Por que? El número de dormitorios, area o dónde esté ubicado le da bastante igual. Eso significa que es una casa antigua. Las casas antiguas normalmente se valoran por menos porque están más desgastadas. El valor de venta es menor o, puede tener valor historico y aumenta su valor. Esta neurona se especializó en esto, en ver las propiedades sólo en base a la antigüedad, de modo que casas con menos de 100 años, pues diría cuanto más vieja es y menos lujos tiene vamos a devaluarla pero, una casa histórica de mas de 100 años, incrementamos el precio hasta el punto de ser terriblemente cara una casa de hace 300 años, una casa histórica. En este ultimo caso, la funcion de activacion puede ser un rectificador  que cobraria sentido. Hasta cierto punto las casas no active esta neurona el componente de casa histórica y que de cierto punto en adelante empecemos a valorar la componente histórica del hogar de la casa. Entonces, hasta cierto punto, la neurona no se activa, por ejemplo hasta los 100 años, y después de los 100 años en adelante, cuanto más viejo se vuelve el edificio, más aumenta el valor total de la casa gracias a esta neurona. Entonces, fijaros que esto sería la idea global que la neurona habría ido recogiendo de todos los inputs, de todos los datos de entrada. A mayor neuronas mas flexibilidad, cada una de ellas aporta o quita al precio global de predicion. Cada una de las neuronas entiende la información a su propia manera. Se activan o no, respectivamente? Tiene más o menos pesos, más o menos parámetros.
+		Y la respuesta final de la predicción una vez que hayamos mirado 1 millón de anuncios de valores de casas, podremos llevar a cabo una predicción final, ponderando los resultados de todas las neuronas intermedias. Por separado las neuronas no tendrian mucho poder pero en conjunto aumentan su poder. En la capa de salida todo se junta y devuelve un valor de prediccion final. 
