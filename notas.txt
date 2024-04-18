@@ -2282,6 +2282,7 @@ Proceso de aprendizaje del lenguaje: (Analiza las reseñas para saber si son pos
 Deep learning 
 ---------------------------------------------------
 
+http://neuralnetworksanddeeplearning.com/
 
 El llamado Deep Learning es la rama del mundo del Machine Learning. Los modelos de Deep Learning sirven para una gran variedad de tareas muy complejas:
 
@@ -2376,7 +2377,6 @@ La idea es que las vamos a conectar del mismo modo que estaban conectadas dentro
 		  
 	- La funcion de Activacion
 	
-	
 	La funcion de activacion es la que determina si el valor resultante de la neurona tiene que pasar a la proxima capa o no.
 	
 	Básicamente veremos cuatro tipos diferentes de funciones de activación que tenemos a nuestra disposición y se utilizan dentro del mundo del machine learning.
@@ -2469,3 +2469,136 @@ La idea es que las vamos a conectar del mismo modo que estaban conectadas dentro
 		Esta neurona se especializa en esto y por tanto la función de activación que dispara a esta neurona sólo se activará cuando se cumplan ciertos criterios con respecto a la distancia y al área de la casa. Sólo será una neurona activa que sólo hara una sinapsis si realmente los valores de esas dos variables de entrada son los adecuados. No le importa la edad o los domitorios. El poder de la red neuronal es que cada neurona entenderá los datos a su modo. 
 		Bueno, pues la primera neurona es capaz de centrarse en el área y la distancia a la ciudad. Veamos la segunda, le interesa el área, el número de dormitorios y la edad. Por qué motivo podría interesarse por estas tres variables? Que ha encontrado que le permita jugar con estos datos? Bueno, recuerda que la red neuronal se entrena con todo el conjunto de datos que ya están escritos y se suministran a la red neuronal para que vaya aprendiendo. Y a través de pasar por todos los cientos de miles de ejemplos, cientos de miles de casas ha descubierto que combinando las variables de área, dormitorio y edad consigue algo interesante. El entrenamiento lo que hace es refinar el concepto que la red neuronal obtiene acerca de los datos de entrada. No le importa si esta cerca o lejos de la ciudad. Tan pronto como se cumplen los criterios de un número determinado de habitaciones, área y edad de la casa, se activa como neurona y le suministra el feedback a la capa de salida. Eesto aporta algo de información adicional a la capa de salida y permite que esas tres variables se combinen en un único atributo. Vemos la ultima neurona, sole le interesa la edad. Por que? El número de dormitorios, area o dónde esté ubicado le da bastante igual. Eso significa que es una casa antigua. Las casas antiguas normalmente se valoran por menos porque están más desgastadas. El valor de venta es menor o, puede tener valor historico y aumenta su valor. Esta neurona se especializó en esto, en ver las propiedades sólo en base a la antigüedad, de modo que casas con menos de 100 años, pues diría cuanto más vieja es y menos lujos tiene vamos a devaluarla pero, una casa histórica de mas de 100 años, incrementamos el precio hasta el punto de ser terriblemente cara una casa de hace 300 años, una casa histórica. En este ultimo caso, la funcion de activacion puede ser un rectificador  que cobraria sentido. Hasta cierto punto las casas no active esta neurona el componente de casa histórica y que de cierto punto en adelante empecemos a valorar la componente histórica del hogar de la casa. Entonces, hasta cierto punto, la neurona no se activa, por ejemplo hasta los 100 años, y después de los 100 años en adelante, cuanto más viejo se vuelve el edificio, más aumenta el valor total de la casa gracias a esta neurona. Entonces, fijaros que esto sería la idea global que la neurona habría ido recogiendo de todos los inputs, de todos los datos de entrada. A mayor neuronas mas flexibilidad, cada una de ellas aporta o quita al precio global de predicion. Cada una de las neuronas entiende la información a su propia manera. Se activan o no, respectivamente? Tiene más o menos pesos, más o menos parámetros.
 		Y la respuesta final de la predicción una vez que hayamos mirado 1 millón de anuncios de valores de casas, podremos llevar a cabo una predicción final, ponderando los resultados de todas las neuronas intermedias. Por separado las neuronas no tendrian mucho poder pero en conjunto aumentan su poder. En la capa de salida todo se junta y devuelve un valor de prediccion final. 
+		
+
+	- Como aprenden las redes neuronales?
+	
+		Qué es lo que hace que un programa o una red neuronal entienda?
+		
+		Bueno, existen dos enfoques diferentes para lograr que un programa haga lo que vosotros queréis. Uno es programarlo directamente al programa. Se establecen una serie de reglas específicas que el programa sigue, ejecuta y que a lo largo de todo el camino es capaz de explotar. De modo que dentro del código, al final tenéis todas las opciones posibles con las que el programa tiene que lidiar.
+		
+		Y por otro lado, está el enfoque de las redes neuronales, que lo que hace es como instalar un programa limpio de cero, capaz de tomar decisiones. Y en base a esas decisiones, el programa es como si se fuera rellenando a base de proporcionarle entradas. El propio algoritmo es capaz de tomar valores en ciertos pesos y tomar las decisiones finales por sí mismo.
+		
+		Son dos enfoques totalmente diferentes. Nuestro objetivo es lograr. El segundo caso es que la red llegue a aprender por sí misma, no que yo le tenga que escribir las reglas  o las líneas de código, una por una.
+		
+		Por ejemplo, cómo distingue una red neuronal el pelo de un perro o de un gato en el lado de la izquierda? Se le programará. Busca las orejas. Tiene que ser de esta forma. En el caso de un gato busca bigotes, el tipo de nariz del perro es de esta forma. Las orejas suelen ir más caídas. Busca la forma de la cara. Fíjate en estos colores y demás.
+		
+		En el caso de la red neuronal no se le darían esas indicaciones al algoritmo sino que tendríamos una serie de carpetas con un montón de imágenes de perros y gatos correctamente etiquetadas y se las iría enseñando a la red neuronal. Dirías tú esto es un perro, esto es un gato, esto es un perro, esto es un perro, esto es un gato. Nosotros lo único que haríamos sería crear la arquitectura. Haríamos que la red neuronal tomara los datos de entrada. Típicamente, las imágenes que os acabo de decir y la red neuronal entendería por sí misma qué es lo que necesita buscar y qué es lo que necesita entender. De modo que después de haber pasado por todas las imágenes, cuando la entrenáis con una nueva imagen de un perro, de un gato, podrá entender de que se trata la propia red neuronal. Buscará las orejas, o buscarán los ojos, o buscará la nariz, o buscará lo que quiera buscar dentro de la imagen. Pero no se lo he indicado yo. Es la diferencia entre el enfoque clásico de programación y el enfoque de redes neuronales.
+		
+		Queremos ver que significa el concepto de aprender. Segundo enfoque.
+		
+		Partiríamos de una red neuronal muy básica, una sola capa con la red neuronal directa, se llama el Perception. Una red neuronal con una sola neurona es un perceptor. Entonces, antes de proceder, una cosa que necesitamos ajustar siempre es ese valor de salida que tenemos a la derecha. De modo que si el valor real será una y que yo no conozco, pero de momento hay que cambiarla por una y gorrito, que es el valor que va a generar la red neuronal. Por eso normalmente solemos separar del valor de salida de lo que llamamos el valor real o el valor actual(la y sin gorrito). Entonces, el valor de salida (y gorrito) tiene que parecerse  al valor actual, y a la hora de parecerse, es cuanto somos capaces de cuantificar qué tan lejos estamos de ese valor objetivo, del valor actual.
+		
+		El patrón se inventó por primera vez en 1957 por este señor que tenéis aquí, Franz Rosenblat. Y básicamente dedicó toda su vida a crear algo, una entidad, un objeto que fuera capaz de aprender y ajustarse para corregir sus propios errores.
+		
+		En base al perceptron dibujado, vemos cómo las ideas de Rosenfeld se aplicaron para medir la diferencia entre el valor actual y el valor de salida de la red neuronal salida de la red neuronal y que la propia neurona pueda corregirse a posteriori.
+		
+		Orden de ejecucion de la red neuronal.
+		
+		Lo primero es que los valores de entrada se suministran al perceptron. Básicamente, se multiplican esos valores con los pesos de la red neuronal. A continuación, se aplica una función de activación que me devuelve ese valor de salida. Esto nos dará un resultado (y gorrito) y lo que vamos a hacer es tratar de trazar un gráfico con ese resultado. Ahora lo que tengo que hacer es aprender y corregir lo que he devuelto mal, lo que la red neuronal no me ha podido devolver como debería. Es decir, qué tan lejos del valor real esta de mi prediccion. El valor real lo conozco y lo pinto junto al valor predecido y veo su diferencia. Esa diferencia la podemos cuantificar y se llama función de costes. La función de coste se define como la mitad de la diferencia al cuadrado entre el valor real y el valor de salida de la red neuronal.
+		   
+
+						  ^
+			Coste (C) = ( y - y) ^ 2)/2
+			
+			Hay varias funciones de coste. La anterior es la mas comun. La funcion tiene que ser convexa. Que cuando se dibuje parezca una parabola. 
+			
+		El objetivo, pues, será intentar minimizar esta función de costes, porque cuanto menor sea la función de coste significa que más cerca está la predicción del valor actual. (y gorrito se acerca a y). Por ahora hay una neurona. Esto aumente con la gran cantidad de informacion. Básicamente, aquí lo que podéis hacer es pintar justo al lado el valor de la función de coste. Y a partir de aquí el objetivo intentar corregir donde me he equivocado. Para ello vamos a transmitir hacia atrás cuál es el error que he cometido. De modo que del valor actual, voy a reenviar hacia atrás la cantidad de error que me genera la función de costes. Esta es la información que se vuelve a introducir dentro de la red neuronal y está propagando hacia atrás, hacia el cuerpo de la neurona y a partir de ahí, hacia los pesos de la misma.
+		
+		Recordemos que la red neuronal estima los pesos. Por tanto, básicamente el único control que tenemos en la red neuronal es aumentar o disminuir cada uno de los pesos de las variables de entrada. Entonces, todo este camino hacia atrás es precisamente para intentar modificar un poquito los pesos y asi, minimizar los errores. 
+		
+		Ejemplo, en base a las horas de estudio, horas de sueño y la nota del test de mitad de examen, intento predecir la puntuación que obtendré a final del trimestre. En este caso sería un 9,3 o 93%, así que lo que tendríamos que hacer es alimentar estos tres valores a la red neuronal e intentar comparar el resultado que me devuelve la red neuronal con respecto a el resultado real.
+		
+		A medida que suministramos una y otra vez la misma informacion se va ajustamdo la diferencia en la prediccion, siguiendo el proceso anterior. Evidentemente nunca llegaremos a tener una función de costes igual a cero. Pero la idea es que en un momento dado, la predicción se acercará cuanto más sea posible, al valor real.
+		
+		Ajustar los pesos es lo único que sabe hacer la red neuronal. El objetivo es tratar de minimizar esa función de costes.
+		
+		Hasta ahora, he lidiado con una sola neurona, incluso con una sola línea. Sólo hay un estudiante del cual yo conozco sus datos. 
+		
+		Qué pasa cuando tengo muchos estudiantes? Pues evidentemente tengo las horas de estudio de los ocho estudiantes, las horas de sueño de los ocho estudiantes, la nota que sacaron, el parcial de los ocho estudiantes y su resultado final en el examen a final de trimestre.  Tengo ocho interpretaciones de la misma red neuronal, todas tienen el mismo parámetro. La neurona es única. No hay una neurona para cada individuo, simplemente la red neuronal trabaja en conjunto. Lo que hace es ajustar los pesos de la misma con respecto a toda la información. Bueno, realmente lo único que hay que hacer es pasarle todo el conjunto de datos a la red neuronal que ésta sea capaz de entrenar y ir corrigiendo, respectivamente.
+		
+		La red neuronal, con cada uno de los datos actua con los mismos pesos, siempre me da las predicciones respectivas. Una vez que les suministrado todo el dataset y con esos mismos pesos se ha hecho la predicción para cada uno de los individuos, se compara con los valores reales y se calcula la funcion de coste para cada prediccion y se suman cada uno de los resultados.
+
+						  ^
+			Coste (C) = Σ ( yi - yi) ^ 2)/2 = Coste Global.
+
+		Luego, ajustamos los pesos con esta función de costes C y decidimos modificar los pesos da cada variable de entrada (W1, W2, W3) y así sucesivamente.
+		
+		Es importante, que los pesos se actualizan una vez que la red neuronal conoce acerca de todas las percepciones acerca de todos los individuos que hay. Se usa una funcion de coste global para actualizar los pesos. La funcion de coste global es la suma de las diferencias observadas con el valor real.
+		
+		Entonces, una vez que hemos ajustado los pesos acorde a esto, volvemos a empezar. Volvemos a ejecutar todo esto de nuevo y volvemos a suministrar todas las ocho filas de nuevo a la red neuronal y asi sucesivamente. El Objetivo es minimizar la funcion de coste.  Y tan pronto como tengamos un valor lo suficientemente pequeño, diremos que la red neuronal ha convergido o que tenemos un resultado correcto.
+		
+		Lo más normal es que la función de costes de una iteración a la siguiente vaya bajando de modo que los pesos se ajusten correctamente. Y cuando sea lo suficientemente pequeño, tendremos los pesos óptimos y la red neuronal estará listo para pasar a la fase de prueba y de testear con nuevos usuarios. Ver CrossValidated . Lista de funciones de coste usadas en la red neuronal.
+		
+		
+	- El gradiente descendiente
+	
+		Veremos como se ajustan los pesos. Se usa la tecnica de gradiente descendente.  Y la idea es que yo quiero encontrar el mínimo de esa función de costes. 
+		
+		Entonces la mejor opción es colocarnos en algún lugar de esa función de coste. Evaluamos con una primera pasada los números y lo que vamos a hacer es medir el ángulo de inclinación de la función de costes justo en este punto. De modo que si yo detecto que tiene ese ángulo que véis ahí, eso es lo que se llama el gradiente, es la tangente, básicamente la dirección de máxima variación, de máxima caída y que por supuesto, hay que derivar para calcular un gradiente. El gradiente es una derivada. Se necesita derivar para averiguar cuál es la pendiente de la curva justo en ese punto y averiguar si la curva va para arriba o para abajo, si la pendiente es positiva o negativa. Para ello simplemente se traza una recta horizontal y se mide el ángulo de inclinación. Si la pendiente es negativa, como en nuestro caso, lo que ocurre es que vamos cuesta abajo y que para que para minimizar la función hay que ir hacia la derecha. En caso contrario hay que ir hacia la izquierda, por supuesto, en caso de que la pendiente sea positiva. Si hay que ir hacia la derecha, lo que significa es que yo ahora puedo moverme cierta cantidad para irme cuesta abajo, decido irme para allá y cuando lo hago la cosa cambia. De acuerdo, la siguiente iteración del algoritmo me da una función de coste menor que la anterior y puedo repetir el algoritmo. Puedo repetir el algoritmo. Le calculo la pendiente En este caso notamos que la pendiente es positiva. Si la escribe de izquierda a derecha va para arriba, lo cual significa que para minimizar la función de costes tengo que irme a la izquierda, de modo que elijo irme hacia la izquierda y la cosa sigue bajando. Evidentemente, mientras vamos repitiendo esta técnica, es de esperar que la función de costes será cada vez menor y que en un momento dado no bajará más. O lo que es lo mismo, el algoritmo habrá convergido hacia el valor final.
+		
+		Cada una de las bolas que tenéis sería una posible iteración de la fase de aprendizaje de la red neuronal.  La idea es que la bola no tiene que subir en ningún momento. Por supuesto que hay otros muchos más enfoques que no sólo este. En funcion a esta tecnica aprendemos cuales parametros ajustar y cuales son los pesos que deben cambiar de una fase a la siguiente. De todas las direcciones que pueden tomar los pesos, vamos a elegir aquellos que son capaces de forzar el descenso de la función de costes. Busco en que direccion ir para bajar de la montaña. Hacia que direccion esta la bajada. Esto hace el gradiente descendente. 
+		
+	- El gradiente estocastico.
+
+		La palabra estocástico tiene que ver con la palabra aleatorio probabilístico estadístico.
+		
+		El gradiente descendente es un metod muy eficaz	 para minimizar la funcion de coste y corregir los errores de la red neuronal. Sin embargo, se puede mejorarlo. El gradiente descendente requiere una funcion convexa. 
+		
+		Bueno, pues el gradiente ascendente estocástico en esencia va a ser exactamente lo mismo con la pequeña diferencia. El gradiente descendente tiende a buscar el mínimo global, el que está más abajo de todos, si es que existe, lo encuentra.
+		
+		Que pasa si la funcion no es convexa o es mas irregular? Podemos elegir una funcion de coste que no sea convexa y al aplicar el gradiente descendente obtendriamos una red neuronal no optima. En ese caso hay que usar el gradiente descendente estocastico. Cuando el gradiente es estocástico no requiere, no tiene como premisa que la función de costes sea convexa.
+		
+		Entonces echemos un vistazo a las dos diferencias entre el descenso descendente normal y el gradiente descendente estocástico. En el gradiente normal, hemos tomado todos los datos de nuestro DataSet, todas las filas, y se los hemos suministrado a la red neuronal. Luego, calculado las predicciones para cada una de las filas de nuestro dataset, se calculan las diferencias (con la funcion de coste) y finalmente, se suman todas esas diferencias para obtener el resultado final de coste. Con este resultado se corrigen los pesos de las entradas. Corregidos los pesos se vuelve a pasar los datos a nuestra red neuronal. 
+		
+		En el gradiente descendente estocastico, vamos a tomar las filas una por una y se las paso a la red neuronal(se la voy a pasar a algoritmo). Le paso la primer fila a la red, me va a dar el error que cometo y voy a ajustar automáticamente los pesos por cada fila enviada a la red neural. Luego, paso la segunda fila y asi sucesivamente. básicamente, lo que estoy volviendo a hacer es ajustar en este caso los pesos después de que cualquier fila ha sido suministrada a la red neuronal. 
+		Gradiente descendiente por bloque de datos. Gradiente descendiente estocastico por fila de datos. Gradiente descendiente estocastico mas costoso en calculos.
+		
+		Básicamente el gradiente ascendente estocástico ajusta los pesos cada vez que observa a un individuo y calcula su predicción. Mientras que el gradiente ascendente por bloques solo hace una corrección global de pesos una vez que se le ha suministrado toda la información. Gradiente descendiente evita de no converger al minimo global. Y es aconsejable en funciones no convexas. El coste es que es mucho mas lento por los calculos en cada iteracion de individuo observado.
+		
+		Ni uno ni otro se lleva el premio a los mejores algoritmos,uno por falta de convergencia en funcion de coste no convexa y el otro por exceso de coste computacional.  Entonces han surgido ideas como simplemente fusionarlo. Entonces, cómo se fusionan estos dos algoritmos? Tomando lo mejor de cada uno de ellos. Esto hace que si los combinamos, básicamente nos quedaremos con lo mejor de cada uno de ellos. Empaquetamos una serie de lotes, tal vez cinco usuarios de cinco en cinco días, de 100 en 100. La idea no muchas filas. Se pasan todas esas filas (bloque) a la red neuronal y se actualizan en los pesos en funcion de ese bloque de filas. Luego se saca otro pequeño bloque, se suministra la red neuronal y se actualizan los pesos (Gradiente descendente en mini bloques) Ver: 
+				 - A neural network in 13 lines of python. Andrew trask. 2015 . Ver parte 2 - Alli se habla de gradiente descendente.
+				 - Neural networks and deep learning. Michael Nielsen . 2015 . capitulo 2. Lectura pesada.
+
+
+   - Propagacion hacia atras.
+		
+		Desde el momento en que calculamos los errores, y esos errores se transmiten hacia atrás para corregir los pesos. Estamos hablando de una propagación hacia atrás (back propagation). Entonces, esa es la parte del algoritmo que nos permite corregir nuestros errores y está sustentado, por unas matemáticas muy interesantes y sofisticadas que nos permite decidir el ajuste global de los pesos dentro de una red neuronal. Entonces, la clave es recordar que la propagación hacia atrás es una de las últimas fases de cada una de las iteraciones de la red neuronal, de modo que todos los pesos de la red neuronal se ajustan simultáneamente. L red neuronal se responsabiliza de corregir los errores causados por los pesos de la misma. Se ajusta todo a la vez, una vez que toda la información ha pasado por la red neuronal. Se podría corregir al propio paso, pero se decide dejarlo en la ultima etapa. 
+		
+		http://neuralnetworksanddeeplearning.com/ ver capitulo 2. 
+		
+		La propagación hacia atrás es corregir todos y cada uno de los pesos para ajustarlos a la vez e intentar minimizar el error.
+		
+				
+	- Entrenar la red neuronal con el gradiente descendiente estocastico:
+		
+			Paso 1. 
+				De inicializa los pesos aleatoriamente con valores pequeños cercanos a cero, no nulos, para poder empezar el proceso de ponderación de las variables de entrada. El propio proceso de propagación hacia atrás será capaz de ajustar estos pesos a los valores correctos.
+				
+			Paso 2. 
+				A continuación se introduce la primera observación del dataset en la capa de entrada, de modo que cada una de las características, cada una de las variables independientes, es uno de los nodos de entrada.
+				
+			Paso 3.
+				El paso número tres es la propagación hacia adelante. Las neuronas se activan. La activacion de cada una de ellas se limita por los pesos y la funcion de activacion elegida. La idea es que toda la información va pasando de una capa a la siguiente hasta obtener la predicción. 
+				
+			Paso 4. 
+				Compara el valor de prediccion con el valor real. Se mide el error generado. 
+				
+			Paso 5.
+				Propagacion hacia atras, propagando el error hacia atras y actualizando los pesos en funcion de cuan responsables del error son cada una de ellas.  Propagamos el error y actuamos para actualizar, cambiar los pesos que realmente sean los responsables del error cometido. El ratio de aprendizaje que gobierna cuanto deben actualizarse los pesos. 
+				
+			Paso 6.
+			
+				Si los pasos 1 a 5 los hacemos observacion por observacion (reinforcement learning)
+			
+				Si los pasos 1 a 5 los hacemos por bloque de observaciones (Batch learning)
+			
+			Paso 7.
+				
+				Una vez que todo el dataset sea suministrado a la red neuronal, se completa lo que llamamos un EPOCH.  A partir de aquí podemos repetir todo el proceso y hacer todos los EPOCs quequeráis. Cuanto más queréis entrenar, mucho mejor, por supuesto, hasta ajustarnos correctamente al cómputo final del error en base a estos pasos.
+				
+	Estos son los siete pasos que tenéis que seguir para construir una red neuronal artificial.
+		
+
+		
+		
