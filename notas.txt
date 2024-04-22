@@ -2597,8 +2597,145 @@ La idea es que las vamos a conectar del mismo modo que estaban conectadas dentro
 				
 				Una vez que todo el dataset sea suministrado a la red neuronal, se completa lo que llamamos un EPOCH.  A partir de aquí podemos repetir todo el proceso y hacer todos los EPOCs quequeráis. Cuanto más queréis entrenar, mucho mejor, por supuesto, hasta ajustarnos correctamente al cómputo final del error en base a estos pasos.
 				
-	Estos son los siete pasos que tenéis que seguir para construir una red neuronal artificial.
+		Estos son los siete pasos que tenéis que seguir para construir una red neuronal artificial.
+	
+	
+	- RNA en Python:
+	
+		Implementaremos RNA porque tenemos muchas variables independientes. Tí tenemos mucha información, algunas variables son categorías, otros son números, otros son booleanos.
 		
+		
+		Vamos a construir un artefacto adecuado y decidir qué variables y qué factores influyen en el resultado final, en este caso, de abandonar o no el banco, que es una variable dependiente binaria.
+		
+		
+		(1) Instalar Keras. Instalamos Keras, ya que el paquete de Keras instala Tensorflow.
+		
+			Usuarios de Linux y Max.
+			
+				sudo chown -R nelson /usr/local/software/anaconda3
+				
+				conda install -c conda-forge keras
+				
+				
+			Usuarios de Windows.
+			
+				conda install -c conda-forge keras
+		
+		
+		Las redes neuronales artificiales pueden hacer un excelente trabajo a la hora de hacer tanto predicciones como clasificaciones. Luego, a continuación, veremos otra rama que tiene que ver con las redes neuronales de convolución y que funciona mucho mejor para tareas de visión artificial, visión por computador y que nos permitirán jugar en ese caso con imágenes. 
+		
+		Vamos a construir nuestra primera red neuronal artificial para resolver el problema comercial.
+		
+		Vamos a usar python y a instalar las librerias necesarias. Son tres librerías, a pesar de que sólo veis dos fases de instalación aquí. Las librerias no son desarrolladas por python son de terceros. Muchas de ellas son optimizadas para el cálculo numérico, para ser ejecutados no solo en CPU, sino también en GPU. Las librerías permiten la opción si el PC está adaptado a ello, de no sólo utilizar la CPU, sino también la tarjeta gráfica a la hora de hacer el entrenamiento de la red neuronal en términos de potencia o en términos de eficiencia, pues la GPU es mucho más potente.
+		
+		Así que básicamente, en nuestro caso, la red neuronal es una forma de tener optimizado al máximo posible un proceso de clasificación o de predicción muy complejo, intentando que la caja negra de la red neuronal es quien vaya haciendo la tarea por nosotros.
+		
+		# Instalar Theano
+		# pip install --upgrade --no-deps git+git://github.com/Theano/Theano.git o pip install Theano
+		# Theano is a Python library that allows you to define, optimize, and efficiently evaluate mathematical expressions 
+		# involving multi-dimensional array
 
+		# Instalar Tensorflow y Keras - tensorflow.org - 
+		# conda install -c conda-forge keras
+		# Es importante saber para que versión de Python estas instalando TensorFlow.
+		# Cuando instalo Keras automáticamente se descarga la propia versión de tensor flow necesaria para correr Keras.
+		
+		TensorFlow. Es una librería de fuente totalmente abierta que ejecuta en redes neuronales o permite crear redes neuronales
+		de forma realmente sencilla.
+		
+		De modo que estas dos librerías básicamente se utilizan con fines de investigación y desarrollo y lo más importante, se han podido exportar para utilizarlos nosotros desde casa en el mundo del machine learning y poder construir nuestras redes neuronales profundas de forma automática. Las podemos utilizar como una especie de wrappers, como una especie de funciones de alto nivel a la que simplemente le voy a indicar, añádele una capa oculta o añade estafunción de activación rectificador lineal unitaria. Por último, Keras es una capa por encima de tensor flow, mantiene el espíritu de Tensor Flow y utiliza tensor flow por detrás, pero realmente hace que todavía a la hora de crear redes neuronales tengamos que bajar menos al nivel de capa por capa, de modo que nuestras redes neuronales todavía tendrán menos líneas de código gracias a Keras. Keras es una biblioteca basada en tensor flow que pudiera hacer lo mismo de tensor flow, pero accesible a más gente que no tuviera los conocimientos técnicos como para crear las capas una por una, o definir los nodos o los tamaños a mano, por así decir.
+		
+		Con Keras construiremos esos modelos de aprendizaje profundo de forma muy eficiente y utilizará Tensor flow y Theano sin ningún problema.
+		
+		Elaboremos la red neuronal para saber si todas las variables independientes tienen algún impacto, incluso si algunas son totalmente irrelevantes con respecto a la prediccion. La red neuronal artificial hara esto. Ella será capaz de detectar y ver perfectamente qué correlaciones existen entre las variables independientes y la variable dependiente. Por supuesto, la red neuronal dará pesos más grandes a aquellas variables que tengan mayor impacto dentro de la variable que quiero predecir.
+		
+		En el ejemplo me voy a sacar las tres primeras variables, voy a quedarme desde el Credit Score hasta la estimación salario y luego, la variable "exited" será la última,la que predice el modelo. Elimino las primeras tres porque considero que no tienen impacto en la prediccion. Luego ANN realizara el analisis para saber que peso otorgar a cada variable y si juega o no.
+		
+		Tenemos algunas variables categóricas dentro de nuestro dataset. Las variables categóricas no vienen representadas por un número, sino por una palabra o un string. Entonces necesitan ser codificadas. Recordar ver el pre-prosecado de datos para escalar y/o transformar variables categoricas a numeros. No hay un orden entre variables categoricas. No significa que Francia vaya después que España o antes de Alemania. Creamos variables dummy que separen las categorias en 1 o 0 respectivamente. Columnas dummy para cada valor  de las variables categoricas. Por ejemplo, se crean columnas para Francia, Germania, España y en funcion a su valor en la fila se asigna un 1 o 0 respectivamente al pais. Recorda evitar la trampa de las variables ficticias (dummy), no caigáis en esa trampa. Recordad que hay que colocar una columna para cada una de las categorías, salvo para una de ellas, para evitar la multicolinealidad. Se elimina una de las columnas dummy. 
+
+		Es interesante que la ANN tenga muchos elementos para entrenar
+		
+		conda create --name ann
+		
+		conda activate ann
+
+		conda install spyder
+		conda install jupyter
+		
+		conda install <package>
+		// package could be matplotlib, pandas, etc.	
+		
+		conda install conda-forge::tensorflow
+		
+		conda deactivate
+		
+		Luego, analizar si hace falta escalar las variable para ANN. En ANN es necesaria y obligatoria. Sino habra mucha confusion. Es sumamente necesario escalar por las operaciones matematicas que se realizan. Se agiliza muchísimo el resultado y hace que sea muchísimo más preciso. Si se toman todas las variables independientes y hacemos que ninguna domine sobre el resto.
+		
+		Y existen dos formas de inicializar una red neuronal. La primera es definir la secuencia de capas, o bien definir el grafo de cómo se van a relacionar entre sí las capas. Vamos a crear una red neuronal artificial con capas sucesivas.
+		
+		La propia red neuronal actuará con el papel de clasificador porque estamos en un problema de clasificación. Entonces, el modelo de red neuronal va a clasificar. 
+		
+		Vamos a agregar las capas una a una en forma secuencial.
+		
+		La cantidad de nodos de la capa de entrada coincide con la cantidad de variables independientes a analizar luego del escalado de variables y la conversion de variables categoricas a dummy. En el ejemplo son 11.
+		
+		VER: Entrenar la red neuronal con el gradiente descendiente estocastico.
+		
+		Recordad que tendremos que establecer el flujo de izquierda a derecha e incluso las funciones de activación que se encarguen de dar mayor o menor relevancia a la transmisión de la información, capa tras capa, de izquierda a derecha de nuestra red neuronal. Recordad que, en particular, la función de activación permite que la información que no tiene suficiente relevancia no pase adelante en función de cual elijáis y que la Los valores más grandes, los que cobran más relevancia dentro de la red neuronal, son los que se transmiten de una capa a la siguiente.
+		Evidentemente podríamos hacer diferentes pruebas con diferentes funciones de activación y observar si el resultado nos gusta o no la función Sigma idea realmente es bastante interesante en este sentido, porque suaviza, nos da una probabilidad que cuadraría bastante bien con lo que quiero yo. Qué tan probable es que un cliente deje el banco?
+		Y si quiero ser más estricto, pues la función escalón directamente me devolverá: Deja o no deja el banco. Ya dije que cuando hicimos el ejercicio era una forma bastante interesante de decidir si la variable es binaria cero uno utilizar la función escalón o bien la función sigma respectivamente. Si quiero dar directamente la categoría a la que pertenece, al cliente o al banco, o que tan probable es que deje el banco si lo quiero interpretar como una función de probabilidad, si lo quiero como función de probabilidad, puedo utilizar la función Sigma, de modo que cuanto más cercano a uno sea, más probable es que deje el banco. Y si queréis hacer una clasificación binaria utilizando la probabilidad misma, establece un punto de corte a partir del cual el cliente es más probable que abandone, que se quede o viceversa, para así estudiar los los clientes.
+		
+		Yo creo que el rectificador lineal unitario es bastante interesante para activar o no las capas intermedias. Si la información que llega desde la capa de entrada es suficientemente interesante, esa neurona central se activa si la información es relevante, sino esa neurona permanece dormida. En la capa de final, creo que la función sigmoide es util para devolver la probabilidad de que un cliente abandone el banco. 
+		
+		Fijaos que luego el paso cuatro es comparar la predicción con el resultado real. Evidentemente, la red neuronal devolverá una probabilidad o una categoría cero uno. Lo voy a contrastar con mi valor de verdad y voy a medir el error generado en base a ese error. Luego tendré que propagar el error hacia atrás en este caso, ya sea de derecha a izquierda y gracias a la gradiente descendente, corregir los pesos en base a intentar minimizar los errores. Recordad que había varias maneras de actualizar esos pesos y la manera en la que se defina la forma de actualizar los condicionara. Con respecto a si utilizas gradiente descendente o gradiente descendente estocástico respectivamente.
 		
 		
+		Y finalmente, una vez hayamos finalizado en el paso número seis, se repite el paso 1, 2, 3, 4 y 5 para cada observación o cada lote de observaciones (cada diez observaciones, cada 15 observaciones o cada 30 observaciones).
+		
+		Y finalmente, en el paso número siete, una vez se ha completado toda una iteración sobre todo el conjunto, lo que hacemos es volver a entrenar haciendo otro EPOC, y otro. Asi sucesivamente. Cada EPOC es una iteracion completa. Por ejemplo, todos los datos del set de datos.
+		
+		Al final lo que hacemos es pasarle la misma información a la red neuronal una y otra vez hasta completar todas las iteraciones que nos interese.
+		
+		Para añadir una capa usamos "Dense". Dense tiene muchos más parámetros. En primer lugar, esta Units. Units es simplemente el número de nodos que queréis agregar a la capa oculta. Dense será la zona de la sinapsis. La zona que tendrá que especificar el tamaño de entrada y el tamaño de salida. Lo que hace precisamente la función Dense no es agregar la capa en sí, sino es la conexión entre capas, por así decir, la zona de las sinapsis, o incluso preparar los datos para la capa oculta que vendrá a continuación.
+		
+		En particular, el número de unidades son cuántos nodos va a tener la primera capa oculta. Cuántos nodos tiene que tener la capa oculta? Porque la capa de entrada que tiene 11 son las 11 variables independientes de mi dataset. Pero y la capa oculta? Cuántos nodos tiene que tener? Cinco o 20? Un consejo es: Esta fase se trata de experimentar. No es teoria. Una que utilizamos los datos hoy en día bastante correcta o bastante asentada en estos últimos años.
+		Se puede experimentar para analizar los resultados. Una regla que se usa bastante, no esta definida como principio sino es basada la experiencia, es colocar la media entre los nodos de la capa de entrada y los nodos de la capa de salida. En particular en la capa de entrada tengo 11 nodos y en la de salida un nodo(Se queda o no). Entonces la media es 6 nodos para cada capa oculta. Aunque el numero puede cambiar en funcion de pruebas y el rendimiento de la red neuronal. El siguiente de los parametros es elegir como inicializar esos esos pesos. La asignacion de los pesos debe ser aleatoria. El parametro kernel_initializer me permite elegir la destribucion para inicializar los pesos en el algoritmo.  Con una distribución uniforme nos aseguramos de que los pesos en primer lugar son pequeños y en segundo son cercanos a cero. Elegimos "uniform". Luego elegimos la funcion de activacion, paramnetro "activation". Ya os he dicho que en la capa oculta quería utilizar el rectificador lineal unitario, por ejemplo, pero podríamos también aplicar la sigmoide o lo que fuera. Seleccionamos "relu" rectificador lineal unitario. Finalmente, los nodos de entrada (o capa actual) que son 11 con el parametro imput_dim. 
+		
+			Nota: existe imput_shape para indicar la capa de entrada. Con la única diferencia de que es un tensor  que tenéis que especificar el tamaño de la muestra que le vais a suministrar. Si va a ser de fila en fila, de dos en dos, de tres en tres o de 50 en 50. En caso de ser desconocido, podéis dejarlo por un espacio en blanco y será variable. Y la dimensión (input_dim, parametro de imput_shape) de cada dato en este caso sería nuestro 11.
+
+	   Cuántas capas ocultas habrá que hacer? Será variable y vosotros mismos podéis experimentar. La vamos mantener sencilla.
+		
+	   Añadimos la segunda capa. Hay que especificar en general las capas de entrada y salida para que la red neuronal sepa como conectar los datos. La diferencia está que la primera que he creado, la red neuronal, no conocía nada acerca del parámetro input parámetro de entrada. Sin embargo, ahora si yo añado otra capa (segunda en este caso) a la red neuronal, la red neuronal ya sabe que viene de un espacio dimensional de tamaño seis, porque así he dejado preparado la capa anterior. Eso significa que la nueva capa oculta ya sabe lo que espera de la capa anterior. EL parametro input_dim no es necesario, porque la segunda capa oculta ya sabe que tiene que conectarse, que enganchar con la primera capa oculta y la primera capa oculta tiene 6 nodos. Elijo 6 porque es el promedio de nodos de la capa de entrada y la capa de salida. Se puede cambiar la cantidad de nodos, activacion y forma de iniciar los pesos. Dejamos todo igual a la capa primera. 
+	   
+	   Es bastante interesante para ser configurada el rectificador en las capas ocultas y sigmoide en la capa de salida.
+	   
+	   Vamos a definir solamente dos capas ocultas. 
+	   
+	   Finalmente, la capa de salida. No necesitamos el párametro input_dim a la funcion Dense y hay que indicar que solamente va haber un nodo de salida. Cambiamos la funcion de activacion por sigmoide (sigmoid) porque quiero conseguir probabilidades que un cliente se vaya del banco o no. Y esto servirá siempre y cuando queráis clasificar en dos categorías si se quiere clasificar en tres categorías. Por ejemplo, una persona activa, pasiva o neutra dentro del banco, realmente tendríamos que cambiar varias cosas. Lo primero es que en la capa de salida ya no habría una unidad, ya no sólo habría un nodo, sino que tendríamos exactamente el número de categorias. Por tanto, la variable dependiente tendría que tener más categorías, en este caso tres posibles categorías.  Evidentemente la función sigmoide aplicada a tres categorías no sería la más adecuada. Tal vez tendríamos que reemplazar por el escalón o otra vez por un rectificador lineal unitario para ver cuál de las tres es la que debe activarse. Podriamos usar una sigmoide con dos , tres o cuatro categorias pero probablemente se necesita una funcion softmax para que todas las probabilidades sumaran uno. Precisamente para volver a tener que la suma de todas las probabilidades posibles vuelva a dar uno. Un 80% de una categoría o un diez de la otra, un diez de la otra, para tres categorias. Usamos en el ejemplo la sigmoide porque tenemos dos categorias. 
+	   
+	   Luego, de construir la red la compilamos. Usamos la funcion classifier.compile(), parametros:
+		
+			optimizer = "adam"
+			El algoritmo que se utiliza para encontrar el conjunto óptimo de soluciones. El conjunto óptimo de pesos dentro de la red neuronal. Eligo uno que me permita llegar al optimo de los pesos. Puede ser: El gradiente, El gradiente descendente estocastico o adam. "adam" es el recomendado.
+			
+			loss = "binary_crossentropy"
+			Funcion de perdida, se corresponde dentro del gradiente descendente estocástico o no, como esa función que permitía ser minimizada, la que minimizaba el error entre la predicción real y el dato real. Entonces, elegir una función de pérdida u otra puede ser interesante para optimizar más o menos en función del algoritmo de optimización que hayáis elegido. Y algunos de los ejemplos más interesantes podrían ser la minimización de las diferencias de los cuadrados. Es esa suma de los cuadrados ordinarios. Es una de las funciones que podemos utilizar. DEbemos medir el error de algun modo.  Aqui usamos, binary_crossentropy que básicamente lo que hará será hacer la diferencia y aplicar un logaritmo al resultado para transformar las categorías directamente en números. 
+			
+			metrics = ["accuracy"])
+			
+			Lista de metricas a evaluar en nuestro modelo.  Luego de varias observaciones de muchas iteraciones, el algoritmo utiliza este criterio de precisión para mejorar el rendimiento global del modelo. Entonces, si yo le pido esa métrica directamente, el modelo la va a evaluar y va a ayudar a que durante la fase de entrenamiento la precisión intente aumentar de una iteración a la siguiente. Entonces ahí pasará que eligiendo la métrica de la precisión obtendremos unos resultados bastante interesantes. Puede ser una lista de metricas con corchetes. 
+			
+			Entrenamos la red con .fit(), parametros
+							X_train
+								variables independiente
+							y_train
+								variables dependientes
+							batch_size
+								tamaño del lote
+								Se puede cambiar y experimentar. Se selecciono 10. Procesa 10 elementos y luego corrige los pesos y asi sucesivamente hasta terminar el set de datos. Es mas optimo que procesar un elemento y corregir los pesos. Y es mejor que procesar todo el dataset y corregir los pesos.
+								
+							epochs
+								Numero de iteraciones globales - pasadas sobre todos los datos del data set.
+								Por lo general, cuantas más veces pase la red neuronal sobre el conjunto de datos, más aprenderá sobre él. Hay que ir con cuidado porque basarnos en el número de veces significará muchas probabilidades de sufrir over, fitting o sobre ajuste y no dara un buen resultado. Es un momento para experimentar. Se puede cambiar.
+	   
+	    Obtenemos un 84% de efectividad con los datos actuales y la configuracion de la red neuronal.
