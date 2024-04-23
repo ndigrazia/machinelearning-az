@@ -2739,3 +2739,39 @@ La idea es que las vamos a conectar del mismo modo que estaban conectadas dentro
 								Por lo general, cuantas más veces pase la red neuronal sobre el conjunto de datos, más aprenderá sobre él. Hay que ir con cuidado porque basarnos en el número de veces significará muchas probabilidades de sufrir over, fitting o sobre ajuste y no dara un buen resultado. Es un momento para experimentar. Se puede cambiar.
 	   
 	    Obtenemos un 84% de efectividad con los datos actuales y la configuracion de la red neuronal.
+		
+		
+----------------------------------
+Redes neuronales convolucionales
+----------------------------------
+
+Rama de las redes neuronales. Trabajar con imagenes.
+
+
+	- Que son las Redes neuronales convolucionales?
+	
+		Dotan al ordenador de procesamiento y clasificacion de imagenes. Geoffrey Hinton un de los padres de las redes neuronales. Yann LeCun padre de las redes convolucionales.
+		
+		La arquitectura de una red neuronal. Se tiene una capa de entrada, tiende a ser una imagen, pasa a través de la red neuronal. De momento, es una caja oscura, a la que le suministramos la imagen y me devuelve una etiqueta con la que clasificar a dicha imagen. Tenemos que entrenar la Red neuronal con imagenes etiquetadas.  Por ejemplo, le paso expresiones faciales y le digo: Mira, esto es una cara de una persona que está feliz. Esto es una persona feliz. La red neuronal convolucional intenta sacar rasgos de ahí dentro de una persona feliz. Otro ejemplo, esta imagen es una persona que está triste. Evidentemente tiene el ceño fruncido. La red neuronal convulcional, puede detectar esas emociones, puede detectar rasgos dentro de una imagen, mirando por ejemplo la forma de la boca. Evidentemente, no nos va a decir, cuando le suministra una nueva imagen, si es feliz o triste con un 100%, sino que me da cierta probabilidad, un 80 o 90 % de probabilidad. Lo cual es bueno. A base de entender las características de las imágenes, podrá llegar a hacer este tipo de clasificaciones.
+		
+		Como lo puede hacer? Cómo puede reconocer esas características sin que nosotros le digamos nada? Pues todo comienza en un nivel básico muy sencillo, dependiendo de si tengamos una imagen en color o en blanco y negro. Básicamente imagina que tenemos una imagen pequeña de dos píxeles por dos píxeles. Lo que hace la red neuronal es aprovechar el hecho de que cada píxel viene dado por un número o bien una colección de números. De modo que, a pesar de que yo tenga una imagen de cuatro píxeles en blanco y negro, el ordenador lo transforma, lo mapea a un array bidimensional organizado en filas y columnas, donde en cada una de las posiciones aparece el valor de la escala de grises. En este caso, por forma simple, los pinto en filas y columnas de valores de cuatro píxeles con cantidad de información entre cero y 255. En ocho bits se almacena un número de ocho bits para cada una de las posiciones, indicando la intensidad de color cero, totalmente negro y blanco completamente a uno. Bueno, pues esa sería la forma en la que se traduce la imagen a una estructura que el ordenador es capaz de analizar y entender. Este es el punto de partida de cualquier imagen, como se digitaliza una imagen o cómo se transforma a ordenadores.  Con los colores no es del todo asi, porque para cada color necesitamos información de cada uno de los canales de color, de modo que en este caso se transforma a tres arrays bidimensionales y en este caso se almacena la cantidad de rojo, verde y azul, respectivamente, de cada píxel. Tambien, en un numero de ocho bits. De modo que tenemos tres arrays bidimensionales colocados uno encima de otro, o, lo que es lo mismo, un array tridimensional. Cada uno de esos tres colores tendrá su propia intensidad. Entonces, cada píxel tiene tres valores asignados cantidad de rojo, cantidad de verde y cantidad de azul, cantidades que se mueven siempre entre cero y 255, o bien si se escalan valores entre cero y uno respectivamente. Entonces, en base de la cantidad de rojo, de verde y de azul que tiene cada píxel, nos da el valor final, la luminosidad final de cada uno de los píxeles de una imagen. A base de combinar los valores de ese array, tenemos la representacion de la imagen. 
+		
+		Echemos un vistazo a un ejemplo muy trivial de una cara sonriente. Una vez que tenemos esta carita sonriente en blanco y negro para suministrarle al ordenador, el ordenador lo que hace es pasarlo a escala de grises. Simplemente lo transforma a una matriz bidimensional donde cada uno de los píxeles está pintado de un color u otro. Técnicamente, aquí cada píxel podría tener un valor entre cero y 255. Para simplificar mejor las cosas y entender mejor los conceptos, supongamos que el cero representa el blanco y el uno representa el negro respectivamente. Entonces, simplificando, podéis ver respectivamente que ahora tendríamos una matriz donde en cada posición tendríamos un número.Esos números,  corresponderían al rango de valores entre cero y 255. Matriz ya forma la parte de la entrada de nuestro algoritmo y los pasos que tendremos que seguir para entrenar nuestra red. Los pasos son:
+		
+				1.- Convolucion
+				2.- Max Pooling
+				3.- Flattening
+				4.- Full Conection.
+				
+				
+		Ver paper de tectnicas para reconocer imagenes:
+				Gradient-Based learning applid to Document Recognition (1998) Yann Lecun
+				http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf
+				
+				
+	- Convolucion:
+	
+		
+
+
+
