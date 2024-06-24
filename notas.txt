@@ -2901,4 +2901,165 @@ Rama de las redes neuronales. Trabajar con imagenes.
 		
 		
 	- Resumen
+	
+		Empezamos con una imagen de entrada a la que le voy aplicando múltiples detectores de características, múltiples filtros, cada uno de los cuales detectará un rasgo diferente para crear ese mapa de características, esa capa de convolución a cada una de las cuales les voy a aplicar el rectificador lineal unitario para aumentar la no linealidad de las imágenes. Además, es crucial aplicarlo en el sentido de que no me interesa conservar la linealidad porque los
+		rasgos en general no son lineales en las imágenes.
+		Luego, a partir de cada mapa de características se crea un mapa de rasgos del cual se extrae la información filtrando diferentes tipos de partes. A lo mejor algunas detectarán formas en horizontal, en vertical, en variaciones respecto al cambio de escala o giro gracias a la capa de Max Pooling, que permiten además reducir significativamente el tamaño final de la imagen.
+		También el proceso de agrupación ayuda a evitar el sobre ajuste de los datos y a generalizar todavía más los rasgos que se examinan a partir de las imágenes. Recordar que esta operación conserva las características generales.Al final se trata de establecer unos criterios mínimos que permitan detectar todo lo que tiene que ver con una determinada imagen y su catalogación.
 		
+		Luego, a continuación, recordar que eso se aplana en un súper vector muy largo. Y que ésa es la capa de entrada de una red neuronal totalmente conectada con una o varias capas ocultas, donde el proceso de entrenamiento y propagación hacia delante de la información y propagación hacia atrás del error con el gradiente descendente, nos permite ir ajustando los pesos de una red neuronal totalmente conectada que permita definir los rasgos que definen cada una de las características y cómo una neurona se activa o bien para una característica o bien para otra. Lo interesante es que no solo se entrena la red neuronal con un tipo de imagen, sino que además utilizamos diferentes tipos de imagen, incluso aberraciones de las mismas. Le pasamos la misma imagen, rotulada, contraída, distendida, modificada para obtener mejores mapas de características. Al final que se obtiene, se tiene una red neuronal evolucionada, completamente entrenada, que es capaz de reconocer imágenes y, por supuesto, clasificarlas a posteriori. Y no sólo esto, sino que tenéis una súper herramienta para lidiar con el problema de catalogación de imágenes.
+		
+		Ver los 9 papers para entender deep learning.
+		
+			The 9 Deep learning Papers You need to know about - Adit Deshpande (2016)
+			Documentos basicos para deep learning.
+		
+		https://adeshpande3.github.io/
+		https://adeshpande3.github.io/The-9-Deep-Learning-Papers-You-Need-To-Know-About.html
+		
+		Recordad que no todas las redes neuronales son de convolución. La convolución simplemente es esa forma de adaptar el concepto de red neuronal al mundo de las imágenes y del vídeo.
+		
+		Y en general nos permiten manejar super bien con una arquitectura bien definida, bien estructurada y bien ajustada todos los problemas que tengan que ver con imágenes y videos.
+
+----------------------------------------------------
+Softmax - Entropía o en castellano entropía cruzada
+----------------------------------------------------
+
+		Entonces, la pregunta obligada es y los valores de las imagenes a clasificar. Por ejemplo, tres nodos de salida para tres imagenes siempre van a sumar uno sus probabilidades? Es decir, van a ser complementarios el uno del otro. No necesariamente pueden sumar 1 todos los nodos de salida de probabilidad. Para salir del paso usamos la funcion softmax-
+		
+		Normalmente lo que pasaría es que el perro y el gato tendrían ciertos números reales. Ni siquiera tendrían por qué ser probabilidades entre cero y uno. Llamemos ZA1 el valor de la neurona final que cataloga como perro y z dos el valor de la neurona que cataloga como gato. En efecto, no tendrían por qué sumar uno. Sin embargo, si aplicamos la función de soft max que os he escrito en la parte superior de la transparencia. Podríais comprobar que después de esa transformación. Ahora si z uno y z dos son tales que se complementa la función de soft max las transformaría y las haría sumar uno en total.
+		
+		La funcion softmax es una generalizacion de la funcion logistica. 
+		
+		Esto es bastante interesante porque al final tú tienes una serie de valores y quieres medir qué tan presente es uno por encima del resto o cómo de comparables son entre ellos. Pues el hecho de juntarlos todos que queden escalados entre cero y uno y además se asegure de que suman uno, es una forma bastante interesante.
+		
+		Además, los transforma de rebote en el concepto de probabilidad clásico que vosotros conocéis. Fijaos que la forma en la que lo hace es muy sencilla. Simplemente cada número es elevado a través de la exponencial elevado AZ1 elevado dos elevado a tres y se divide entre la suma total de elevado a cada uno de ellos, respectivamente. Sumado entonces de ahí la normalización que de rebote hace que todos estén entre cero y uno y que al sumarlos todos sumen uno.
+
+		Esto es cómo funcionaría la función de soft max. Y dado que es tan sencilla de entender, tiene sentido el aplicarla a las redes de convolución para transformarlo en probabilidades.
+		
+		Para cuando me devuelva a la red neuronal un valor de 0,95 para perro, podamos entender que es un 95% de que sea un perro, incluso a pesar de que tengamos la capa inmediatamente anterior. Mira, hemos detectado las garras en un 0,45%, las orejas en un 0,3, los bigotes en 108. A pesar de que tengamos esos valores y al agregarlos, el resultado de la red de convolución no sea una probabilidad en sí misma. El hecho de que lo transformemos a través de la función de soft max es súper útil y nos permite convertirlo en probabilidades que un humano normal y corriente puede entender.
+
+-----------------
+Entropía cruzada 
+.----------------
+
+		El otro concepto es el de la entropía cruzada o función de entropía. Simplemente fijaos que lo que hago. Un logaritmo negativo precisamente a la función de sofismas que os acabo de presentar hace un segundo. 
+		
+		Como recordaréis, en el caso de las redes neuronales artificiales, teníamos la función de error que medía el coste o el error entre la predicción y el valor real.
+		
+		Y en las redes neuronales convencionales todavía podemos usar el error cuadrado medio como función de costes. No hay ningún problema. Pero resulta que una mejora de esta función de costes es precisamente utilizar la función de entropía cruzada. Da un resultado bastante mejor y además se puede catalogar como la función estándar a utilizar. De modo que una vez que tengáis la función, el objetivo será minimizar el error cometido en la clasificación a través de nuestra red neuronal, ya sea a través del error cuadrado medio o a través de la función de entropía.
+		
+		La entropía cruzada, busca qué tan disperso es el error, qué tan probable es que la que la red neuronal catalogue de forma incorrecta, significando esto que el error cuadrado medio lo hace bien.
+		
+		El error cuadrado medio lo hace bien. Pero como el cuadrado medio al final medirá valores entre el cero y el 100% tiende a dejar pasar los valores extremos. La entropía. La entropía acentúa mucho cuando una red neuronal se equivoca de calle.
+		
+		Por qué utilizaríamos una entropía cruzada en lugar del error cuadrado?  Uno de ellos es que si por ejemplo, al inicio de la propagación hacia atrás del error, el valor de salida del algoritmo de la red neuronal tiende a ser muy pequeño. Eso significa que la corrección que va a tener que hacer no será tan, tan obvia. Es decir, cuando yo tengo un error bastante pequeño con respecto al valor real, el gradiente descendente va a tener una modificación muy pequeña, y esto hará que al inicio el algoritmo apenas se mueva, le cueste mucho empezar a arrancar. Mientras que cuando se utiliza la entropía cruzada como tiene ese logaritmo que hace que las diferencias pequeñas aumenten un montón, esto ayuda muchísimo a que el área pequeña de movimiento que haría el
+		gradiente con error cuadrado medio se dispare y se convierta en un enfoque mucho más óptimo para empezar a buscar valores óptimos de los pesos. Entonces, este sería una de las razones de por qué utilizar la entropía cruzada para mejorar el hecho
+		de que la red neuronal llegue al estado.
+		
+		Pero tened en cuenta que esto sólo funciona en caso de procesos de clasificación, en caso de regresión, si es una red neuronal para regresión, como ya vimos con las redes neuronales artificiales, es preferible ir con el error cuadrado medio que no con la entropía cruzada por la entropía cruzada. Al final lo que valora es qué tan lejos estoy de la clase que estoy intentando predecir.
+		
+		Para el caso de predicción tendréis que usar sí o sí el error cuadrado medio.
+		
+		Remito para que investiguéis sobre soft Max y Entropia crusada (Cross entropy) explicado de la mano de Geoffrey Hamilton.
+		
+		Paper: A friendly Introduction to Cross-Entropy Loss- Rob Diprieto - 2016
+				https://rdipietro.github.io/friendly-intro-to-cross-entropy-loss/
+				
+-----------------------------
+CNN Convolucionales - Python
+-----------------------------
+
+
+Cómo instalar Keras
+Para quien nunca lo haya hecho, os dejo a continuación las instrucciones de cómo instalar Keras y Tensorflow para esta sección (fijaros que solo instalamos Keras ya que el paquete de Keras instala de rebote Tensorflow):
+
+Usuarios de Linux y Max, a través de vuestro terminal.
+En Mac, lo más fácil es pulsar cmd + espacio, y en spotlight escribir "terminal".
+En Linux, es fácil de encontrar ya que suele estar en el lado izquierdo de vuestra pantalla.
+Luego dentro del terminal, copia y pega el siguiente comando:
+
+conda install -c conda-forge keras
+Usuarios de Windows users, abrid la aplicación de anaconda prompt, que podéis encontrar desde:
+El botón de Windows en la esquina inferior izquierda-> Lista de programas -> anaconda -> anaconda prompt
+Luego, dentro de anaconda prompt,  copia y pega el siguiente comando:
+
+conda install -c conda-forge keras
+Disfruta de la sección de Deep Learning!
+
+
+
+Se importan imagenes con Kera. Kera espera una estructura de carpetas determinada:
+	test_image
+	test_set
+	training_set
+		Una carpeta para cada categoria. Ejemplo:
+		Perro
+		Gato
+		
+		
+La función de Keras va a importar la imagen directamente y no voy a utilizar nada del procesado manual, pues ya me encargaré de que el escaneo automáticamente ajuste las imágenes correctamente. Entonces la conclusión es que no hay nada de procesado, no tengo que hacer absolutamente nada y que todo lo que antes hacíamos manualmente ahora se podrá automatizar de la forma más eficiente posible gracias a las librerías qde Kera.
+		
+-------------------------------------------------------------------------------------		
+IMPORTANTE: El escalado de las variables es obligatorio en el aprendizaje profundo.
+-------------------------------------------------------------------------------------
+		
+Ver sitio de Keras opcion Image processing..
+
+
+Luego del entrenamiento tenemos estas variables resultantes:
+	loss: funcion de perdida
+	acc: presicion en el conjunto de entrenamiento. 
+	val_loss: funcion perdida en el conjunto de testing.
+	val_acc: presicion en el conjunto de testing. Ej. 0,7870 significa 78% de eficacia. 3 de cada 4 imagenes la cataloga adecuadamente como perro y gato en el conjutno de testing. 
+	
+	
+Como mejorar la resicion en el conjunto de testing.
+----------------------------------------------------------
+
+Si el objetivo es crear un modelo profundo de aprendizaje, tal vez el modo más sencillo sea hacer que
+la red neuronal de convolución, la capa totalmente conectada, sea más profunda.
+Una opción sería agregar más capas a la red de convolución que podría ser o bien con una segunda capa
+de convolución adicional antes de pasar a la capa de max pooling y aplanado.
+
+Ota opcion es añadir mas capas de profundidad a la red neurona.(classifier.add(Dense(...))
+
+Esa son las dos opcionas basicas que se suelen usar. El primer caso puede ser mejor para mejoar la presicion en el conjunto de testing.
+
+
+
+
+----------------------------------------------------
+Bienvenido a la Parte 9 - Reducción de la dimensión
+----------------------------------------------------
+
+
+¿Recuerdas cómo en la Parte 3 - Clasificación, trabajamos con datasets compuestos únicamente de dos variables independientes? Básicamente lo hicimos así por dos motivos:
+
+Ya que necesitábamos dos variables para visualizar mejor cómo funcionan los algoritmos de Machine Learning  (para poder representar las regiones de decisión y la frontera de predicción de cada modelo).
+
+Ya que dado cualquier número de variables independientes en un problema, normalmente se puede acabar con únicamente dos variables independientes a través de técnicas de reducción de la dimensión.
+
+
+
+Existen dos tipos de técnicas para reducir la dimensión de un dataset:
+
+Selección de características
+
+Extracción de características
+
+
+La selección de característica incluye técnicas como la eliminación hacia atrás, la selección directa, la eliminación bidimensional, la comparación de scores y muchas más. Todas ellas las vimos ya en la Parte 2 - Regresión.
+
+En esta parte cubriremos la Extracción de características que incluyen:
+
+Análisis de Componentes Principales (ACP)
+
+Análisis Discriminante Lineal (LDA)
+
+Kernel ACP
+
+Análisis Discriminante Cuadrático (QDA)
+
+
+	
